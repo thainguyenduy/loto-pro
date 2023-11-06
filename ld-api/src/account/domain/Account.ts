@@ -29,7 +29,15 @@ export type AccountProps = AccountEssentialProps &
   Required<AccountOptionalProps>;
 
 export interface IAccount {
+  Id: string;
   isActivated: boolean;
+  getDeviceId: string;
+  getPhone: string;
+  getExpirationDate: Date;
+  getHashedPassword: Promise<string>;
+  getCreatedAt: Date;
+  getUpdatedAt: Date;
+  getLockedAt: Date;
   open: () => void;
   active: (expiration_date: Date) => void;
   updatePassword: (password: string) => void;
@@ -61,7 +69,7 @@ export class Account extends Entity<AccountProps> implements IAccount {
   }
 
   get getHashedPassword() {
-    return this.password.getHashedValue;
+    return this.password.getHashedValue();
   }
 
   get getCreatedAt() {

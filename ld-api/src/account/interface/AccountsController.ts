@@ -1,8 +1,6 @@
 import {
   Body,
-  CacheInterceptor,
   Controller,
-  Delete,
   Get,
   Param,
   Post,
@@ -21,7 +19,6 @@ import {
   ApiResponse,
   ApiTags,
   ApiUnauthorizedResponse,
-  ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
 
 import { Auth, AuthorizedHeader } from 'libs/Auth';
@@ -30,19 +27,18 @@ import { FindAccountsRequestQueryString } from 'src/account/interface/dto/FindAc
 import { OpenAccountRequestDTO } from 'src/account/interface/dto/OpenAccountRequestDTO';
 import { UpdatePasswordRequestDTO } from 'src/account/interface/dto/UpdatePasswordRequestDTO';
 import { UpdatePasswordRequestParam } from 'src/account/interface/dto/UpdatePasswordRequestParam';
-import { DeleteAccountRequestParam } from 'src/account/interface/dto/DeleteAccountRequestParam';
 import { FindAccountByIdRequestParam } from 'src/account/interface/dto/FindAccountByIdRequestParam';
 import { FindAccountByIdResponseDTO } from 'src/account/interface/dto/FindAccountByIdResponseDTO';
 import { FindAccountsResponseDto } from 'src/account/interface/dto/FindAccountsResponseDto';
 import { ResponseDescription } from 'src/account/interface/ResponseDescription';
 
-import { CloseAccountCommand } from 'src/account/application/command/CloseAccountCommand';
 import { OpenAccountCommand } from 'src/account/application/command/OpenAccountCommand';
 import { UpdatePasswordCommand } from 'src/account/application/command/UpdatePasswordCommand';
 import { FindAccountByIdQuery } from 'src/account/application/query/FindAccountByIdQuery';
 import { FindAccountsQuery } from 'src/account/application/query/FindAccountsQuery';
 
 import { ErrorMessage } from 'src/account/domain/ErrorMessage';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @ApiTags('Accounts')
 @Controller()
@@ -89,27 +85,6 @@ export class AccountsController {
     await this.commandBus.execute(
       new UpdatePasswordCommand(param.accountId, body.password),
     );
-  }
-
-  @Auth()
-  @Delete('accounts/:accountId')
-  @ApiResponse({ status: HttpStatus.OK, description: ResponseDescription.OK })
-  @ApiBadRequestResponse({ description: ResponseDescription.BAD_REQUEST })
-  @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
-  @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
-  @ApiUnprocessableEntityResponse({
-    description: ResponseDescription.UNPROCESSABLE_ENTITY,
-  })
-  @ApiInternalServerErrorResponse({
-    description: ResponseDescription.INTERNAL_SERVER_ERROR,
-  })
-  async closeAccount(
-    @Headers() header: AuthorizedHeader,
-    @Param() param: DeleteAccountRequestParam,
-  ): Promise<void> {
-    if (header.accountId !== param.accountId)
-      throw new NotFoundException(ErrorMessage.ACCOUNT_IS_NOT_FOUND);
-    await this.commandBus.execute(new CloseAccountCommand(param.accountId));
   }
 
   @Get('accounts')

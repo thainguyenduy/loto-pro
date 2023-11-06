@@ -1,10 +1,8 @@
-import addYears from 'date-fns/addYears';
 import { LessThan } from 'typeorm';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { Inject, Logger, Module, Provider } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
-import { PasswordModule } from 'libs/PasswordModule';
 import {
   EntityIdTransformer,
   ENTITY_ID_TRANSFORMER,
@@ -16,9 +14,7 @@ import { AccountRepository } from 'src/account/infrastructure/repository/Account
 import { AccountEntity } from 'src/account/infrastructure/entity/AccountEntity';
 
 import { AccountsController } from 'src/account/interface/AccountsController';
-import { AccountTaskController } from 'src/account/interface/AccountTaskController';
 
-import { CloseAccountHandler } from 'src/account/application/command/CloseAccountHandler';
 import { OpenAccountHandler } from 'src/account/application/command/OpenAccountHandler';
 
 import { UpdatePasswordHandler } from 'src/account/application/command/UpdatePasswordHandler';
@@ -31,8 +27,9 @@ import { AccountOpenedHandler } from 'src/account/application/event/AccountOpene
 import { PasswordUpdatedHandler } from 'src/account/application/event/PasswordUpdatedHandler';
 import { AccountClosedHandler } from 'src/account/application/event/AccountClosedHandler';
 
-import { AccountDomainService } from 'src/account/domain/AccountDomainService';
 import { AccountFactory } from 'src/account/domain/AccountFactory';
+import { LockAccountCommand } from './application/command/LockAccountCommand';
+import { LockAccountHandler } from './application/command/LockAccountHandler';
 
 const infrastructure: Provider[] = [
   {
@@ -46,7 +43,6 @@ const infrastructure: Provider[] = [
 ];
 
 const application = [
-  CloseAccountHandler,
   OpenAccountHandler,
   UpdatePasswordHandler,
   FindAccountByIdHandler,
@@ -57,11 +53,11 @@ const application = [
   AccountClosedHandler,
 ];
 
-const domain = [AccountDomainService, AccountFactory];
+const domain = [AccountFactory];
 
 @Module({
-  imports: [CqrsModule, PasswordModule],
-  controllers: [AccountsController, AccountTaskController],
+  imports: [CqrsModule],
+  controllers: [AccountsController],
   providers: [Logger, ...infrastructure, ...application, ...domain],
 })
 export class AccountsModule {

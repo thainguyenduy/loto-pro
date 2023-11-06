@@ -1,5 +1,5 @@
 import { IQuery } from '@nestjs/cqrs';
 
-export interface IFindAccountByIdQuery extends IQuery {
-  readonly id: string;
+export class FindAccountByIdQuery implements IQuery {
+  constructor(readonly id: string) {}
 }

@@ -13,6 +13,7 @@ import { Account, IAccount } from 'src/account/domain/Account';
 import { AccountFactory } from 'src/account/domain/AccountFactory';
 import { IAccountRepository } from 'src/account/application/IAccountRepository';
 import { Like } from 'typeorm';
+import { Password, Phone } from 'libs/domain';
 
 export class AccountRepository implements IAccountRepository {
   @Inject() private readonly accountFactory: AccountFactory;
@@ -25,8 +26,8 @@ export class AccountRepository implements IAccountRepository {
 
   async save(data: Account | Account[]): Promise<void> {
     const models = Array.isArray(data) ? data : [data];
-    const entities = models.map(
-      async (model) => await this.modelToEntity(model),
+    const entities = await Promise.all(
+      models.map((model) => this.modelToEntity(model)),
     );
     await writeConnection.manager.getRepository(AccountEntity).save(entities);
   }
@@ -45,12 +46,12 @@ export class AccountRepository implements IAccountRepository {
     return entities.map((entity) => this.entityToModel(entity));
   }
 
-  private async modelToEntity(model: Account): Promise<AccountEntity> {
+  private async modelToEntity(model: IAccount): Promise<AccountEntity> {
     return new AccountEntity({
       ...model,
       id: this.entityIdTransformer.to(model.Id),
       phone: model.getPhone,
-      password: await model.getHashedPassword(),
+      password: await model.getHashedPassword,
       activated: model.isActivated,
       deviceId: model.getDeviceId,
       createdAt: model.getCreatedAt,
@@ -63,6 +64,8 @@ export class AccountRepository implements IAccountRepository {
   private entityToModel(entity: AccountEntity): IAccount {
     return this.accountFactory.reconstitute({
       ...entity,
+      phone: Phone.create({ value: entity.phone }),
+      password: Password.create({ value: entity.password, hashed: true }),
       id: this.entityIdTransformer.from(entity.id),
       createdAt: entity.createdAt,
     });

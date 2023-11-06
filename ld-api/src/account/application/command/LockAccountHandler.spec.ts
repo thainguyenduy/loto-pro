@@ -41,7 +41,7 @@ describe('LockAccountHandler', () => {
 
   describe('execute', () => {
     it('should execute LockAccountCommand', async () => {
-      const account = { open: jest.fn(), commit: jest.fn() };
+      const account = { lock: jest.fn(), commit: jest.fn() };
 
       factory.create = jest.fn().mockReturnValue(account);
       repository.newId = jest.fn().mockResolvedValue('accountId');
@@ -50,8 +50,7 @@ describe('LockAccountHandler', () => {
       const command = new LockAccountCommand('id');
 
       await expect(handler.execute(command)).resolves.toEqual(undefined);
-      expect(repository.newId).toBeCalledTimes(1);
-      expect(account.open).toBeCalledTimes(1);
+      expect(account.lock).toBeCalledTimes(1);
       expect(repository.save).toBeCalledTimes(1);
       expect(repository.save).toBeCalledWith(account);
       expect(account.commit).toBeCalledTimes(1);

@@ -1,8 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsInt, IsOptional, Max, Min } from 'class-validator';
+import { IsInt, IsNumberString, IsOptional, Max, Min } from 'class-validator';
 
 export class FindAccountsRequestQueryString {
+  @IsNumberString()
+  @ApiProperty({ required: true })
+  readonly phone: string;
+
   @IsOptional()
   @Type(() => Number)
   @IsInt()

@@ -25,6 +25,7 @@ export class OpenAccountHandler
       id: await this.accountRepository.newId(),
       password: Password.create({ value: command.password, hashed: true }),
       phone: Phone.create({ value: command.phone }),
+      deviceId: command.deviceId,
     });
 
     account.open();
