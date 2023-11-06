@@ -1,24 +1,27 @@
 import { UnprocessableEntityException } from '@nestjs/common';
-import { Contact } from 'src/contact/domain/Contact';
-import { Entity } from 'src/core/domain/entities/Entity';
-import { Password } from 'src/core/domain/value-objects/Password';
+import { Entity, Password, Phone } from 'libs/domain';
+import { AccountDeviceChangedEvent } from './event/AccountDeviceChangedEvent';
+import { AccountActivationExtendedEvent } from './event/AccountActivationExtendedEvent';
+import { PasswordUpdatedEvent } from './event/PasswordUpdatedEvent';
+import { AccountLockedEvent } from './event/AccountLockedEvent';
+import { AccountOpenedEvent } from './event/AccountOpenedEvent';
 
 export type AccountEssentialProps = Readonly<
   Required<{
     id: string;
-    imei: string;
+    phone: Phone;
     password: Password;
+    deviceId: string; //https://stackoverflow.com/questions/45031499/how-to-get-unique-device-id-in-flutter
   }>
 >;
 
 export type AccountOptionalProps = Readonly<
   Partial<{
-    contacts: Contact[];
-    lockedAt: Date | null;
+    activated: boolean;
+    expirationDate: Date;
     createdAt: Date;
     updatedAt: Date;
-    deletedAt: Date | null;
-    version: number;
+    lockedAt: Date | null;
   }>
 >;
 
@@ -26,41 +29,96 @@ export type AccountProps = AccountEssentialProps &
   Required<AccountOptionalProps>;
 
 export interface IAccount {
-  getId: string;
+  isActivated: boolean;
   open: () => void;
-  close: () => void;
+  active: (expiration_date: Date) => void;
   updatePassword: (password: string) => void;
   lock: () => void;
+  changeDevice: (device_id: string) => void;
+  commit: () => void;
 }
 
 export class Account extends Entity<AccountProps> implements IAccount {
-  private password: Password;
-  private contacts: Contact[];
-  private lockedAt: Date | null;
+  private readonly phone: Phone;
   private readonly createdAt: Date;
+  private activated: boolean;
+  private expirationDate: Date;
+  private password: Password;
+  private lockedAt: Date | null;
   private updatedAt: Date;
-  private deletedAt: Date | null;
-  private version;
+  private deviceId: string;
 
   constructor(props: AccountProps) {
     super(props);
   }
-  get getId() {
-    return this.id;
+
+  get getPhone() {
+    return this.phone.value;
   }
+
+  get getExpirationDate() {
+    return this.expirationDate;
+  }
+
+  get getHashedPassword() {
+    return this.password.getHashedValue;
+  }
+
+  get getCreatedAt() {
+    return this.createdAt;
+  }
+
+  get getUpdatedAt() {
+    return this.createdAt;
+  }
+
+  get getLockedAt() {
+    return this.lockedAt;
+  }
+
+  get getDeviceId() {
+    return this.deviceId;
+  }
+
+  get isActivated(): boolean {
+    return this.activated;
+  }
+
+  open(): void {
+    this.apply(new AccountOpenedEvent(this.id, this.phone.value));
+  }
+  changeDevice(device_id: string): void {
+    this.deviceId = device_id;
+    this.apply(
+      new AccountDeviceChangedEvent(this.id, this.deviceId, this.phone.value),
+    );
+  }
+
+  active(expiration_date: Date): void {
+    this.activated = true;
+    this.expirationDate = expiration_date;
+    this.apply(
+      new AccountActivationExtendedEvent(
+        this.id,
+        this.deviceId,
+        this.phone,
+        this.expirationDate,
+      ),
+    );
+  }
+
   updatePassword(password: string): void {
     this.password = Password.create({ value: password, hashed: true });
     this.updatedAt = new Date();
+    this.apply(new PasswordUpdatedEvent(this.id, this.phone));
   }
-
-  close(): void {}
-  open(): void {}
 
   lock(): void {
     if (this.lockedAt)
       throw new UnprocessableEntityException('Account is already locked');
+    this.activated = false;
     this.lockedAt = new Date();
     this.updatedAt = new Date();
-    this.version += 1;
+    this.apply(new AccountLockedEvent(this.id, this.phone));
   }
 }

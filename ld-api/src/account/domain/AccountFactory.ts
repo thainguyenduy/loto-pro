@@ -2,12 +2,13 @@ import { Inject } from '@nestjs/common';
 import { EventPublisher } from '@nestjs/cqrs';
 
 import { IAccount, AccountProps, Account } from 'src/account/domain/Account';
-import { Password } from 'src/core/domain/value-objects/Password';
+import { Password, Phone } from 'libs/domain';
 
 type CreateAccountOptions = Readonly<{
   id: string;
-  imei: string;
+  phone: Phone;
   password: Password;
+  deviceId: string;
 }>;
 
 export class AccountFactory {
@@ -17,12 +18,11 @@ export class AccountFactory {
     return this.eventPublisher.mergeObjectContext(
       new Account({
         ...options,
-        contacts: [],
+        activated: false,
+        expirationDate: null,
         lockedAt: null,
         createdAt: new Date(),
         updatedAt: new Date(),
-        deletedAt: null,
-        version: 0,
       }),
     );
   }

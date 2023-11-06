@@ -8,8 +8,8 @@ export class FindAccountByIdResponseDTO extends FindAccountByIdResult {
   @ApiProperty({ example: new EntityId() })
   readonly id: string;
 
-  @ApiProperty({ example: 'young' })
-  readonly name: string;
+  @ApiProperty({ example: '0912345678', minLength: 10, maxLength: 10 })
+  readonly phone: string;
 
   @ApiProperty({ example: 100 })
   readonly balance: number;
@@ -21,5 +21,5 @@ export class FindAccountByIdResponseDTO extends FindAccountByIdResult {
   readonly updatedAt: Date;
 
   @ApiProperty({ nullable: true, example: null })
-  readonly deletedAt: Date | null;
+  readonly deviceId: string | null;
 }

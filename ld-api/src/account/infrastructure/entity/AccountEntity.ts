@@ -1,24 +1,32 @@
 import { Entity, Column, PrimaryColumn } from 'typeorm';
 
-import { BaseEntity } from 'src/account/infrastructure/entity/BaseEntity';
+import { BaseEntity } from 'libs/infrastructure/typeorm/BaseEntity';
 
 @Entity()
 export class AccountEntity extends BaseEntity {
   @PrimaryColumn({ type: 'binary', length: 16 })
   id: Buffer;
 
-  @Column()
-  name: string;
+  @Column({ length: 10 })
+  phone: string;
 
   @Column()
-  email: string;
+  activated: boolean;
+
+  @Column()
+  deviceId: string;
 
   @Column()
   password: string;
 
-  @Column()
-  balance: number;
-
   @Column({ type: 'datetime', precision: 6, nullable: true })
   lockedAt: Date | null;
+
+  @Column({ type: 'datetime', precision: 6, nullable: true })
+  expirationDate: Date | null;
+
+  constructor(options: AccountEntity) {
+    super();
+    Object.assign(this, options);
+  }
 }

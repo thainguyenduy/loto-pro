@@ -26,7 +26,6 @@ import {
 
 import { Auth, AuthorizedHeader } from 'libs/Auth';
 
-import { DepositRequestDto } from 'src/account/interface/dto/DepositRequestDto';
 import { FindAccountsRequestQueryString } from 'src/account/interface/dto/FindAccountsRequestQueryString';
 import { OpenAccountRequestDTO } from 'src/account/interface/dto/OpenAccountRequestDTO';
 import { UpdatePasswordRequestDTO } from 'src/account/interface/dto/UpdatePasswordRequestDTO';
@@ -71,21 +70,6 @@ export class AccountsController {
     await this.commandBus.execute(command);
   }
 
-  @Auth()
-  @Post('accounts/:accountId/withdraw')
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: ResponseDescription.CREATED,
-  })
-  @ApiBadRequestResponse({ description: ResponseDescription.BAD_REQUEST })
-  @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
-  @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
-  @ApiUnprocessableEntityResponse({
-    description: ResponseDescription.UNPROCESSABLE_ENTITY,
-  })
-  @ApiInternalServerErrorResponse({
-    description: ResponseDescription.INTERNAL_SERVER_ERROR,
-  })
   @Auth()
   @Patch('accounts/:accountId/password')
   @ApiResponse({ status: HttpStatus.OK, description: ResponseDescription.OK })

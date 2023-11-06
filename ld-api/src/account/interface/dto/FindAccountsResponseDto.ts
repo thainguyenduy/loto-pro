@@ -8,11 +8,14 @@ class Account {
   @ApiProperty({ example: new EntityId() })
   readonly id: string;
 
-  @ApiProperty({ example: 'young' })
-  readonly name: string;
+  @ApiProperty({ example: '0912345678' })
+  readonly phone: string;
 
-  @ApiProperty({ example: 100 })
-  readonly balance: number;
+  @ApiProperty({ example: '01-01-2099 23:59:59' })
+  readonly expirationDate: Date;
+
+  @ApiProperty({ example: true })
+  readonly activated: boolean;
 }
 
 export class FindAccountsResponseDto extends FindAccountsResult {
