@@ -1,8 +1,9 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm';
 
 import { BaseEntity } from 'libs/infrastructure/typeorm/BaseEntity';
+import { DeviceEntity } from './DeviceEntity';
 
-@Entity()
+@Entity({ name: 'account' })
 export class AccountEntity extends BaseEntity {
   @PrimaryColumn({ type: 'binary', length: 16 })
   id: Buffer;
@@ -25,6 +26,11 @@ export class AccountEntity extends BaseEntity {
   @Column({ type: 'datetime', precision: 6, nullable: true })
   expirationDate: Date | null;
 
+  @Column()
+  refreshToken: string;
+
+  @OneToMany(() => DeviceEntity, (device) => device.account)
+  devices: DeviceEntity[];
   constructor(options: AccountEntity) {
     super();
     Object.assign(this, options);
