@@ -56,10 +56,12 @@ export class Account extends Entity<AccountProps> implements IAccount {
   private updatedAt: Date;
   private deviceId: string;
 
-  constructor(props: AccountProps) {
+  private constructor(props: AccountProps) {
     super(props);
   }
-
+  public static create(props: AccountProps) {
+    return new Account(props);
+  }
   get getPhone() {
     return this.phone.value;
   }

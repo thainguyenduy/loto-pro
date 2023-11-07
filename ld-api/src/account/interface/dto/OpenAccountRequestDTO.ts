@@ -9,14 +9,14 @@ import {
 
 export class OpenAccountRequestDTO {
   @IsString()
-  @MinLength(2)
-  @MaxLength(8)
-  @ApiProperty({ minLength: 2, maxLength: 8, example: 'young' })
-  readonly name: string;
+  @MinLength(10)
+  @MaxLength(10)
+  @ApiProperty({ minLength: 10, maxLength: 10, example: '092' })
+  readonly phone: string;
 
   @IsEmail()
   @ApiProperty({ example: 'test@test.com' })
-  readonly email: string;
+  readonly deviceId: string;
 
   @IsAlphanumeric()
   @MinLength(8)

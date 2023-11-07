@@ -46,7 +46,7 @@ export class AccountRepository implements IAccountRepository {
     return entities.map((entity) => this.entityToModel(entity));
   }
 
-  private async modelToEntity(model: IAccount): Promise<AccountEntity> {
+  private async modelToEntity(model: Account): Promise<AccountEntity> {
     return new AccountEntity({
       ...model,
       id: this.entityIdTransformer.to(model.Id),

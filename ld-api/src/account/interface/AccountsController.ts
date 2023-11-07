@@ -59,9 +59,9 @@ export class AccountsController {
   })
   async openAccount(@Body() body: OpenAccountRequestDTO): Promise<void> {
     const command = new OpenAccountCommand(
-      body.name,
-      body.email,
+      body.phone,
       body.password,
+      body.deviceId,
     );
     await this.commandBus.execute(command);
   }

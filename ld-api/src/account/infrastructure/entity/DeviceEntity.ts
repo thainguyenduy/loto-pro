@@ -16,6 +16,7 @@ export class DeviceEntity extends BaseEntity {
 
   @ManyToOne(() => AccountEntity, (account) => account.devices)
   account: AccountEntity;
+
   constructor(options: DeviceEntity) {
     super();
     Object.assign(this, options);

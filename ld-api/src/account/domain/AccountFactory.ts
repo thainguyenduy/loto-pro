@@ -16,7 +16,7 @@ export class AccountFactory {
 
   create(options: CreateAccountOptions): IAccount {
     return this.eventPublisher.mergeObjectContext(
-      new Account({
+      Account.create({
         ...options,
         activated: false,
         expirationDate: null,
@@ -28,6 +28,6 @@ export class AccountFactory {
   }
 
   reconstitute(properties: AccountProps): IAccount {
-    return this.eventPublisher.mergeObjectContext(new Account(properties));
+    return this.eventPublisher.mergeObjectContext(Account.create(properties));
   }
 }

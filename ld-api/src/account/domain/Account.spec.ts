@@ -18,7 +18,7 @@ describe('Account', () => {
       password: Password.create({ value: '123456', hashed: true }),
       deviceId: 'abcxyz',
     } as AccountProps;
-    account = new Account(data);
+    account = Account.create(data);
   });
   describe('active', () => {
     it('should apply DeviceChangedEvent', () => {
@@ -54,7 +54,7 @@ describe('Account', () => {
         deviceId: 'abcxyz',
         lockedAt: new Date(),
       } as AccountProps;
-      account = new Account(data);
+      account = Account.create(data);
       expect(() => account.lock()).toThrow(UnprocessableEntityException);
     });
 

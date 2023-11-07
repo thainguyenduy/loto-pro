@@ -1,7 +1,7 @@
 import { LessThan } from 'typeorm';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { Inject, Logger, Module, Provider } from '@nestjs/common';
-import { CqrsModule } from '@nestjs/cqrs';
+import { CommandBus, CqrsModule } from '@nestjs/cqrs';
 
 import {
   EntityIdTransformer,
@@ -56,6 +56,7 @@ const domain = [AccountFactory];
 export class AccountsModule {
   @Inject(ENTITY_ID_TRANSFORMER)
   private readonly entityIdTransformer: EntityIdTransformer;
+  @Inject() private commandBus: CommandBus;
 
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
   async lockExpiredAccount(): Promise<void> {
@@ -63,9 +64,10 @@ export class AccountsModule {
       await writeConnection.manager
         .getRepository(AccountEntity)
         .findBy({ expirationDate: LessThan(new Date()) })
-    ).forEach(
-      (account) =>
+    ).forEach((account) =>
+      this.commandBus.execute(
         new LockAccountCommand(this.entityIdTransformer.from(account.id)),
+      ),
     );
   }
 }

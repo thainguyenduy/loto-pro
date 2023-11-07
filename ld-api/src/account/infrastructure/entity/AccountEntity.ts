@@ -26,11 +26,8 @@ export class AccountEntity extends BaseEntity {
   @Column({ type: 'datetime', precision: 6, nullable: true })
   expirationDate: Date | null;
 
-  @Column()
-  refreshToken: string;
-
   @OneToMany(() => DeviceEntity, (device) => device.account)
-  devices: DeviceEntity[];
+  devices?: DeviceEntity[];
   constructor(options: AccountEntity) {
     super();
     Object.assign(this, options);
