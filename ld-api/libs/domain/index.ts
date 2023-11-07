@@ -1,5 +1,5 @@
-export * from './Day.ts';
-export * from './Password.ts';
-export * from './Phone.ts';
+export * from './Day';
+export * from './Password';
+export * from './Phone';
 
-export * from './Entity.ts';
+export * from './Entity';

@@ -22,10 +22,6 @@ import { UpdatePasswordHandler } from 'src/account/application/command/UpdatePas
 import { FindAccountByIdHandler } from 'src/account/application/query/FindAccountByIdHandler';
 import { FindAccountsHandler } from 'src/account/application/query/FindAccountsHandler';
 import { InjectionToken } from 'src/account/application/InjectionToken';
-import { AccountOpenedHandler } from 'src/account/application/event/AccountOpenedHandler';
-
-import { PasswordUpdatedHandler } from 'src/account/application/event/PasswordUpdatedHandler';
-import { AccountClosedHandler } from 'src/account/application/event/AccountClosedHandler';
 
 import { AccountFactory } from 'src/account/domain/AccountFactory';
 import { LockAccountCommand } from './application/command/LockAccountCommand';
@@ -47,10 +43,7 @@ const application = [
   UpdatePasswordHandler,
   FindAccountByIdHandler,
   FindAccountsHandler,
-  AccountOpenedHandler,
   LockAccountHandler,
-  PasswordUpdatedHandler,
-  AccountClosedHandler,
 ];
 
 const domain = [AccountFactory];

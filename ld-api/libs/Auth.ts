@@ -13,13 +13,11 @@ import {
   ENTITY_ID_TRANSFORMER,
   readConnection,
 } from 'libs/DatabaseModule';
-import { PasswordGenerator, PASSWORD_GENERATOR } from 'libs/PasswordModule';
 
 import { AccountEntity } from 'src/account/infrastructure/entity/AccountEntity';
+import { Password } from './domain';
 
 class AuthGuard implements CanActivate {
-  @Inject(PASSWORD_GENERATOR)
-  private readonly passwordGenerator: PasswordGenerator;
   @Inject(ENTITY_ID_TRANSFORMER)
   private readonly entityIdTransformer: EntityIdTransformer;
 
@@ -42,7 +40,10 @@ class AuthGuard implements CanActivate {
       .getRepository(AccountEntity)
       .findOneBy({
         id: this.entityIdTransformer.to(accountId),
-        password: this.passwordGenerator.generateKey(password),
+        password: await Password.create({
+          value: password,
+          hashed: true,
+        }).getHashedValue(),
       });
     if (!account) return false;
 

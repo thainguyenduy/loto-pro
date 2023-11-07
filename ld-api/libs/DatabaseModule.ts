@@ -9,10 +9,9 @@ import {
   SelectQueryBuilder,
 } from 'typeorm';
 
-import { Config } from 'src/Config';
-
 import { AccountEntity } from 'src/account/infrastructure/entity/AccountEntity';
 import { v4 } from 'uuid';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 interface WriteConnection {
   readonly startTransaction: (
@@ -44,17 +43,18 @@ export let writeConnection = {} as WriteConnection;
 export let readConnection = {} as ReadConnection;
 
 class DatabaseService implements OnModuleInit, OnModuleDestroy {
+  constructor(private config: ConfigService) {}
   private readonly dataSource = new DataSource({
     type: 'mysql',
     entities: [AccountEntity],
     charset: 'utf8mb4_unicode_ci',
-    logging: Config.DATABASE_LOGGING,
-    host: Config.DATABASE_HOST,
-    port: Config.DATABASE_PORT,
-    database: Config.DATABASE_NAME,
-    username: Config.DATABASE_USER,
-    password: Config.DATABASE_PASSWORD,
-    synchronize: Config.DATABASE_SYNC,
+    logging: this.config.get('DATABASE_LOGGING'),
+    host: this.config.get('DATABASE_HOST'),
+    port: this.config.get('DATABASE_PORT'),
+    database: this.config.get('DATABASE_NAME'),
+    username: this.config.get('DATABASE_USER'),
+    password: this.config.get('DATABASE_PASSWORD'),
+    synchronize: this.config.get('DATABASE_SYNC'),
   });
 
   async onModuleInit(): Promise<void> {
@@ -95,6 +95,7 @@ class EntityIdTransformerImplement implements EntityIdTransformer {
 
 @Global()
 @Module({
+  imports: [ConfigModule],
   providers: [
     DatabaseService,
     {

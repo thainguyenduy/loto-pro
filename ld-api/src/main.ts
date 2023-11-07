@@ -5,10 +5,10 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { LoggingInterceptor } from 'libs/LoggingInterceptor';
 import { HttpExceptionFilter } from 'libs/HttpExceptionFilter';
 
-import { Config } from 'src/Config';
 import { AppModule } from 'src/AppModule';
 import helmet from 'helmet';
 import compression from 'compression';
+import { ConfigService } from '@nestjs/config';
 
 function setupSwagger(app: INestApplication): void {
   const documentBuilder = new DocumentBuilder()
@@ -26,6 +26,7 @@ function setupSwagger(app: INestApplication): void {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const config = app.get(ConfigService);
   app.enableCors();
   app.use(helmet());
   app.use(compression());
@@ -33,7 +34,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(new LoggingInterceptor());
   app.useGlobalFilters(new HttpExceptionFilter());
   setupSwagger(app);
-  await app.listen(Config.PORT);
+  await app.listen(config.get('PORT'));
 }
 
 bootstrap();
