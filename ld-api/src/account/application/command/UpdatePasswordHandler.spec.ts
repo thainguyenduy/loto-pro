@@ -1,43 +1,31 @@
 import { ModuleMetadata, NotFoundException, Provider } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 
-import { PasswordGenerator, PASSWORD_GENERATOR } from 'libs/PasswordModule';
+import { UpdatePasswordCommand } from './UpdatePasswordCommand';
+import { UpdatePasswordHandler } from './UpdatePasswordHandler';
+import { InjectionToken } from '../../application/InjectionToken';
+import { AccountRepository } from '../../infrastructure/repository/AccountRepository';
 
-import { UpdatePasswordCommand } from 'src/account/application/command/UpdatePasswordCommand';
-import { UpdatePasswordHandler } from 'src/account/application/command/UpdatePasswordHandler';
-import { InjectionToken } from 'src/account/application/InjectionToken';
-
-import { AccountRepository } from 'src/account/domain/AccountRepository';
-
-jest.mock('libs/Transactional', () => ({
+jest.mock('../../../../libs/Transactional', () => ({
   Transactional: () => () => undefined,
 }));
 
 describe('UpdatePasswordHandler', () => {
   let handler: UpdatePasswordHandler;
   let repository: AccountRepository;
-  let passwordGenerator: PasswordGenerator;
 
   beforeEach(async () => {
     const repoProvider: Provider = {
       provide: InjectionToken.ACCOUNT_REPOSITORY,
       useValue: {},
     };
-    const passwordGeneratorProvider: Provider = {
-      provide: PASSWORD_GENERATOR,
-      useValue: {},
-    };
-    const providers: Provider[] = [
-      UpdatePasswordHandler,
-      repoProvider,
-      passwordGeneratorProvider,
-    ];
+
+    const providers: Provider[] = [UpdatePasswordHandler, repoProvider];
     const moduleMetadata: ModuleMetadata = { providers };
     const testModule = await Test.createTestingModule(moduleMetadata).compile();
 
     handler = testModule.get(UpdatePasswordHandler);
     repository = testModule.get(InjectionToken.ACCOUNT_REPOSITORY);
-    passwordGenerator = testModule.get(PASSWORD_GENERATOR);
   });
 
   describe('execute', () => {
@@ -58,7 +46,6 @@ describe('UpdatePasswordHandler', () => {
 
       repository.findById = jest.fn().mockResolvedValue(account);
       repository.save = jest.fn().mockResolvedValue(undefined);
-      passwordGenerator.generateKey = jest.fn().mockReturnValue('password');
 
       const command = new UpdatePasswordCommand('accountId', 'password');
 

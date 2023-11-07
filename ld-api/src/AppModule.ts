@@ -1,5 +1,6 @@
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { ScheduleModule } from '@nestjs/schedule';
 import { APP_GUARD } from '@nestjs/core';
 
 import { DatabaseModule } from 'libs/DatabaseModule';

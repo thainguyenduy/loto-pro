@@ -1,11 +1,11 @@
 import { Inject, NotFoundException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
-import { Transactional } from 'libs/Transactional';
+import { Transactional } from '../../../../libs/Transactional';
 
-import { LockAccountCommand } from 'src/account/application/command/LockAccountCommand';
-import { InjectionToken } from 'src/account/application/InjectionToken';
-import { IAccount } from 'src/account/domain/Account';
+import { LockAccountCommand } from '../../application/command/LockAccountCommand';
+import { InjectionToken } from '../../application/InjectionToken';
+import { IAccount } from '../../domain/Account';
 import { IAccountRepository } from '../IAccountRepository';
 
 @CommandHandler(LockAccountCommand)

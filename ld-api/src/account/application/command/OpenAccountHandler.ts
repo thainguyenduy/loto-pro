@@ -1,14 +1,14 @@
 import { Inject } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
-import { Transactional } from 'libs/Transactional';
+import { Transactional } from '../../../../libs/Transactional';
 
-import { OpenAccountCommand } from 'src/account/application/command/OpenAccountCommand';
-import { InjectionToken } from 'src/account/application/InjectionToken';
+import { OpenAccountCommand } from './OpenAccountCommand';
+import { InjectionToken } from '../InjectionToken';
 
-import { AccountFactory } from 'src/account/domain/AccountFactory';
+import { AccountFactory } from '../../domain/AccountFactory';
 import { IAccountRepository } from '../IAccountRepository';
-import { Password, Phone } from 'libs/domain';
+import { Password, Phone } from '../../../../libs/domain';
 
 @CommandHandler(OpenAccountCommand)
 export class OpenAccountHandler

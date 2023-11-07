@@ -1,4 +1,10 @@
-import { Global, Module, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
+import {
+  Global,
+  Injectable,
+  Module,
+  OnModuleDestroy,
+  OnModuleInit,
+} from '@nestjs/common';
 import {
   DataSource,
   EntityManager,
@@ -42,19 +48,20 @@ interface ReadConnection {
 export let writeConnection = {} as WriteConnection;
 export let readConnection = {} as ReadConnection;
 
+@Injectable()
 class DatabaseService implements OnModuleInit, OnModuleDestroy {
   constructor(private config: ConfigService) {}
   private readonly dataSource = new DataSource({
     type: 'mysql',
     entities: [AccountEntity],
     charset: 'utf8mb4_unicode_ci',
-    logging: this.config.get('DATABASE_LOGGING'),
-    host: this.config.get('DATABASE_HOST'),
-    port: this.config.get('DATABASE_PORT'),
-    database: this.config.get('DATABASE_NAME'),
-    username: this.config.get('DATABASE_USER'),
-    password: this.config.get('DATABASE_PASSWORD'),
-    synchronize: this.config.get('DATABASE_SYNC'),
+    logging: this.config.get<boolean>('DATABASE_LOGGING'),
+    host: this.config.get<string>('DATABASE_HOST'),
+    port: this.config.get<number>('DATABASE_PORT'),
+    database: this.config.get<string>('DATABASE_NAME'),
+    username: this.config.get<string>('DATABASE_USER'),
+    password: this.config.get<string>('DATABASE_PASSWORD'),
+    synchronize: this.config.get<boolean>('DATABASE_SYNC'),
   });
 
   async onModuleInit(): Promise<void> {

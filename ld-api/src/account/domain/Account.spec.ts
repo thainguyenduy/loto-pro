@@ -1,10 +1,10 @@
 import { UnprocessableEntityException } from '@nestjs/common';
 
-import { PasswordUpdatedEvent } from 'src/account/domain/event/PasswordUpdatedEvent';
 import { Account, AccountProps } from './Account';
-import { Password, Phone } from 'libs/domain';
-import { AccountDeviceChangedEvent } from './event/AccountDeviceChangedEvent';
+import { Password, Phone } from '../../../libs/domain';
 import { AccountLockedEvent } from './event/AccountLockedEvent';
+import { PasswordUpdatedEvent } from './event/PasswordUpdatedEvent';
+import { AccountActivationExtendedEvent } from './event/AccountActivationExtendedEvent';
 
 describe('Account', () => {
   let phone: Phone;
@@ -22,12 +22,13 @@ describe('Account', () => {
   });
   describe('active', () => {
     it('should apply DeviceChangedEvent', () => {
-      account.active(new Date());
+      const date = new Date();
+      account.active(date);
 
       const appliedEvent = account.getUncommittedEvents();
 
       expect(appliedEvent).toEqual([
-        new AccountDeviceChangedEvent('id', 'abcxyz', phone),
+        new AccountActivationExtendedEvent('id', 'abcxyz', phone, date),
       ]);
     });
   });
@@ -45,6 +46,15 @@ describe('Account', () => {
 
   describe('lock', () => {
     it('should throw UnprocessableEntityException when account has already been locked', () => {
+      const phone = Phone.create({ value: '0912321938' });
+      const data = {
+        id: 'id',
+        phone,
+        password: Password.create({ value: '123456', hashed: true }),
+        deviceId: 'abcxyz',
+        lockedAt: new Date(),
+      } as AccountProps;
+      account = new Account(data);
       expect(() => account.lock()).toThrow(UnprocessableEntityException);
     });
 

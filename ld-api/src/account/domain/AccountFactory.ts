@@ -1,7 +1,7 @@
 import { Inject } from '@nestjs/common';
 import { EventPublisher } from '@nestjs/cqrs';
 
-import { IAccount, AccountProps, Account } from 'src/account/domain/Account';
+import { IAccount, AccountProps, Account } from './Account';
 import { Password, Phone } from 'libs/domain';
 
 type CreateAccountOptions = Readonly<{

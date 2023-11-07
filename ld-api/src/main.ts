@@ -4,10 +4,9 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { LoggingInterceptor } from 'libs/LoggingInterceptor';
 import { HttpExceptionFilter } from 'libs/HttpExceptionFilter';
-
+import * as compression from 'compression';
 import { AppModule } from 'src/AppModule';
 import helmet from 'helmet';
-import compression from 'compression';
 import { ConfigService } from '@nestjs/config';
 
 function setupSwagger(app: INestApplication): void {
@@ -34,7 +33,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(new LoggingInterceptor());
   app.useGlobalFilters(new HttpExceptionFilter());
   setupSwagger(app);
-  await app.listen(config.get('PORT'));
+  await app.listen(config.get<number>('PORT'));
 }
 
 bootstrap();

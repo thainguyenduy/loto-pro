@@ -1,5 +1,5 @@
 import { UnprocessableEntityException } from '@nestjs/common';
-import { Entity, Password, Phone } from 'libs/domain';
+import { Entity, Password, Phone } from '../../../libs/domain';
 import { AccountDeviceChangedEvent } from './event/AccountDeviceChangedEvent';
 import { AccountActivationExtendedEvent } from './event/AccountActivationExtendedEvent';
 import { PasswordUpdatedEvent } from './event/PasswordUpdatedEvent';
@@ -93,12 +93,12 @@ export class Account extends Entity<AccountProps> implements IAccount {
   }
 
   open(): void {
-    this.apply(new AccountOpenedEvent(this.id, this.phone.value));
+    this.apply(new AccountOpenedEvent(this.id, this.phone));
   }
   changeDevice(device_id: string): void {
     this.deviceId = device_id;
     this.apply(
-      new AccountDeviceChangedEvent(this.id, this.deviceId, this.phone.value),
+      new AccountDeviceChangedEvent(this.id, this.deviceId, this.phone),
     );
   }
 

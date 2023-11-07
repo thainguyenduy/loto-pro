@@ -1,13 +1,13 @@
 import { ModuleMetadata, Provider } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 
-import { OpenAccountCommand } from 'src/account/application/command/OpenAccountCommand';
-import { OpenAccountHandler } from 'src/account/application/command/OpenAccountHandler';
-import { InjectionToken } from 'src/account/application/InjectionToken';
-import { AccountFactory } from 'src/account/domain/AccountFactory';
+import { OpenAccountCommand } from './OpenAccountCommand';
+import { OpenAccountHandler } from './OpenAccountHandler';
+import { InjectionToken } from '../InjectionToken';
+import { AccountFactory } from '../../domain/AccountFactory';
 import { IAccountRepository } from '../IAccountRepository';
 
-jest.mock('libs/Transactional', () => ({
+jest.mock('../../../../libs/Transactional', () => ({
   Transactional: () => () => undefined,
 }));
 
@@ -47,7 +47,11 @@ describe('OpenAccountHandler', () => {
       repository.newId = jest.fn().mockResolvedValue('accountId');
       repository.save = jest.fn().mockResolvedValue(undefined);
 
-      const command = new OpenAccountCommand('name', 'email', 'password');
+      const command = new OpenAccountCommand(
+        '0912345678',
+        'password',
+        'deviceid',
+      );
 
       await expect(handler.execute(command)).resolves.toEqual(undefined);
       expect(repository.newId).toBeCalledTimes(1);
