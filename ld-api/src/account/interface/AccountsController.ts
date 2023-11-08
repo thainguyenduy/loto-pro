@@ -58,12 +58,9 @@ export class AccountsController {
     description: ResponseDescription.INTERNAL_SERVER_ERROR,
   })
   async signIn(@Body() body: LoginRequestParamDTO): Promise<void> {
-    const command = new OpenAccountCommand(
-      body.name,
-      body.email,
-      body.password,
+    return this.queryBus.execute(
+      new LoginAccountQuery(body.phone, body.password, body.deviceId),
     );
-    await this.commandBus.execute(command);
   }
 
   @Post('accounts')
@@ -145,4 +142,5 @@ export class AccountsController {
     return this.queryBus.execute(new FindAccountByIdQuery(param.accountId));
   }
 }import { LoginRequestParamDTO } from './dto/LoginRequestParam';
+import { LoginAccountQuery } from '../application/query/LoginAccountQuery';
 

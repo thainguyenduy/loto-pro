@@ -26,6 +26,8 @@ import { InjectionToken } from 'src/account/application/InjectionToken';
 import { AccountFactory } from 'src/account/domain/AccountFactory';
 import { LockAccountCommand } from './application/command/LockAccountCommand';
 import { LockAccountHandler } from './application/command/LockAccountHandler';
+import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 const infrastructure: Provider[] = [
   {
@@ -49,7 +51,19 @@ const application = [
 const domain = [AccountFactory];
 
 @Module({
-  imports: [CqrsModule],
+  imports: [
+    CqrsModule,
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        secretOrPrivateKey: configService.get<string>('SECRET_KEY'),
+        signOptions: {
+          expiresIn: 3600,
+        },
+      }),
+      inject: [ConfigService],
+    }),
+  ],
   controllers: [AccountsController],
   providers: [Logger, ...infrastructure, ...application, ...domain],
 })
