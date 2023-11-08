@@ -57,6 +57,24 @@ export class AccountsController {
   @ApiInternalServerErrorResponse({
     description: ResponseDescription.INTERNAL_SERVER_ERROR,
   })
+  async signIn(@Body() body: LoginRequestParamDTO): Promise<void> {
+    const command = new OpenAccountCommand(
+      body.name,
+      body.email,
+      body.password,
+    );
+    await this.commandBus.execute(command);
+  }
+
+  @Post('accounts')
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: ResponseDescription.CREATED,
+  })
+  @ApiBadRequestResponse({ description: ResponseDescription.BAD_REQUEST })
+  @ApiInternalServerErrorResponse({
+    description: ResponseDescription.INTERNAL_SERVER_ERROR,
+  })
   async openAccount(@Body() body: OpenAccountRequestDTO): Promise<void> {
     const command = new OpenAccountCommand(
       body.name,
@@ -126,4 +144,5 @@ export class AccountsController {
       throw new NotFoundException(ErrorMessage.ACCOUNT_IS_NOT_FOUND);
     return this.queryBus.execute(new FindAccountByIdQuery(param.accountId));
   }
-}
+}import { LoginRequestParamDTO } from './dto/LoginRequestParam';
+
