@@ -7,5 +7,5 @@ export interface IAccountQuery {
   findByPhone: (query: FindAccountsQuery) => Promise<FindAccountsResult>;
   findOneByPhone: (
     phone: string,
-  ) => Promise<{ id: string; phone: string; deviceId: string } | null>;
+  ) => Promise<{ accountId: string; phone: string; deviceId: string } | null>;
 }

@@ -5,4 +5,5 @@ export interface IAccountRepository {
   save: (account: IAccount | IAccount[]) => Promise<void>;
   findById: (id: string) => Promise<IAccount | null>;
   findByPhone: (phone: string) => Promise<IAccount[]>;
+  updateDevice: (accountId: string, deviceId: string) => Promise<void>;
 }
