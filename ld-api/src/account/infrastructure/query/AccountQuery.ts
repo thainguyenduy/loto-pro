@@ -29,7 +29,22 @@ export class AccountQuery implements IAccountQuery {
           : null,
       );
   }
-
+  async findOneByPhone(
+    phone: string,
+  ): Promise<{ accountId: string; phone: string; deviceId: string } | null> {
+    return readConnection
+      .getRepository(AccountEntity)
+      .findOneBy({ phone })
+      .then((entity) =>
+        entity
+          ? {
+              accountId: this.entityIdTransformer.from(entity.id),
+              phone: entity.phone,
+              deviceId: entity.deviceId,
+            }
+          : null,
+      );
+  }
   async findByPhone(query: FindAccountsQuery): Promise<FindAccountsResult> {
     return readConnection
       .getRepository(AccountEntity)

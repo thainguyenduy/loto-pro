@@ -1,21 +1,20 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsAlphanumeric,
-  IsEmail,
   IsString,
   MaxLength,
   MinLength,
+  Length,
 } from 'class-validator';
 
 export class OpenAccountRequestDTO {
   @IsString()
-  @MinLength(10)
-  @MaxLength(10)
+  @Length(10, 10)
   @ApiProperty({ minLength: 10, maxLength: 10, example: '092' })
   readonly phone: string;
 
-  @IsEmail()
-  @ApiProperty({ example: 'test@test.com' })
+  @IsAlphanumeric()
+  @ApiProperty({ example: '123345qwhdkjf' })
   readonly deviceId: string;
 
   @IsAlphanumeric()

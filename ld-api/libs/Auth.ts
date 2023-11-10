@@ -4,6 +4,7 @@ import {
   ExecutionContext,
   Inject,
   UseGuards,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { ApiBasicAuth, ApiForbiddenResponse } from '@nestjs/swagger';
 import { Request } from 'express';
@@ -14,12 +15,14 @@ import {
   readConnection,
 } from 'libs/DatabaseModule';
 
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 import { AccountEntity } from 'src/account/infrastructure/entity/AccountEntity';
-import { Password } from './domain';
-
 class AuthGuard implements CanActivate {
   @Inject(ENTITY_ID_TRANSFORMER)
   private readonly entityIdTransformer: EntityIdTransformer;
+  @Inject() private readonly configService: ConfigService;
+  constructor(private jwtService: JwtService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const authorization = context
@@ -28,28 +31,34 @@ class AuthGuard implements CanActivate {
       .header('authorization');
     if (!authorization) return false;
 
-    const [type, base64] = authorization.split(' ', 2);
-    if ((type !== 'basic' && type !== 'Basic') || !base64) return false;
-
-    const [accountId, password] = Buffer.from(base64, 'base64')
-      .toString('utf8')
-      .split(':', 2);
-    if (!accountId || !password) return false;
-
-    const account = await readConnection
-      .getRepository(AccountEntity)
-      .findOneBy({
-        id: this.entityIdTransformer.to(accountId),
-        password: await Password.create({
-          value: password,
-          hashed: true,
-        }).getHashedValue(),
+    const request = context.switchToHttp().getRequest();
+    const token = this.extractTokenFromHeader(request);
+    if (!token) {
+      throw new UnauthorizedException();
+    }
+    try {
+      const payload = await this.jwtService.verifyAsync(token, {
+        secret: this.configService.get<string>('SECRET_KEY'),
       });
-    if (!account) return false;
 
-    context.switchToHttp().getRequest<Request>().headers.accountId = accountId;
-
+      const account = await readConnection
+        .getRepository(AccountEntity)
+        .findOneBy({
+          id: this.entityIdTransformer.to(payload.accountId),
+          deviceId: payload.deviceId,
+        });
+      if (!account) throw new UnauthorizedException();
+      // 💡 We're assigning the payload to the request object here
+      // so that we can access it in our route handlers
+      request['user'] = payload;
+    } catch {
+      throw new UnauthorizedException();
+    }
     return true;
+  }
+  private extractTokenFromHeader(request: Request): string | undefined {
+    const [type, token] = request.headers.authorization?.split(' ') ?? [];
+    return type === 'Bearer' ? token : undefined;
   }
 }
 

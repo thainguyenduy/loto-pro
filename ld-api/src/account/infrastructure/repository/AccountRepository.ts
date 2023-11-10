@@ -45,6 +45,11 @@ export class AccountRepository implements IAccountRepository {
       .findBy({ phone: Like(phone) });
     return entities.map((entity) => this.entityToModel(entity));
   }
+  async updateDevice(accountId: string, deviceId: string): Promise<void> {
+    await writeConnection.manager
+      .getRepository(AccountEntity)
+      .update(accountId, { deviceId });
+  }
 
   private async modelToEntity(model: Account): Promise<AccountEntity> {
     return new AccountEntity({
@@ -58,6 +63,7 @@ export class AccountRepository implements IAccountRepository {
       updatedAt: model.getUpdatedAt,
       lockedAt: model.getLockedAt,
       expirationDate: model.getExpirationDate,
+      devices: [],
     });
   }
 
