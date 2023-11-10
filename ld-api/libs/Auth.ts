@@ -22,7 +22,7 @@ class AuthGuard implements CanActivate {
   @Inject(ENTITY_ID_TRANSFORMER)
   private readonly entityIdTransformer: EntityIdTransformer;
   @Inject() private readonly configService: ConfigService;
-  constructor(private jwtService: JwtService) {}
+  @Inject() private readonly jwtService: JwtService;
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const authorization = context
@@ -51,7 +51,7 @@ class AuthGuard implements CanActivate {
       // 💡 We're assigning the payload to the request object here
       // so that we can access it in our route handlers
       request['user'] = payload;
-    } catch {
+    } catch (e) {
       throw new UnauthorizedException();
     }
     return true;

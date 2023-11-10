@@ -23,7 +23,7 @@ export class OpenAccountHandler
     const account = this.accountFactory.create({
       ...command,
       id: await this.accountRepository.newId(),
-      password: Password.create({ value: command.password, hashed: true }),
+      password: Password.create({ value: command.password, hashed: false }),
       phone: Phone.create({ value: command.phone }),
       deviceId: command.deviceId,
     });

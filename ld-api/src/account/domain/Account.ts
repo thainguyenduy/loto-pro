@@ -95,7 +95,7 @@ export class Account extends Entity<AccountProps> implements IAccount {
   }
 
   open(): void {
-    this.apply(new AccountOpenedEvent(this.id, this.phone));
+    this.apply(new AccountOpenedEvent(this.id, this.phone, this.deviceId));
   }
   changeDevice(device_id: string): void {
     this.deviceId = device_id;
@@ -118,7 +118,7 @@ export class Account extends Entity<AccountProps> implements IAccount {
   }
 
   updatePassword(password: string): void {
-    this.password = Password.create({ value: password, hashed: true });
+    this.password = Password.create({ value: password, hashed: false });
     this.updatedAt = new Date();
     this.apply(new PasswordUpdatedEvent(this.id, this.phone));
   }

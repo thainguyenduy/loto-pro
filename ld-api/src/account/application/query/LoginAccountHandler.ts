@@ -7,7 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ErrorMessage } from 'src/account/domain/ErrorMessage';
 import { IAccountQuery } from './IAccountQuery';
 import { AccountDeviceChangedEvent } from 'src/account/domain/event/AccountDeviceChangedEvent';
-import { Phone } from 'libs/domain';
+import { Password, Phone } from 'libs/domain';
 
 @QueryHandler(LoginAccountQuery)
 export class LoginAccountHandler
@@ -20,7 +20,13 @@ export class LoginAccountHandler
     const payload = await this.accountQuery.findOneByPhone(query.phone);
     if (!payload)
       throw new NotFoundException(ErrorMessage.ACCOUNT_IS_NOT_FOUND);
-
+    const password = await Password.create({
+      value: query.password,
+      hashed: false,
+    }).getHashedValue();
+    if (payload.password != password) {
+      throw new NotFoundException(ErrorMessage.ACCOUNT_IS_NOT_FOUND);
+    }
     const access_token = await this.jwtService.signAsync(payload);
     this.eventBus.publish(
       new AccountDeviceChangedEvent(

@@ -29,9 +29,12 @@ export class AccountQuery implements IAccountQuery {
           : null,
       );
   }
-  async findOneByPhone(
-    phone: string,
-  ): Promise<{ accountId: string; phone: string; deviceId: string } | null> {
+  async findOneByPhone(phone: string): Promise<{
+    accountId: string;
+    phone: string;
+    deviceId: string;
+    password: string;
+  } | null> {
     return readConnection
       .getRepository(AccountEntity)
       .findOneBy({ phone })
@@ -41,6 +44,7 @@ export class AccountQuery implements IAccountQuery {
               accountId: this.entityIdTransformer.from(entity.id),
               phone: entity.phone,
               deviceId: entity.deviceId,
+              password: entity.password,
             }
           : null,
       );

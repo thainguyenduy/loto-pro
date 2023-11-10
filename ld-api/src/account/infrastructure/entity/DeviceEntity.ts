@@ -6,7 +6,7 @@ import { AccountEntity } from './AccountEntity';
 @Entity({ name: 'device' })
 export class DeviceEntity extends BaseEntity {
   @PrimaryColumn({ type: 'binary', length: 16 })
-  deviceId: string;
+  id: string;
 
   @Column()
   accountId: string;

@@ -26,8 +26,9 @@ import { InjectionToken } from 'src/account/application/InjectionToken';
 import { AccountFactory } from 'src/account/domain/AccountFactory';
 import { LockAccountCommand } from './application/command/LockAccountCommand';
 import { LockAccountHandler } from './application/command/LockAccountHandler';
-import { JwtModule } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { LoginAccountHandler } from './application/query/LoginAccountHandler';
 
 const infrastructure: Provider[] = [
   {
@@ -39,6 +40,7 @@ const infrastructure: Provider[] = [
     useClass: AccountQuery,
   },
   ConfigService,
+  JwtService,
 ];
 
 const application = [
@@ -47,6 +49,7 @@ const application = [
   FindAccountByIdHandler,
   FindAccountsHandler,
   LockAccountHandler,
+  LoginAccountHandler,
 ];
 
 const domain = [AccountFactory];
