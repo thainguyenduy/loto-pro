@@ -50,7 +50,7 @@ export class AccountsController {
     readonly queryBus: QueryBus,
   ) {}
 
-  @Post('accounts')
+  @Post('login')
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: ResponseDescription.CREATED,

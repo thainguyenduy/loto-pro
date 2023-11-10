@@ -27,7 +27,7 @@ export class AccountEntity extends BaseEntity {
   expirationDate: Date | null;
 
   @OneToMany(() => DeviceEntity, (device) => device.account)
-  devices?: DeviceEntity[];
+  devices: DeviceEntity[];
   constructor(options: AccountEntity) {
     super();
     Object.assign(this, options);

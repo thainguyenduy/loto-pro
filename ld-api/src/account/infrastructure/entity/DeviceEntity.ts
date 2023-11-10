@@ -1,11 +1,11 @@
-import { Entity, Column, ManyToOne } from 'typeorm';
+import { Entity, Column, ManyToOne, PrimaryColumn } from 'typeorm';
 
 import { BaseEntity } from 'libs/infrastructure/typeorm/BaseEntity';
 import { AccountEntity } from './AccountEntity';
 
 @Entity({ name: 'device' })
 export class DeviceEntity extends BaseEntity {
-  @Column()
+  @PrimaryColumn({ type: 'binary', length: 16 })
   deviceId: string;
 
   @Column()

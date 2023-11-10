@@ -63,6 +63,7 @@ export class AccountRepository implements IAccountRepository {
       updatedAt: model.getUpdatedAt,
       lockedAt: model.getLockedAt,
       expirationDate: model.getExpirationDate,
+      devices: [],
     });
   }
 

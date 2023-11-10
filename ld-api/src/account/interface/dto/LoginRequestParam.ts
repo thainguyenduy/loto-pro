@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsAlphanumeric, Length, MaxLength, MinLength } from 'class-validator';
+import { IsAlphanumeric, MaxLength, MinLength } from 'class-validator';
 
 export class LoginRequestParamDTO {
   @ApiProperty({ example: '0912345678', minLength: 10, maxLength: 10 })
@@ -12,6 +12,6 @@ export class LoginRequestParamDTO {
   readonly password: string;
 
   @IsAlphanumeric()
-  @Length(32, 32)
+  @ApiProperty({ example: '091234asdsadf' })
   readonly deviceId: string;
 }

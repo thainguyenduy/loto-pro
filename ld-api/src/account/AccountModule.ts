@@ -38,6 +38,7 @@ const infrastructure: Provider[] = [
     provide: InjectionToken.ACCOUNT_QUERY,
     useClass: AccountQuery,
   },
+  ConfigService,
 ];
 
 const application = [
