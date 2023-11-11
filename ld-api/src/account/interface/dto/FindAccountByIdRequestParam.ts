@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsAlphanumeric } from 'class-validator';
+import { IsNumber } from 'class-validator';
 
 import { EntityId } from 'libs/DatabaseModule';
 
 export class FindAccountByIdRequestParam {
-  @IsAlphanumeric()
+  @IsNumber()
   @ApiProperty({ example: new EntityId().toString() })
-  readonly accountId: string;
+  readonly accountId: number;
 }

@@ -8,7 +8,6 @@ import { AccountOpenedEvent } from './event/AccountOpenedEvent';
 
 export type AccountEssentialProps = Readonly<
   Required<{
-    id: number;
     phone: Phone;
     password: Password;
     deviceId: string; //https://stackoverflow.com/questions/45031499/how-to-get-unique-device-id-in-flutter
@@ -17,6 +16,7 @@ export type AccountEssentialProps = Readonly<
 
 export type AccountOptionalProps = Readonly<
   Partial<{
+    id: number;
     activated: boolean;
     expirationDate: Date;
     createdAt: Date;

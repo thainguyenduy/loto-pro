@@ -1,7 +1,7 @@
 import { IQueryResult } from '@nestjs/cqrs';
 
 export class FindAccountByIdResult implements IQueryResult {
-  readonly id: string;
+  readonly id: number;
   readonly phone: string;
   readonly expirationDate: Date;
   readonly activated: boolean;

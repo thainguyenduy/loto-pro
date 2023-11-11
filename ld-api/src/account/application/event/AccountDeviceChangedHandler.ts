@@ -15,6 +15,6 @@ export class AccountDeviceChangedHandler
   ) {}
 
   async handle(event: AccountDeviceChangedEvent) {
-    await this.accountRepository.updateDevice(event.accountId, event.deviceId);
+    await this.accountRepository.updateDevice(event.id, event.deviceId);
 }
 }

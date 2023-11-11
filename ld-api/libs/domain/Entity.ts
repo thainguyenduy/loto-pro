@@ -5,7 +5,7 @@ const isEntity = (v: any): v is Entity<any> => {
 };
 
 export abstract class Entity<T> extends AggregateRoot {
-  protected readonly id: number;
+  protected readonly id?: number;
   constructor(props: T) {
     super();
     Object.assign(this, props);

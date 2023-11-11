@@ -88,9 +88,7 @@ export class AccountsModule {
         .getRepository(AccountEntity)
         .findBy({ expirationDate: LessThan(new Date()) })
     ).forEach((account) =>
-      this.commandBus.execute(
-        new LockAccountCommand(this.entityIdTransformer.from(account.id)),
-      ),
+      this.commandBus.execute(new LockAccountCommand(account.id)),
     );
   }
 }

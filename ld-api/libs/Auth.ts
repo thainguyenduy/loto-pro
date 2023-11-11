@@ -47,7 +47,7 @@ export class AuthGuard implements CanActivate {
       const account = await readConnection
         .getRepository(AccountEntity)
         .findOneBy({
-          id: this.entityIdTransformer.to(payload.accountId),
+          id: payload.accountId,
           deviceId: payload.deviceId,
         });
       if (!account) throw new UnauthorizedException();

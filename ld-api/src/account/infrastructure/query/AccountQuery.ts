@@ -19,18 +19,14 @@ export class AccountQuery implements IAccountQuery {
   @Inject(ENTITY_ID_TRANSFORMER)
   private readonly entityIdTransformer: EntityIdTransformer;
 
-  async findById(id: string): Promise<FindAccountByIdResult | null> {
+  async findById(id: number): Promise<FindAccountByIdResult | null> {
     return readConnection
       .getRepository(AccountEntity)
-      .findOneBy({ id: this.entityIdTransformer.to(id) })
-      .then((entity) =>
-        entity
-          ? { ...entity, id: this.entityIdTransformer.from(entity.id) }
-          : null,
-      );
+      .findOneBy({ id })
+      .then((entity) => entity || null);
   }
   async findOneByPhone(phone: string): Promise<{
-    accountId: string;
+    accountId: number;
     phone: string;
     deviceId: string;
     password: string;
@@ -41,7 +37,7 @@ export class AccountQuery implements IAccountQuery {
       .then((entity) =>
         entity
           ? {
-              accountId: this.entityIdTransformer.from(entity.id),
+              accountId: entity.id,
               phone: entity.phone,
               deviceId: entity.deviceId,
               password: entity.password,
@@ -57,14 +53,6 @@ export class AccountQuery implements IAccountQuery {
         skip: query.skip,
         take: query.take,
       })
-      .then(
-        (entities) =>
-          new FindAccountsResult(
-            entities.map((entity) => ({
-              ...entity,
-              id: this.entityIdTransformer.from(entity.id),
-            })),
-          ),
-      );
+      .then((entities) => new FindAccountsResult(entities));
   }
 }

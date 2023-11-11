@@ -3,10 +3,10 @@ import { FindAccountByIdResult } from './FindAccountByIdResult';
 import { FindAccountsResult } from './FindAccountsResult';
 
 export interface IAccountQuery {
-  findById: (id: string) => Promise<FindAccountByIdResult | null>;
+  findById: (id: number) => Promise<FindAccountByIdResult | null>;
   findByPhone: (query: FindAccountsQuery) => Promise<FindAccountsResult>;
   findOneByPhone: (phone: string) => Promise<{
-    accountId: string;
+    accountId: number;
     phone: string;
     deviceId: string;
     password: string;
