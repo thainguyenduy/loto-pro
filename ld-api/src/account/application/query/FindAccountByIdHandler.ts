@@ -11,6 +11,7 @@ import { FindAccountByIdResult } from 'src/account/application/query/FindAccount
 
 import { ErrorMessage } from 'src/account/domain/ErrorMessage';
 import { IAccountQuery } from './IAccountQuery';
+import { plainToInstance } from 'class-transformer';
 
 @QueryHandler(FindAccountByIdQuery)
 export class FindAccountByIdHandler
@@ -22,19 +23,7 @@ export class FindAccountByIdHandler
     const data = await this.accountQuery.findById(query.id);
     if (!data) throw new NotFoundException(ErrorMessage.ACCOUNT_IS_NOT_FOUND);
 
-    const dataKeys = Object.keys(data);
-    const resultKeys = Object.keys(new FindAccountByIdResult());
-
-    if (dataKeys.length < resultKeys.length)
-      throw new InternalServerErrorException();
-
-    if (resultKeys.find((resultKey) => !dataKeys.includes(resultKey)))
-      throw new InternalServerErrorException();
-
-    dataKeys
-      .filter((dataKey) => !resultKeys.includes(dataKey))
-      .forEach((dataKey) => delete data[dataKey]);
-
-    return data as unknown as FindAccountByIdResult;
+    const result = plainToInstance(FindAccountByIdResult, data);
+    return result;
   }
 }

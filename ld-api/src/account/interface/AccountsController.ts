@@ -27,7 +27,6 @@ import { FindAccountsRequestQueryString } from 'src/account/interface/dto/FindAc
 import { OpenAccountRequestDTO } from 'src/account/interface/dto/OpenAccountRequestDTO';
 import { UpdatePasswordRequestDTO } from 'src/account/interface/dto/UpdatePasswordRequestDTO';
 import { UpdatePasswordRequestParam } from 'src/account/interface/dto/UpdatePasswordRequestParam';
-import { FindAccountByIdRequestParam } from 'src/account/interface/dto/FindAccountByIdRequestParam';
 import { FindAccountByIdResponseDTO } from 'src/account/interface/dto/FindAccountByIdResponseDTO';
 import { FindAccountsResponseDto } from 'src/account/interface/dto/FindAccountsResponseDto';
 import { LoginRequestParam } from './dto/LoginRequestParam';

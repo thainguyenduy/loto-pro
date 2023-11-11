@@ -1,11 +1,14 @@
 import { IQueryResult } from '@nestjs/cqrs';
+import { Exclude } from 'class-transformer';
 
 export class FindAccountByIdResult implements IQueryResult {
-  readonly id: number;
-  readonly phone: string;
-  readonly expirationDate: Date;
-  readonly activated: boolean;
-  readonly createdAt: Date;
-  readonly updatedAt: Date;
-  readonly deviceId: string | null;
+  public readonly id: number;
+  public readonly phone: string;
+  public readonly expirationDate: Date;
+  public readonly activated: boolean;
+  public readonly createdAt: Date;
+  public readonly updatedAt: Date;
+  public readonly deviceId: string | null;
+  @Exclude()
+  public readonly password: string;
 }
