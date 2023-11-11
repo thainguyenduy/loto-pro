@@ -66,6 +66,7 @@ const domain = [AccountFactory];
       global: true,
       useFactory: async (configService: ConfigService) => ({
         secretOrPrivateKey: configService.get<string>('SECRET_KEY'),
+        // secretOrPrivateKey: '1233',
         signOptions: {
           expiresIn: 3600,
         },
