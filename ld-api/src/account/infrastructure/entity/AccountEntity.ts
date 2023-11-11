@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryColumn, OneToMany, Unique } from 'typeorm';
 
 import { BaseEntity } from 'libs/infrastructure/typeorm/BaseEntity';
 import { DeviceEntity } from './DeviceEntity';
@@ -8,7 +8,7 @@ export class AccountEntity extends BaseEntity {
   @PrimaryColumn({ type: 'binary', length: 16 })
   id: Buffer;
 
-  @Column({ length: 10 })
+  @Column({ length: 10, unique: true })
   phone: string;
 
   @Column()

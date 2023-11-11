@@ -14,7 +14,7 @@ export class AccountDeviceChangedHandler
     private readonly accountRepository: IAccountRepository,
   ) {}
 
-  handle(event: AccountDeviceChangedEvent) {
-    event
+  async handle(event: AccountDeviceChangedEvent) {
+    await this.accountRepository.updateDevice(event.accountId, event.deviceId);
 }
 }

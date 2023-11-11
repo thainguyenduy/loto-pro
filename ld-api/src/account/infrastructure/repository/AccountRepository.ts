@@ -1,4 +1,4 @@
-import { Inject } from '@nestjs/common';
+import { BadRequestException, Inject } from '@nestjs/common';
 
 import {
   EntityId,
@@ -14,6 +14,7 @@ import { AccountFactory } from 'src/account/domain/AccountFactory';
 import { IAccountRepository } from 'src/account/application/IAccountRepository';
 import { Like } from 'typeorm';
 import { Password, Phone } from 'libs/domain';
+import { ErrorMessage } from '../ErrorMessage';
 
 export class AccountRepository implements IAccountRepository {
   @Inject() private readonly accountFactory: AccountFactory;
@@ -29,6 +30,13 @@ export class AccountRepository implements IAccountRepository {
     const entities = await Promise.all(
       models.map((model) => this.modelToEntity(model)),
     );
+    if (data instanceof Account) {
+      const entity = await writeConnection.manager
+        .getRepository(AccountEntity)
+        .findOneBy({ phone: data.getPhone });
+      if (entity)
+        throw new BadRequestException(ErrorMessage.ACCOUNT_IS_EXISTED);
+    }
     await writeConnection.manager.getRepository(AccountEntity).save(entities);
   }
 
@@ -45,10 +53,12 @@ export class AccountRepository implements IAccountRepository {
       .findBy({ phone: Like(phone) });
     return entities.map((entity) => this.entityToModel(entity));
   }
+
   async updateDevice(accountId: string, deviceId: string): Promise<void> {
-    await writeConnection.manager
+    const result = await writeConnection.manager
       .getRepository(AccountEntity)
       .update(accountId, { deviceId });
+    return;
   }
 
   private async modelToEntity(model: Account): Promise<AccountEntity> {

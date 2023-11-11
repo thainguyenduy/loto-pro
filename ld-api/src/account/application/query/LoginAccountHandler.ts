@@ -25,7 +25,7 @@ export class LoginAccountHandler
     this.eventBus.publish(
       new AccountDeviceChangedEvent(
         payload.accountId,
-        payload.deviceId,
+        query.deviceId,
         Phone.create({ value: payload.phone }),
       ),
     );

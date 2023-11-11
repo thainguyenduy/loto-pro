@@ -28,6 +28,8 @@ import { LockAccountCommand } from './application/command/LockAccountCommand';
 import { LockAccountHandler } from './application/command/LockAccountHandler';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { LoginAccountHandler } from './application/query/LoginAccountHandler';
+import { AccountDeviceChangedHandler } from './application/event/AccountDeviceChangedHandler';
 
 const infrastructure: Provider[] = [
   {
@@ -47,6 +49,8 @@ const application = [
   FindAccountByIdHandler,
   FindAccountsHandler,
   LockAccountHandler,
+  LoginAccountHandler,
+  AccountDeviceChangedHandler,
 ];
 
 const domain = [AccountFactory];
