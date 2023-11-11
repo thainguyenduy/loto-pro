@@ -21,10 +21,11 @@ export class LoginAccountHandler
     if (!payload)
       throw new NotFoundException(ErrorMessage.ACCOUNT_IS_NOT_FOUND);
     const password = await Password.create({
-      value: query.password,
-      hashed: false,
-    }).getHashedValue();
-    if (payload.password != password) {
+      value: payload.password,
+      hashed: true,
+    });
+    const same_password = await password.comparePassword(query.password);
+    if (!same_password) {
       throw new NotFoundException(ErrorMessage.ACCOUNT_IS_NOT_FOUND);
     }
     const access_token = await this.jwtService.signAsync(payload);

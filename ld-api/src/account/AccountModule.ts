@@ -29,6 +29,7 @@ import { LockAccountHandler } from './application/command/LockAccountHandler';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoginAccountHandler } from './application/query/LoginAccountHandler';
+import { AuthGuard } from 'libs/Auth';
 
 const infrastructure: Provider[] = [
   {
@@ -41,6 +42,7 @@ const infrastructure: Provider[] = [
   },
   ConfigService,
   JwtService,
+  AuthGuard,
 ];
 
 const application = [
@@ -59,6 +61,7 @@ const domain = [AccountFactory];
     CqrsModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
+      global: true,
       useFactory: async (configService: ConfigService) => ({
         secretOrPrivateKey: configService.get<string>('SECRET_KEY'),
         signOptions: {

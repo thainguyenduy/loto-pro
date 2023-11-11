@@ -5,6 +5,7 @@ import {
   Inject,
   UseGuards,
   UnauthorizedException,
+  Injectable,
 } from '@nestjs/common';
 import { ApiBasicAuth, ApiForbiddenResponse } from '@nestjs/swagger';
 import { Request } from 'express';
@@ -18,7 +19,8 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { AccountEntity } from 'src/account/infrastructure/entity/AccountEntity';
-class AuthGuard implements CanActivate {
+@Injectable()
+export class AuthGuard implements CanActivate {
   @Inject(ENTITY_ID_TRANSFORMER)
   private readonly entityIdTransformer: EntityIdTransformer;
   @Inject() private readonly configService: ConfigService;
@@ -37,8 +39,9 @@ class AuthGuard implements CanActivate {
       throw new UnauthorizedException();
     }
     try {
+      const secret = this.configService.get<string>('SECRET_KEY');
       const payload = await this.jwtService.verifyAsync(token, {
-        secret: this.configService.get<string>('SECRET_KEY'),
+        secret,
       });
 
       const account = await readConnection
