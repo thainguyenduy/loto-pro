@@ -9,6 +9,7 @@ import {
   UseInterceptors,
   HttpStatus,
   Headers,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import {
@@ -123,7 +124,7 @@ export class AccountsController {
 
   @Auth()
   @Get('accounts/:accountId')
-  @UseInterceptors(CacheInterceptor)
+  // @UseInterceptors(CacheInterceptor)
   @ApiResponse({
     status: HttpStatus.OK,
     description: ResponseDescription.OK,
@@ -135,9 +136,8 @@ export class AccountsController {
     description: ResponseDescription.INTERNAL_SERVER_ERROR,
   })
   async findAccountById(
-    @Headers() header: AuthorizedHeader,
-    @Param() param: FindAccountByIdRequestParam,
+    @Param('accountId', ParseIntPipe) accountId: number,
   ): Promise<FindAccountByIdResponseDTO> {
-    return this.queryBus.execute(new FindAccountByIdQuery(param.accountId));
+    return this.queryBus.execute(new FindAccountByIdQuery(accountId));
   }
 }

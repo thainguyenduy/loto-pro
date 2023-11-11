@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import { IsNumber } from 'class-validator';
-
-import { EntityId } from 'libs/DatabaseModule';
 
 export class FindAccountByIdRequestParam {
   @IsNumber()
-  @ApiProperty({ example: new EntityId().toString() })
+  @ApiProperty({ example: 1 })
+  @Type(() => Number)
   readonly accountId: number;
 }

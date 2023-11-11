@@ -9,9 +9,6 @@ export class FindAccountByIdResponseDTO extends FindAccountByIdResult {
   @ApiProperty({ example: '0912345678', minLength: 10, maxLength: 10 })
   readonly phone: string;
 
-  @ApiProperty({ example: 100 })
-  readonly balance: number;
-
   @ApiProperty()
   readonly createdAt: Date;
 
