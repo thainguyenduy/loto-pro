@@ -8,7 +8,6 @@ import {
   Query,
   UseInterceptors,
   HttpStatus,
-  NotFoundException,
   Headers,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
@@ -30,7 +29,7 @@ import { UpdatePasswordRequestParam } from 'src/account/interface/dto/UpdatePass
 import { FindAccountByIdRequestParam } from 'src/account/interface/dto/FindAccountByIdRequestParam';
 import { FindAccountByIdResponseDTO } from 'src/account/interface/dto/FindAccountByIdResponseDTO';
 import { FindAccountsResponseDto } from 'src/account/interface/dto/FindAccountsResponseDto';
-import { LoginRequestParamDTO } from './dto/LoginRequestParam';
+import { LoginRequestParam } from './dto/LoginRequestParam';
 import { LoginAccountQuery } from '../application/query/LoginAccountQuery';
 import { ResponseDescription } from 'src/account/interface/ResponseDescription';
 
@@ -39,8 +38,8 @@ import { UpdatePasswordCommand } from 'src/account/application/command/UpdatePas
 import { FindAccountByIdQuery } from 'src/account/application/query/FindAccountByIdQuery';
 import { FindAccountsQuery } from 'src/account/application/query/FindAccountsQuery';
 
-import { ErrorMessage } from 'src/account/domain/ErrorMessage';
 import { CacheInterceptor } from '@nestjs/cache-manager';
+import { LoginRequestResponseDTO } from './dto/LoginRequestResponseDto';
 
 @ApiTags('Accounts')
 @Controller()
@@ -59,7 +58,9 @@ export class AccountsController {
   @ApiInternalServerErrorResponse({
     description: ResponseDescription.INTERNAL_SERVER_ERROR,
   })
-  async signIn(@Body() body: LoginRequestParamDTO): Promise<void> {
+  async signIn(
+    @Body() body: LoginRequestParam,
+  ): Promise<LoginRequestResponseDTO> {
     return this.queryBus.execute(
       new LoginAccountQuery(body.phone, body.password, body.deviceId),
     );
@@ -97,8 +98,6 @@ export class AccountsController {
     @Param() param: UpdatePasswordRequestParam,
     @Body() body: UpdatePasswordRequestDTO,
   ): Promise<void> {
-    if (header.accountId !== param.accountId)
-      throw new NotFoundException(ErrorMessage.ACCOUNT_IS_NOT_FOUND);
     await this.commandBus.execute(
       new UpdatePasswordCommand(param.accountId, body.password),
     );
@@ -139,8 +138,6 @@ export class AccountsController {
     @Headers() header: AuthorizedHeader,
     @Param() param: FindAccountByIdRequestParam,
   ): Promise<FindAccountByIdResponseDTO> {
-    if (header.accountId !== param.accountId)
-      throw new NotFoundException(ErrorMessage.ACCOUNT_IS_NOT_FOUND);
     return this.queryBus.execute(new FindAccountByIdQuery(param.accountId));
   }
 }

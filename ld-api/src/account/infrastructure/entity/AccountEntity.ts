@@ -1,12 +1,12 @@
-import { Entity, Column, PrimaryColumn, OneToMany, Unique } from 'typeorm';
+import { Entity, Column, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 import { BaseEntity } from 'libs/infrastructure/typeorm/BaseEntity';
 import { DeviceEntity } from './DeviceEntity';
 
 @Entity({ name: 'account' })
 export class AccountEntity extends BaseEntity {
-  @PrimaryColumn({ type: 'binary', length: 16 })
-  id: Buffer;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column({ length: 10, unique: true })
   phone: string;

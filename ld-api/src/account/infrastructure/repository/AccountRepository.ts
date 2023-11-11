@@ -40,10 +40,10 @@ export class AccountRepository implements IAccountRepository {
     await writeConnection.manager.getRepository(AccountEntity).save(entities);
   }
 
-  async findById(id: string): Promise<IAccount | null> {
+  async findById(id: number): Promise<IAccount | null> {
     const entity = await writeConnection.manager
       .getRepository(AccountEntity)
-      .findOneBy({ id: this.entityIdTransformer.to(id) });
+      .findOneBy({ id });
     return entity ? this.entityToModel(entity) : null;
   }
 
@@ -53,9 +53,8 @@ export class AccountRepository implements IAccountRepository {
       .findBy({ phone: Like(phone) });
     return entities.map((entity) => this.entityToModel(entity));
   }
-
-  async updateDevice(accountId: string, deviceId: string): Promise<void> {
-    const result = await writeConnection.manager
+  async updateDevice(accountId: number, deviceId: string): Promise<void> {
+    await writeConnection.manager
       .getRepository(AccountEntity)
       .update(accountId, { deviceId });
     return;
@@ -64,7 +63,7 @@ export class AccountRepository implements IAccountRepository {
   private async modelToEntity(model: Account): Promise<AccountEntity> {
     return new AccountEntity({
       ...model,
-      id: this.entityIdTransformer.to(model.Id),
+      id: model.Id,
       phone: model.getPhone,
       password: await model.getHashedPassword,
       activated: model.isActivated,
@@ -82,7 +81,7 @@ export class AccountRepository implements IAccountRepository {
       ...entity,
       phone: Phone.create({ value: entity.phone }),
       password: Password.create({ value: entity.password, hashed: true }),
-      id: this.entityIdTransformer.from(entity.id),
+      id: entity.id,
       createdAt: entity.createdAt,
     });
   }

@@ -3,7 +3,7 @@ import { Phone } from 'libs/domain';
 
 export class AccountLockedEvent implements IEvent {
   constructor(
-    readonly id: string,
+    readonly id: number,
     readonly phone: Phone,
   ) {}
 }

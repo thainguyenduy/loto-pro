@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsAlphanumeric, MaxLength, MinLength } from 'class-validator';
 
-export class LoginRequestParamDTO {
+export class LoginRequestParam {
   @ApiProperty({ example: '0912345678', minLength: 10, maxLength: 10 })
   readonly phone: string;
 

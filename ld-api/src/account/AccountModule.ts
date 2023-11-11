@@ -26,10 +26,11 @@ import { InjectionToken } from 'src/account/application/InjectionToken';
 import { AccountFactory } from 'src/account/domain/AccountFactory';
 import { LockAccountCommand } from './application/command/LockAccountCommand';
 import { LockAccountHandler } from './application/command/LockAccountHandler';
-import { JwtModule } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoginAccountHandler } from './application/query/LoginAccountHandler';
 import { AccountDeviceChangedHandler } from './application/event/AccountDeviceChangedHandler';
+import { AuthGuard } from 'libs/Auth';
 
 const infrastructure: Provider[] = [
   {
@@ -41,6 +42,8 @@ const infrastructure: Provider[] = [
     useClass: AccountQuery,
   },
   ConfigService,
+  JwtService,
+  AuthGuard,
 ];
 
 const application = [
@@ -60,6 +63,7 @@ const domain = [AccountFactory];
     CqrsModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
+      global: true,
       useFactory: async (configService: ConfigService) => ({
         secretOrPrivateKey: configService.get<string>('SECRET_KEY'),
         signOptions: {
