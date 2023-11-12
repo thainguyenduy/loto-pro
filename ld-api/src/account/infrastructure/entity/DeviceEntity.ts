@@ -1,10 +1,4 @@
-import {
-  Entity,
-  Column,
-  ManyToOne,
-  PrimaryColumn,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 import { BaseEntity } from 'libs/infrastructure/typeorm/BaseEntity';
 import { AccountEntity } from './AccountEntity';
@@ -12,10 +6,13 @@ import { AccountEntity } from './AccountEntity';
 @Entity({ name: 'device' })
 export class DeviceEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
 
   @Column()
-  accountId: string;
+  deviceId: string;
+
+  @Column()
+  accountId: number;
 
   @Column({ type: 'datetime', precision: 6, nullable: true })
   lockedAt: Date | null;

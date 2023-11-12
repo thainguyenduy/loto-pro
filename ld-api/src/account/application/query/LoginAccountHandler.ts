@@ -30,9 +30,12 @@ export class LoginAccountHandler
     if (!same_password) {
       throw new NotFoundException(ErrorMessage.ACCOUNT_IS_NOT_FOUND);
     }
-    const access_token = await this.jwtService.signAsync(payload, {
-      secret: this.configService.get<string>('SECRET_KEY'),
-    });
+    const access_token = await this.jwtService.signAsync(
+      { ...payload, deviceId: query.deviceId },
+      {
+        secret: this.configService.get<string>('SECRET_KEY'),
+      },
+    );
     this.eventBus.publish(
       new AccountDeviceChangedEvent(
         payload.accountId,

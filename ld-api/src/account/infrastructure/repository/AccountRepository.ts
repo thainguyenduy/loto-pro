@@ -15,6 +15,7 @@ import { IAccountRepository } from 'src/account/application/IAccountRepository';
 import { Like } from 'typeorm';
 import { Password, Phone } from 'libs/domain';
 import { ErrorMessage } from '../ErrorMessage';
+import { DeviceEntity } from '../entity/DeviceEntity';
 
 export class AccountRepository implements IAccountRepository {
   @Inject() private readonly accountFactory: AccountFactory;
@@ -25,7 +26,7 @@ export class AccountRepository implements IAccountRepository {
     return new EntityId().toString();
   }
 
-  async save(data: Account | Account[]): Promise<void> {
+  async save(data: Account | Account[]): Promise<IAccount[]> {
     const models = Array.isArray(data) ? data : [data];
     const entities = await Promise.all(
       models.map((model) => this.modelToEntity(model)),
@@ -37,7 +38,11 @@ export class AccountRepository implements IAccountRepository {
       if (entity)
         throw new BadRequestException(ErrorMessage.ACCOUNT_IS_EXISTED);
     }
-    await writeConnection.manager.getRepository(AccountEntity).save(entities);
+    return await writeConnection.manager
+      .getRepository(AccountEntity)
+      .save(entities)
+      .then((entities) => entities.map((entity) => this.entityToModel(entity)));
+    // return result.map((entity) => this.entityToModel(entity));
   }
 
   async findById(id: number): Promise<IAccount | null> {
@@ -53,10 +58,20 @@ export class AccountRepository implements IAccountRepository {
       .findBy({ phone: Like(phone) });
     return entities.map((entity) => this.entityToModel(entity));
   }
+
   async updateDevice(accountId: number, deviceId: string): Promise<void> {
-    await writeConnection.manager
-      .getRepository(AccountEntity)
-      .update(accountId, { deviceId });
+    //TODO: Refactor: apply transaction to this flow
+    await Promise.all([
+      writeConnection.manager
+        .getRepository(AccountEntity)
+        .update(accountId, { deviceId }),
+      writeConnection.manager
+        .getRepository(DeviceEntity)
+        .upsert(
+          [{ updatedAt: new Date(), accountId: accountId, deviceId }],
+          ['deviceId'],
+        ),
+    ]);
     return;
   }
 
