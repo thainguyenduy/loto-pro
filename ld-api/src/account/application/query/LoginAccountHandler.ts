@@ -7,7 +7,8 @@ import { JwtService } from '@nestjs/jwt';
 import { ErrorMessage } from 'src/account/domain/ErrorMessage';
 import { IAccountQuery } from './IAccountQuery';
 import { AccountDeviceChangedEvent } from 'src/account/domain/event/AccountDeviceChangedEvent';
-import { Phone } from 'libs/domain';
+import { Password, Phone } from 'libs/domain';
+import { ConfigService } from '@nestjs/config';
 
 @QueryHandler(LoginAccountQuery)
 export class LoginAccountHandler
@@ -16,16 +17,29 @@ export class LoginAccountHandler
   @Inject() private eventBus: EventBus;
   @Inject(InjectionToken.ACCOUNT_QUERY) readonly accountQuery: IAccountQuery;
   @Inject() private jwtService: JwtService;
+  @Inject() private configService: ConfigService;
   async execute(query: LoginAccountQuery): Promise<LoginAccountResult> {
     const payload = await this.accountQuery.findOneByPhone(query.phone);
     if (!payload)
       throw new NotFoundException(ErrorMessage.ACCOUNT_IS_NOT_FOUND);
-
-    const access_token = await this.jwtService.signAsync(payload);
+    const password = await Password.create({
+      value: payload.password,
+      hashed: true,
+    });
+    const same_password = await password.comparePassword(query.password);
+    if (!same_password) {
+      throw new NotFoundException(ErrorMessage.ACCOUNT_IS_NOT_FOUND);
+    }
+    const access_token = await this.jwtService.signAsync(
+      { ...payload, deviceId: query.deviceId },
+      {
+        secret: this.configService.get<string>('SECRET_KEY'),
+      },
+    );
     this.eventBus.publish(
       new AccountDeviceChangedEvent(
         payload.accountId,
-        payload.deviceId,
+        query.deviceId,
         Phone.create({ value: payload.phone }),
       ),
     );

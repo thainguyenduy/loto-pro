@@ -19,28 +19,28 @@ export class AccountQuery implements IAccountQuery {
   @Inject(ENTITY_ID_TRANSFORMER)
   private readonly entityIdTransformer: EntityIdTransformer;
 
-  async findById(id: string): Promise<FindAccountByIdResult | null> {
+  async findById(id: number): Promise<FindAccountByIdResult | null> {
     return readConnection
       .getRepository(AccountEntity)
-      .findOneBy({ id: this.entityIdTransformer.to(id) })
-      .then((entity) =>
-        entity
-          ? { ...entity, id: this.entityIdTransformer.from(entity.id) }
-          : null,
-      );
+      .findOneBy({ id })
+      .then((entity) => entity || null);
   }
-  async findOneByPhone(
-    phone: string,
-  ): Promise<{ accountId: string; phone: string; deviceId: string } | null> {
+  async findOneByPhone(phone: string): Promise<{
+    accountId: number;
+    phone: string;
+    deviceId: string;
+    password: string;
+  } | null> {
     return readConnection
       .getRepository(AccountEntity)
       .findOneBy({ phone })
       .then((entity) =>
         entity
           ? {
-              accountId: this.entityIdTransformer.from(entity.id),
+              accountId: entity.id,
               phone: entity.phone,
               deviceId: entity.deviceId,
+              password: entity.password,
             }
           : null,
       );
@@ -53,14 +53,6 @@ export class AccountQuery implements IAccountQuery {
         skip: query.skip,
         take: query.take,
       })
-      .then(
-        (entities) =>
-          new FindAccountsResult(
-            entities.map((entity) => ({
-              ...entity,
-              id: this.entityIdTransformer.from(entity.id),
-            })),
-          ),
-      );
+      .then((entities) => new FindAccountsResult(entities));
   }
 }

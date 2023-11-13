@@ -26,8 +26,11 @@ import { InjectionToken } from 'src/account/application/InjectionToken';
 import { AccountFactory } from 'src/account/domain/AccountFactory';
 import { LockAccountCommand } from './application/command/LockAccountCommand';
 import { LockAccountHandler } from './application/command/LockAccountHandler';
-import { JwtModule } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { LoginAccountHandler } from './application/query/LoginAccountHandler';
+import { AccountDeviceChangedHandler } from './application/event/AccountDeviceChangedHandler';
+import { AuthGuard } from 'libs/Auth';
 
 const infrastructure: Provider[] = [
   {
@@ -39,6 +42,8 @@ const infrastructure: Provider[] = [
     useClass: AccountQuery,
   },
   ConfigService,
+  JwtService,
+  AuthGuard,
 ];
 
 const application = [
@@ -47,6 +52,8 @@ const application = [
   FindAccountByIdHandler,
   FindAccountsHandler,
   LockAccountHandler,
+  LoginAccountHandler,
+  AccountDeviceChangedHandler,
 ];
 
 const domain = [AccountFactory];
@@ -56,8 +63,10 @@ const domain = [AccountFactory];
     CqrsModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
+      global: true,
       useFactory: async (configService: ConfigService) => ({
         secretOrPrivateKey: configService.get<string>('SECRET_KEY'),
+        // secretOrPrivateKey: '1233',
         signOptions: {
           expiresIn: 3600,
         },
@@ -80,9 +89,7 @@ export class AccountsModule {
         .getRepository(AccountEntity)
         .findBy({ expirationDate: LessThan(new Date()) })
     ).forEach((account) =>
-      this.commandBus.execute(
-        new LockAccountCommand(this.entityIdTransformer.from(account.id)),
-      ),
+      this.commandBus.execute(new LockAccountCommand(account.id)),
     );
   }
 }

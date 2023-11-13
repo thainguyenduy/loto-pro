@@ -8,7 +8,6 @@ import { AccountOpenedEvent } from './event/AccountOpenedEvent';
 
 export type AccountEssentialProps = Readonly<
   Required<{
-    id: string;
     phone: Phone;
     password: Password;
     deviceId: string; //https://stackoverflow.com/questions/45031499/how-to-get-unique-device-id-in-flutter
@@ -17,6 +16,7 @@ export type AccountEssentialProps = Readonly<
 
 export type AccountOptionalProps = Readonly<
   Partial<{
+    id: number;
     activated: boolean;
     expirationDate: Date;
     createdAt: Date;
@@ -29,7 +29,7 @@ export type AccountProps = AccountEssentialProps &
   Required<AccountOptionalProps>;
 
 export interface IAccount {
-  Id: string;
+  Id: number;
   isActivated: boolean;
   getDeviceId: string;
   getPhone: string;
@@ -95,7 +95,7 @@ export class Account extends Entity<AccountProps> implements IAccount {
   }
 
   open(): void {
-    this.apply(new AccountOpenedEvent(this.id, this.phone));
+    this.apply(new AccountOpenedEvent(this.id, this.phone, this.deviceId));
   }
   changeDevice(device_id: string): void {
     this.deviceId = device_id;
@@ -118,7 +118,7 @@ export class Account extends Entity<AccountProps> implements IAccount {
   }
 
   updatePassword(password: string): void {
-    this.password = Password.create({ value: password, hashed: true });
+    this.password = Password.create({ value: password, hashed: false });
     this.updatedAt = new Date();
     this.apply(new PasswordUpdatedEvent(this.id, this.phone));
   }

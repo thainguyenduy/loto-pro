@@ -1,4 +1,4 @@
-import { Inject } from '@nestjs/common';
+import { BadRequestException, Inject } from '@nestjs/common';
 
 import {
   EntityId,
@@ -14,6 +14,8 @@ import { AccountFactory } from 'src/account/domain/AccountFactory';
 import { IAccountRepository } from 'src/account/application/IAccountRepository';
 import { Like } from 'typeorm';
 import { Password, Phone } from 'libs/domain';
+import { ErrorMessage } from '../ErrorMessage';
+import { DeviceEntity } from '../entity/DeviceEntity';
 
 export class AccountRepository implements IAccountRepository {
   @Inject() private readonly accountFactory: AccountFactory;
@@ -24,18 +26,29 @@ export class AccountRepository implements IAccountRepository {
     return new EntityId().toString();
   }
 
-  async save(data: Account | Account[]): Promise<void> {
+  async save(data: Account | Account[]): Promise<IAccount[]> {
     const models = Array.isArray(data) ? data : [data];
     const entities = await Promise.all(
       models.map((model) => this.modelToEntity(model)),
     );
-    await writeConnection.manager.getRepository(AccountEntity).save(entities);
+    if (data instanceof Account) {
+      const entity = await writeConnection.manager
+        .getRepository(AccountEntity)
+        .findOneBy({ phone: data.getPhone });
+      if (entity)
+        throw new BadRequestException(ErrorMessage.ACCOUNT_IS_EXISTED);
+    }
+    return await writeConnection.manager
+      .getRepository(AccountEntity)
+      .save(entities)
+      .then((entities) => entities.map((entity) => this.entityToModel(entity)));
+    // return result.map((entity) => this.entityToModel(entity));
   }
 
-  async findById(id: string): Promise<IAccount | null> {
+  async findById(id: number): Promise<IAccount | null> {
     const entity = await writeConnection.manager
       .getRepository(AccountEntity)
-      .findOneBy({ id: this.entityIdTransformer.to(id) });
+      .findOneBy({ id });
     return entity ? this.entityToModel(entity) : null;
   }
 
@@ -45,16 +58,27 @@ export class AccountRepository implements IAccountRepository {
       .findBy({ phone: Like(phone) });
     return entities.map((entity) => this.entityToModel(entity));
   }
-  async updateDevice(accountId: string, deviceId: string): Promise<void> {
-    await writeConnection.manager
-      .getRepository(AccountEntity)
-      .update(accountId, { deviceId });
+
+  async updateDevice(accountId: number, deviceId: string): Promise<void> {
+    //TODO: Refactor: apply transaction to this flow
+    await Promise.all([
+      writeConnection.manager
+        .getRepository(AccountEntity)
+        .update(accountId, { deviceId }),
+      writeConnection.manager
+        .getRepository(DeviceEntity)
+        .upsert(
+          [{ updatedAt: new Date(), accountId: accountId, deviceId }],
+          ['deviceId'],
+        ),
+    ]);
+    return;
   }
 
   private async modelToEntity(model: Account): Promise<AccountEntity> {
     return new AccountEntity({
       ...model,
-      id: this.entityIdTransformer.to(model.Id),
+      id: model.Id,
       phone: model.getPhone,
       password: await model.getHashedPassword,
       activated: model.isActivated,
@@ -72,7 +96,7 @@ export class AccountRepository implements IAccountRepository {
       ...entity,
       phone: Phone.create({ value: entity.phone }),
       password: Password.create({ value: entity.password, hashed: true }),
-      id: this.entityIdTransformer.from(entity.id),
+      id: entity.id,
       createdAt: entity.createdAt,
     });
   }

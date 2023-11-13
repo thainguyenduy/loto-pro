@@ -4,12 +4,12 @@ import {
   IsString,
   MaxLength,
   MinLength,
-  Length,
 } from 'class-validator';
 
 export class OpenAccountRequestDTO {
   @IsString()
-  @Length(10, 10)
+  @MinLength(10)
+  @MaxLength(10)
   @ApiProperty({ minLength: 10, maxLength: 10, example: '092' })
   readonly phone: string;
 

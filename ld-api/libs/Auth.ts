@@ -5,6 +5,7 @@ import {
   Inject,
   UseGuards,
   UnauthorizedException,
+  Injectable,
 } from '@nestjs/common';
 import { ApiBasicAuth, ApiForbiddenResponse } from '@nestjs/swagger';
 import { Request } from 'express';
@@ -18,11 +19,12 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { AccountEntity } from 'src/account/infrastructure/entity/AccountEntity';
-class AuthGuard implements CanActivate {
+@Injectable()
+export class AuthGuard implements CanActivate {
   @Inject(ENTITY_ID_TRANSFORMER)
   private readonly entityIdTransformer: EntityIdTransformer;
   @Inject() private readonly configService: ConfigService;
-  constructor(private jwtService: JwtService) {}
+  @Inject() private readonly jwtService: JwtService;
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const authorization = context
@@ -37,21 +39,22 @@ class AuthGuard implements CanActivate {
       throw new UnauthorizedException();
     }
     try {
+      const secret = this.configService.get<string>('SECRET_KEY');
       const payload = await this.jwtService.verifyAsync(token, {
-        secret: this.configService.get<string>('SECRET_KEY'),
+        secret,
       });
 
       const account = await readConnection
         .getRepository(AccountEntity)
         .findOneBy({
-          id: this.entityIdTransformer.to(payload.accountId),
+          id: payload.accountId,
           deviceId: payload.deviceId,
         });
       if (!account) throw new UnauthorizedException();
       // 💡 We're assigning the payload to the request object here
       // so that we can access it in our route handlers
       request['user'] = payload;
-    } catch {
+    } catch (e) {
       throw new UnauthorizedException();
     }
     return true;

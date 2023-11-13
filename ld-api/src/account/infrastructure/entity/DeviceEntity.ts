@@ -1,15 +1,18 @@
-import { Entity, Column, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 import { BaseEntity } from 'libs/infrastructure/typeorm/BaseEntity';
 import { AccountEntity } from './AccountEntity';
 
 @Entity({ name: 'device' })
 export class DeviceEntity extends BaseEntity {
-  @PrimaryColumn({ type: 'binary', length: 16 })
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
   deviceId: string;
 
   @Column()
-  accountId: string;
+  accountId: number;
 
   @Column({ type: 'datetime', precision: 6, nullable: true })
   lockedAt: Date | null;

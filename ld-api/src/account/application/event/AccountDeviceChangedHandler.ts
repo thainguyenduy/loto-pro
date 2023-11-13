@@ -1,6 +1,5 @@
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import { AccountDeviceChangedEvent } from 'src/account/domain/event/AccountDeviceChangedEvent';
-import { AccountRepository } from 'src/account/infrastructure/repository/AccountRepository';
 import { IAccountRepository } from '../IAccountRepository';
 import { Inject } from '@nestjs/common';
 import { InjectionToken } from '../InjectionToken';
@@ -14,7 +13,8 @@ export class AccountDeviceChangedHandler
     private readonly accountRepository: IAccountRepository,
   ) {}
 
-  handle(event: AccountDeviceChangedEvent) {
-    event
-}
+  async handle(event: AccountDeviceChangedEvent) {
+    /* neu co deviceId roi thi cap nhat updatedAt, neu chua thi insert */
+    await this.accountRepository.updateDevice(event.id, event.deviceId);
+  }
 }

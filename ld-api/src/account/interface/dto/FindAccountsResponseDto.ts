@@ -6,7 +6,7 @@ import { FindAccountsResult } from 'src/account/application/query/FindAccountsRe
 
 class Account {
   @ApiProperty({ example: new EntityId() })
-  readonly id: string;
+  readonly id: number;
 
   @ApiProperty({ example: '0912345678' })
   readonly phone: string;
