@@ -9,7 +9,7 @@ import { InjectionToken } from '../InjectionToken';
 import { AccountFactory } from '../../domain/AccountFactory';
 import { IAccountRepository } from '../IAccountRepository';
 import { Password, Phone } from '../../../../libs/domain';
-import { AccountDeviceChangedEvent } from 'src/account/domain/event/AccountDeviceChangedEvent';
+import { AccountDeviceChangedEvent } from '../../domain/event/AccountDeviceChangedEvent';
 
 @CommandHandler(OpenAccountCommand)
 export class OpenAccountHandler

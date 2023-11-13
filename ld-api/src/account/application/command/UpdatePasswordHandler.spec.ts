@@ -32,7 +32,7 @@ describe('UpdatePasswordHandler', () => {
     it('should throw NotFoundException when account not found', async () => {
       repository.findById = jest.fn().mockResolvedValue(null);
 
-      const command = new UpdatePasswordCommand('accountId', 'password');
+      const command = new UpdatePasswordCommand(1, 'password');
 
       await expect(handler.execute(command)).rejects.toThrowError(
         NotFoundException,
@@ -47,7 +47,7 @@ describe('UpdatePasswordHandler', () => {
       repository.findById = jest.fn().mockResolvedValue(account);
       repository.save = jest.fn().mockResolvedValue(undefined);
 
-      const command = new UpdatePasswordCommand('accountId', 'password');
+      const command = new UpdatePasswordCommand(1, 'password');
 
       await expect(handler.execute(command)).resolves.toEqual(undefined);
       expect(repository.findById).toBeCalledTimes(1);

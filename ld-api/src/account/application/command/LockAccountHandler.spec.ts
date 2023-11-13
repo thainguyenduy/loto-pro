@@ -43,11 +43,11 @@ describe('LockAccountHandler', () => {
       repository.save = jest.fn().mockResolvedValue(undefined);
       repository.findById = jest.fn().mockResolvedValue(account);
 
-      const command = new LockAccountCommand('id');
+      const command = new LockAccountCommand(1);
 
       await expect(handler.execute(command)).resolves.toEqual(undefined);
       expect(repository.findById).toHaveBeenCalledTimes(1);
-      expect(repository.findById).toHaveBeenCalledWith('id');
+      expect(repository.findById).toHaveBeenCalledWith(1);
       expect(account.lock).toHaveBeenCalledTimes(1);
       expect(repository.save).toHaveBeenCalledTimes(1);
       expect(repository.save).toHaveBeenCalledWith(account);

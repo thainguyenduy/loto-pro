@@ -13,7 +13,7 @@ describe('Account', () => {
   beforeEach(() => {
     phone = Phone.create({ value: '0912321938' });
     data = {
-      id: 'id',
+      id: 1,
       phone,
       password: Password.create({ value: '123456', hashed: true }),
       deviceId: 'abcxyz',
@@ -28,7 +28,7 @@ describe('Account', () => {
       const appliedEvent = account.getUncommittedEvents();
 
       expect(appliedEvent).toEqual([
-        new AccountActivationExtendedEvent('id', 'abcxyz', phone, date),
+        new AccountActivationExtendedEvent(1, 'abcxyz', phone, date),
       ]);
     });
   });
@@ -38,7 +38,7 @@ describe('Account', () => {
       account.updatePassword('password');
       expect(account.getUncommittedEvents().length).toEqual(1);
       expect(account.getUncommittedEvents()).toEqual([
-        new PasswordUpdatedEvent('id', phone),
+        new PasswordUpdatedEvent(1, phone),
       ]);
       expect(account.updatePassword('password')).toEqual(undefined);
     });
@@ -48,7 +48,7 @@ describe('Account', () => {
     it('should throw UnprocessableEntityException when account has already been locked', () => {
       const phone = Phone.create({ value: '0912321938' });
       const data = {
-        id: 'id',
+        id: 1,
         phone,
         password: Password.create({ value: '123456', hashed: true }),
         deviceId: 'abcxyz',
@@ -62,7 +62,7 @@ describe('Account', () => {
       account.lock();
 
       expect(account.getUncommittedEvents()).toEqual([
-        new AccountLockedEvent('id', phone),
+        new AccountLockedEvent(1, phone),
       ]);
     });
   });
