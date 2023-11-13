@@ -6,12 +6,20 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     restart: always
+    ports:
+      - 5000:5000
     env_file:
       - .env
     volumes:
       - ./src:/app/src:ro
       - ./libs:/app/libs:ro
-
+    depends_on:
+      - db
+    # command: bash -c 'while !</dev/tcp/db/3306; do sleep 1; done; npm start:debug'
+    networks:
+      - app-tier
+    extra_hosts:
+      - 'host.docker.internal:172.17.0.1'
   db:
     image: mysql
     restart: always
@@ -25,9 +33,14 @@ services:
       - SYS_NICE
     volumes:
       - ./database/lddb:/var/lib/mysql
-
+    networks:
+      - app-tier
   adminer:
     image: adminer
     restart: always
     ports:
       - 8080:8080
+
+networks:
+  app-tier:
+    driver: bridge
