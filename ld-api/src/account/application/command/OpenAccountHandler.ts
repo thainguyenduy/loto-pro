@@ -8,7 +8,7 @@ import { InjectionToken } from '../InjectionToken';
 
 import { AccountFactory } from '../../domain/AccountFactory';
 import { IAccountRepository } from '../IAccountRepository';
-import { Password, Phone } from '../../../../libs/domain';
+import { Password, Phone, PrizeGiaiNhat } from '../../../../libs/domain';
 import { AccountDeviceChangedEvent } from '../../domain/event/AccountDeviceChangedEvent';
 
 @CommandHandler(OpenAccountCommand)
@@ -24,6 +24,7 @@ export class OpenAccountHandler
   async execute(command: OpenAccountCommand): Promise<void> {
     const account = this.accountFactory.create({
       ...command,
+      prize: Prize.create({ value: command.giaibay, length: 2, amount: 4 }),
       password: Password.create({ value: command.password }),
       phone: Phone.create({ value: command.phone }),
       deviceId: command.deviceId,
