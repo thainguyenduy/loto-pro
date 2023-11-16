@@ -8,10 +8,12 @@ import {
   GiaiNam,
   GiaiSau,
   GiaiBay,
+  Day,
 } from 'libs/domain';
 
 export type LotteryResultProps = Readonly<
   Required<{
+    day: Day;
     giaiDacBiet: GiaiDacBiet;
     giaiNhat: GiaiNhat;
     giaiNhi: GiaiNhi;
@@ -32,15 +34,16 @@ export class LotteryResult
   extends Entity<LotteryResultProps>
   implements ILotteryResult
 {
-  private readonly giaiDacBiet: GiaiDacBiet;
-  private readonly giaiNhat: GiaiNhat;
-  private readonly giaiNhi: GiaiNhi;
-  private readonly giaiBa: GiaiBa;
-  private readonly giaiTu: GiaiTu;
-  private readonly giaiNam: GiaiNam;
-  private readonly giaiSau: GiaiSau;
-  private readonly giaiBay: GiaiBay;
-  private constructor(options: LotteryResultProps) {
+  readonly day: Day;
+  readonly giaiDacBiet: GiaiDacBiet;
+  readonly giaiNhat: GiaiNhat;
+  readonly giaiNhi: GiaiNhi;
+  readonly giaiBa: GiaiBa;
+  readonly giaiTu: GiaiTu;
+  readonly giaiNam: GiaiNam;
+  readonly giaiSau: GiaiSau;
+  readonly giaiBay: GiaiBay;
+  constructor(options: LotteryResultProps) {
     super(options);
   }
   public compare(result: LotteryResult): boolean {

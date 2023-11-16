@@ -14,4 +14,11 @@ export class LotteryResultFactory {
       LotteryResult.create(options) as LotteryResult,
     );
   }
+  reconstitute(
+    properties: LotteryResultProps & { id: number },
+  ): ILotteryResult {
+    return this.eventPublisher.mergeObjectContext(
+      LotteryResult.create(properties) as LotteryResult,
+    );
+  }
 }

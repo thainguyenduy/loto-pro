@@ -1,5 +1,8 @@
+import { Day } from 'libs/domain';
 import { ILotteryResult } from '../domain/LotteryResult';
+import { IParserContentStrategy } from '../infrastructure/LotteryResultService';
 
 export interface ILotteryResultService {
-  getLotteryResult: (day: string) => Promise<ILotteryResult>;
+  parser: IParserContentStrategy;
+  getLotteryResult: (day: Day) => Promise<ILotteryResult>;
 }

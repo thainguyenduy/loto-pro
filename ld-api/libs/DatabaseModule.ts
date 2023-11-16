@@ -19,6 +19,7 @@ import { AccountEntity } from 'src/account/infrastructure/entity/AccountEntity';
 import { v4 } from 'uuid';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DeviceEntity } from 'src/account/infrastructure/entity/DeviceEntity';
+import { LotteryResultEntity } from 'src/lottery-result/infrastructure/entity/LotteryResultEntity';
 
 interface WriteConnection {
   readonly startTransaction: (
@@ -54,7 +55,7 @@ class DatabaseService implements OnModuleInit, OnModuleDestroy {
   constructor(private config: ConfigService) {}
   private readonly dataSource = new DataSource({
     type: 'mysql',
-    entities: [AccountEntity, DeviceEntity],
+    entities: [AccountEntity, DeviceEntity, LotteryResultEntity],
     charset: 'utf8mb4_unicode_ci',
     logging: this.config.get<boolean>('DATABASE_LOGGING'),
     host: this.config.get<string>('DATABASE_HOST'),

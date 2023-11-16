@@ -1,6 +1,9 @@
-type K = "giaidacbiet"|"giainhat";
+type K = 'giaidacbiet' | 'giainhat';
+import type { BrowserContext } from 'puppeteer';
+import { InjectContext } from 'nest-puppeteer';
 
 import {
+  Day,
   GiaiBa,
   GiaiBay,
   GiaiDacBiet,
@@ -20,18 +23,19 @@ export interface IParserContentStrategy {
   parse: (content: any) => Promise<ILotteryResult>;
 }
 export class LotteryResultService implements ILotteryResultService {
+  @Inject() private readonly lotteryResultFactory: LotteryResultFactory;
   private _parser: IParserContentStrategy;
   constructor(
     @InjectContext() private readonly browserContext: BrowserContext,
-    ) {}
+  ) {}
   set parser(parser: IParserContentStrategy) {
-      this._parser = parser;
-    }
-  async getLotteryResult(day: string): Promise<ILotteryResult> {
+    this._parser = parser;
+  }
+  async getLotteryResult(day: Day): Promise<ILotteryResult> {
     let data: Record<K, any[]>;
     const page = await this.browserContext.newPage();
     await page.goto(this._parser.url);
-    
+
     data = await this._parser.parse(await page.content());
     return this.lotteryResultFactory.create({
       giaiDacBiet: GiaiDacBiet.create({ value: data.giaidacbiet }),
@@ -44,15 +48,13 @@ export class LotteryResultService implements ILotteryResultService {
       giaiBay: GiaiBay.create({ value: data[7] }),
     });
   }
-  }
-  
 }
 
 export class SXMBParserContentStrategy implements IParserContentStrategy {
-  @Inject() private readonly lotteryResultFactory: LotteryResultFactory;
-  public readonly url: string = 'https://xosodaiphat.com/xsmb-xo-so-mien-bac.html';
+  public readonly url: string =
+    'https://xosodaiphat.com/xsmb-xo-so-mien-bac.html';
   parse(content: any): Promise<ILotteryResult> {
     let data: Record<K, any[]>;
-    
+    return;
   }
 }

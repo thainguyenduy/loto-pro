@@ -1,6 +1,13 @@
 import { Logger } from '@nestjs/common';
+import { InjectionToken } from './application/InjectionToken';
 
-const infrastructure: Provider[] = [ConfigService];
+const infrastructure: Provider[] = [
+  ConfigService,
+  {
+    provide: InjectionToken.LOTTERY_RESULT_REPOSITORY,
+    useClass: LotteryResultRepository,
+  },
+];
 
 const application = [];
 
@@ -14,7 +21,5 @@ const domain = [LotteryResultFactory];
 export class AccountsModule {
   // TODO:
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
-  async getLotteryResult(): Promise<void> {
-    
-  }
+  async getLotteryResult(): Promise<void> {}
 }
