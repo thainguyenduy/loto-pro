@@ -1,4 +1,7 @@
-import 'package:flutter/widgets.dart';
-import 'package:flutter_login/app.dart';
+import 'package:flutter/material.dart';
 
-void main() => runApp(const App());
+import './src/app.dart';
+
+void main() {
+  runApp(const MyApp());
+}
