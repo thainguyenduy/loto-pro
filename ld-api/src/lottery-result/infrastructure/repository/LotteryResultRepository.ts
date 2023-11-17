@@ -18,18 +18,17 @@ export class LotteryResultRepository implements ILotteryResultRepository {
   @Inject() private readonly lotteryResultFactory: LotteryResultFactory;
 
   async save(lotteryResult: LotteryResult): Promise<ILotteryResult> {
-    const data = this.modelToEntity(lotteryResult);
-    {
-      const entity = await writeConnection.manager
-        .getRepository(LotteryResultEntity)
-        .findOneBy({ day: lotteryResult.day.value });
-      if (entity)
-        throw new BadRequestException(ErrorMessage.ACCOUNT_IS_EXISTED);
-    }
+    const lotteryResultEntity = this.modelToEntity(lotteryResult);
+
+    const entity = await writeConnection.manager
+      .getRepository(LotteryResultEntity)
+      .findOneBy({ day: lotteryResult.day.value });
+    if (entity) throw new BadRequestException(ErrorMessage.ACCOUNT_IS_EXISTED);
+
     return await writeConnection.manager
       .getRepository(LotteryResultEntity)
-      .save(data)
-      .then((data) => data.map((entity) => this.entityToModel(entity)));
+      .save(lotteryResultEntity)
+      .then((entity) => this.entityToModel(entity));
     // return result.map((entity) => this.entityToModel(entity));
   }
 
