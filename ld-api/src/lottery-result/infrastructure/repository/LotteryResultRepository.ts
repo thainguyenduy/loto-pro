@@ -18,7 +18,7 @@ export class LotteryResultRepository implements ILotteryResultRepository {
   @Inject() private readonly lotteryResultFactory: LotteryResultFactory;
 
   async save(lotteryResult: LotteryResult): Promise<ILotteryResult> {
-    const LotteryResultEntity = this.modelToEntity(lotteryResult);
+    const data = this.modelToEntity(lotteryResult);
     {
       const entity = await writeConnection.manager
         .getRepository(LotteryResultEntity)
@@ -28,8 +28,8 @@ export class LotteryResultRepository implements ILotteryResultRepository {
     }
     return await writeConnection.manager
       .getRepository(LotteryResultEntity)
-      .save(entities)
-      .then((entities) => entities.map((entity) => this.entityToModel(entity)));
+      .save(data)
+      .then((data) => data.map((entity) => this.entityToModel(entity)));
     // return result.map((entity) => this.entityToModel(entity));
   }
 
