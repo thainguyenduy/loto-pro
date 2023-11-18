@@ -13,7 +13,7 @@ import { ILotteryResultService } from '../../application/ILotteryResultService';
 import { ILotteryResult } from '../../domain/LotteryResult';
 import { LotteryResultFactory } from '../../domain/LotteryResultFactory';
 import { Inject } from '@nestjs/common';
-import puppeteer, { Page } from 'puppeteer-core';
+import puppeteer, { Page, executablePath } from 'puppeteer-core';
 
 const DEFAULT_NAVIGATION_TIMEOUT = 2 * 60 * 1000;
 export interface IParserResultStrategy {
@@ -29,7 +29,12 @@ export class LotteryResultService implements ILotteryResultService {
     this.parserStrategy = parser;
   }
   async getLotteryResult(day: Day): Promise<ILotteryResult> {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      headless: true,
+
+      // add this
+      executablePath: executablePath(),
+    });
     try {
       const page = await browser.newPage();
       page.setDefaultNavigationTimeout(DEFAULT_NAVIGATION_TIMEOUT);
