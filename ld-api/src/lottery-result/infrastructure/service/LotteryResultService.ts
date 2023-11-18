@@ -15,6 +15,8 @@ import { LotteryResultFactory } from '../../domain/LotteryResultFactory';
 import { Inject } from '@nestjs/common';
 import puppeteer, { Page } from 'puppeteer-core';
 
+// require executablePath from puppeteer
+
 const DEFAULT_NAVIGATION_TIMEOUT = 2 * 60 * 1000;
 export interface IParserResultStrategy {
   readonly day: string;
