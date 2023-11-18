@@ -6,15 +6,21 @@ import { CommandBus, CqrsModule } from '@nestjs/cqrs';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { GetLotteryResultCommand } from './application/command/GetLotteryResultCommand';
 import { Day } from 'libs/domain';
+import { GetLotteryResultCommandHandler } from './application/command/GetLotteryResultCommandHandler';
+import { LotteryResultService } from './infrastructure/service/LotteryResultService';
 
 const infrastructure: Provider[] = [
   {
     provide: InjectionToken.LOTTERY_RESULT_REPOSITORY,
     useClass: LotteryResultRepository,
   },
+  {
+    provide: InjectionToken.LOTTERY_RESULT_SERVICE,
+    useClass: LotteryResultService,
+  },
 ];
 
-const application = [];
+const application = [GetLotteryResultCommandHandler];
 
 const domain = [LotteryResultFactory];
 

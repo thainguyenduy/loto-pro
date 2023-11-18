@@ -1,5 +1,5 @@
 import { Day } from 'libs/domain';
-import { ILotteryResult } from './domain/LotteryResult';
+import { ILotteryResult } from '../domain/LotteryResult';
 
 export interface ILotteryResultRepository {
   save: (lotteryResult: ILotteryResult) => Promise<ILotteryResult>;

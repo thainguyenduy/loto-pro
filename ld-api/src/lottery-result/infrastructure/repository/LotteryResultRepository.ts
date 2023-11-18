@@ -3,7 +3,7 @@ import { BadRequestException, Inject } from '@nestjs/common';
 import { writeConnection } from 'libs/DatabaseModule';
 
 import * as domain from 'libs/domain';
-import { ILotteryResultRepository } from 'src/lottery-result/ILotteryResultRepository';
+import { ILotteryResultRepository } from 'src/lottery-result/application/ILotteryResultRepository';
 import { LotteryResultFactory } from 'src/lottery-result/domain/LotteryResultFactory';
 import {
   ILotteryResult,
