@@ -31,10 +31,12 @@ const domain = [LotteryResultFactory];
 })
 export class LotteryResultModule {
   @Inject() private commandBus: CommandBus;
+
   @Cron(CronExpression.EVERY_SECOND)
+  // @Cron('1 * * * * *')
   async getLotteryResult(): Promise<void> {
     this.commandBus.execute(
-      new GetLotteryResultCommand(Day.create('19/11/2023')),
+      new GetLotteryResultCommand(Day.create('18-11-2023')),
     );
   }
 }
