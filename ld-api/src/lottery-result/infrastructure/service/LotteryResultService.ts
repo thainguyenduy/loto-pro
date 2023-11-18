@@ -17,9 +17,8 @@ import puppeteer, { Page, executablePath } from 'puppeteer-core';
 
 const DEFAULT_NAVIGATION_TIMEOUT = 2 * 60 * 1000;
 export interface IParserResultStrategy {
-  readonly day: string;
   readonly endpoint: string;
-  parse: (page: Page) => Promise<string[][]>;
+  parse: (page: Page, day: string) => Promise<string[][]>;
 }
 export class LotteryResultService implements ILotteryResultService {
   @Inject() private readonly lotteryResultFactory: LotteryResultFactory;
@@ -33,12 +32,12 @@ export class LotteryResultService implements ILotteryResultService {
       headless: true,
 
       // add this
-      executablePath: executablePath(),
+      executablePath: executablePath('chrome'),
     });
     try {
       const page = await browser.newPage();
       page.setDefaultNavigationTimeout(DEFAULT_NAVIGATION_TIMEOUT);
-      const data = await this.parserStrategy.parse(page);
+      const data = await this.parserStrategy.parse(page, day.value);
       return this.lotteryResultFactory.create({
         giaiDacBiet: GiaiDacBiet.create({ value: data[0] }),
         giaiNhat: GiaiNhat.create({ value: data[1] }),
@@ -69,18 +68,17 @@ export class KQXSParserResultStrategy implements IParserResultStrategy {
     'mb_prize_6',
     'mb_prize_7',
   ];
-  constructor(readonly day: string) {}
-  async parse(page: Page): Promise<string[][]> {
+  async parse(page: Page, day: string): Promise<string[][]> {
     await Promise.all([
       page.waitForNavigation(),
-      page.goto(`${this.endpoint}kqxs-${this.day}.html`),
+      page.goto(`${this.endpoint}kqxs-${day}.html`),
     ]);
-    const queries = await this.queryIds.map((id) => {
-      return page.$$eval(`'[id^="${id}"]'`, (items) => {
-        return items.map((item) => item.innerHTML);
+    const queries = this.queryIds.map((id) => {
+      return page.$$eval(`[id^="${id}"]`, (items) => {
+        return items.map((item) => item.innerHTML || '');
       });
     });
-    return Promise.all(queries);
+    return await Promise.all(queries);
   }
 }
 export class SXDaiPhatParserResultStrategy implements IParserResultStrategy {
@@ -97,7 +95,8 @@ export class SXDaiPhatParserResultStrategy implements IParserResultStrategy {
     'mb_prize_6',
     'mb_prize_7',
   ];
-  async parse(page: Page): Promise<string[][]> {
+  async parse(page: Page, day: string): Promise<string[][]> {
+    day;
     let data: string[][];
     await page.evaluate(() => {
       for (let i = 0; i < this.queryIds.length; i++) {

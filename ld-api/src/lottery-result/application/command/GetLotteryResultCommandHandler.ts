@@ -19,9 +19,7 @@ export class GetLotteryResultCommandHandler
   @Inject(InjectionToken.LOTTERY_RESULT_SERVICE)
   private readonly lotteryResultService: ILotteryResultService;
   async execute(command: GetLotteryResultCommand): Promise<void> {
-    this.lotteryResultService.parser = new KQXSParserResultStrategy(
-      command.day.value,
-    );
+    this.lotteryResultService.parser = new KQXSParserResultStrategy();
     const src1: ILotteryResult =
       await this.lotteryResultService.getLotteryResult(command.day);
     // TODO: implements new strategy for comparing result lottery
