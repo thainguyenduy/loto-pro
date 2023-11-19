@@ -12,7 +12,7 @@ import {
 import { ILotteryResultService } from '../../application/ILotteryResultService';
 import { ILotteryResult } from '../../domain/LotteryResult';
 import { LotteryResultFactory } from '../../domain/LotteryResultFactory';
-import { Inject } from '@nestjs/common';
+import { Inject, Logger } from '@nestjs/common';
 import puppeteer, { Page, executablePath } from 'puppeteer-core';
 
 // require executablePath from puppeteer
@@ -25,7 +25,8 @@ export interface IParserResultStrategy {
 export class LotteryResultService implements ILotteryResultService {
   @Inject() private readonly lotteryResultFactory: LotteryResultFactory;
   private parserStrategy: IParserResultStrategy;
-  constructor() {}
+  private readonly logger = new Logger(LotteryResultService.name);
+
   set parser(parser: IParserResultStrategy) {
     this.parserStrategy = parser;
   }
@@ -52,7 +53,7 @@ export class LotteryResultService implements ILotteryResultService {
         day: day,
       });
     } catch (e) {
-      throw e;
+      this.logger.error(e);
     } finally {
       await browser.close();
     }
@@ -76,9 +77,7 @@ export class KQXSParserResultStrategy implements IParserResultStrategy {
       page.goto(`${this.endpoint}kqxs-${day}.html`),
     ]);
     const queries = this.queryIds.map((id) => {
-      return page.$$eval(`[id^="${id}"]`, (items) => {
-        let test = document.querySelectorAll('mb_prize_DB');
-        console.log(test);
+      return page.$$eval(`[id^=${id}]`, (items) => {
         return items.map((item) => item.innerHTML || '');
       });
     });
