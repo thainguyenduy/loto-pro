@@ -30,7 +30,7 @@ export class LotteryResultService implements ILotteryResultService {
   }
   async getLotteryResult(day: Day): Promise<ILotteryResult> {
     const browser = await puppeteer.launch({
-      headless: true,
+      headless: false,
 
       // add this
       executablePath: executablePath('chrome'),
@@ -75,7 +75,7 @@ export class KQXSParserResultStrategy implements IParserResultStrategy {
       page.goto(`${this.endpoint}kqxs-${day}.html`),
     ]);
     const queries = this.queryIds.map((id) => {
-      return page.$$eval(`[id^=${id}]`, (items) => {
+      return page.$$eval(`[id^='${id}']`, (items: HTMLInputElement[]) => {
         return items.map((item) => item.innerHTML || '');
       });
     });

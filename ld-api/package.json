@@ -38,6 +38,7 @@
     "class-validator": "^0.14.0",
     "compression": "^1.7.4",
     "helmet": "^7.0.0",
+    "moment": "^2.29.4",
     "mysql": "^2.18.1",
     "puppeteer-core": "^21.5.2",
     "reflect-metadata": "^0.1.13",
