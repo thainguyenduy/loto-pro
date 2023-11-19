@@ -20,6 +20,7 @@ export class GetLotteryResultCommandHandler
   private readonly lotteryResultService: ILotteryResultService;
   async execute(command: GetLotteryResultCommand): Promise<void> {
     this.lotteryResultService.parser = new KQXSParserResultStrategy();
+    // this.lotteryResultService.parser = new SXDaiPhatParserResultStrategy();
     const src1: ILotteryResult =
       await this.lotteryResultService.getLotteryResult(command.day);
     // TODO: implements new strategy for comparing result lottery

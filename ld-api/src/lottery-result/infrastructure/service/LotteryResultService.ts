@@ -77,6 +77,8 @@ export class KQXSParserResultStrategy implements IParserResultStrategy {
     ]);
     const queries = this.queryIds.map((id) => {
       return page.$$eval(`[id^="${id}"]`, (items) => {
+        let test = document.querySelectorAll('mb_prize_DB');
+        console.log(test);
         return items.map((item) => item.innerHTML || '');
       });
     });
@@ -98,14 +100,37 @@ export class SXDaiPhatParserResultStrategy implements IParserResultStrategy {
     'mb_prize_7',
   ];
   async parse(page: Page, day: string): Promise<string[][]> {
-    day;
-    let data: string[][];
-    await page.evaluate(() => {
-      for (let i = 0; i < this.queryIds.length; i++) {
-        data[i] = this.selectPrize(this.queryIds[i]);
-      }
-    });
-    return data;
+    const resultsSelector = 'body';
+    const giaiDacBiet = await page.evaluate((resultsSelector) => {
+      // const results = Array.from(
+      //   // document.querySelectorAll('[id=^mb_prize_DB]'),
+      //   document.querySelectorAll('.special-prize-lg'),
+      // );
+      let test = Array.from(document.querySelectorAll('.special-prize-lg'));
+      return test.map((result) => {
+        const title = result.textContent.trim();
+        return title;
+      });
+    }, resultsSelector);
+
+    const giaiNhat = await page.evaluate((resultsSelector) => {
+      const results = Array.from(document.querySelectorAll('mb_prize_DB'));
+      return results.map((result) => {
+        const title = result.textContent.trim();
+        return title;
+      });
+    }, resultsSelector);
+
+    // day;
+    // let data: string[][];
+    // await page.evaluate(('body') => {
+    //   for (let i = 0; i < this.queryIds.length; i++) {
+    //     data[i] = this.selectPrize(this.queryIds[i]);
+    //   }
+    //   return data
+    // }, 'body');
+    // return data;
+    return [giaiDacBiet, giaiNhat];
   }
 
   private selectPrize(id: string): string[] {
