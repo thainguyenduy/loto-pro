@@ -8,7 +8,6 @@ import { GetLotteryResultCommand } from './application/command/GetLotteryResultC
 import { Day } from 'libs/domain';
 import { GetLotteryResultCommandHandler } from './application/command/GetLotteryResultCommandHandler';
 import { LotteryResultService } from './infrastructure/service/LotteryResultService';
-import moment from 'moment';
 
 const infrastructure: Provider[] = [
   {
@@ -37,9 +36,7 @@ export class LotteryResultModule {
   @Cron('1 * * * * *')
   async getLotteryResult(): Promise<void> {
     this.commandBus.execute(
-      new GetLotteryResultCommand(
-        Day.create(moment(new Date()).format('DD-MM-YYYY')),
-      ),
+      new GetLotteryResultCommand(Day.create(new Date())),
     );
   }
 }
