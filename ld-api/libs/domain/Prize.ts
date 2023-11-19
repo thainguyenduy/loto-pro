@@ -13,12 +13,10 @@ abstract class Prize extends ValueObject<IPrizeProperties> {
   }
   protected static isValid(prizeResult: IPrizeProperties): boolean {
     if (prizeResult.value.length !== this.amount) return false;
-
-    prizeResult.value.forEach((v) => {
-      if (v.toString().length !== this.len) return false;
-    });
-
-    return true;
+    // trả về true nếu mọi phần tử đều là number và có độ dài bằng this.len
+    return prizeResult.value.every(
+      (v) => !isNaN(parseInt(v)) && v.toString().length === this.len,
+    );
   }
 }
 

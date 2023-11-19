@@ -77,7 +77,7 @@ export class KQXSParserResultStrategy implements IParserResultStrategy {
       page.goto(`${this.endpoint}kqxs-${day}.html`),
     ]);
     const queries = this.queryIds.map((id) => {
-      return page.$$eval(`[id^=${id}]`, (items) => {
+      return page.$$eval(`[id^='${id}']`, (items: HTMLInputElement[]) => {
         return items.map((item) => item.innerHTML || '');
       });
     });
