@@ -27,7 +27,11 @@ export class GetLotteryResultCommandHandler
     // this.lotteryResultService.parser = new SXDaiPhatParserResultStrategy();
     // const src2: ILotteryResult = await this.lotteryResultService.getLotteryResult(command.day);
     // if src2.compare(src1);
-    this.lotteryResultRepository.save(src1);
+    try {
+      this.lotteryResultRepository.save(src1);
+    } catch (error) {
+      console.log(error);
+    }
     return;
   }
 }

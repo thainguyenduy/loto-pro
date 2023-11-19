@@ -32,7 +32,7 @@ const domain = [LotteryResultFactory];
 export class LotteryResultModule {
   @Inject() private commandBus: CommandBus;
 
-  @Cron(CronExpression.EVERY_SECOND)
+  @Cron(CronExpression.EVERY_MINUTE)
   // @Cron('1 * * * * *')
   async getLotteryResult(): Promise<void> {
     this.commandBus.execute(

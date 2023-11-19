@@ -32,7 +32,7 @@ export class LotteryResultService implements ILotteryResultService {
   }
   async getLotteryResult(day: Day): Promise<ILotteryResult> {
     const browser = await puppeteer.launch({
-      headless: true,
+      headless: false,
 
       // add this
       executablePath: executablePath('chrome'),

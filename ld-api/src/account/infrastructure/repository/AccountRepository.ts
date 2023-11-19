@@ -36,7 +36,9 @@ export class AccountRepository implements IAccountRepository {
         .getRepository(AccountEntity)
         .findOneBy({ phone: data.getPhone });
       if (entity)
-        throw new BadRequestException(ErrorMessage.ACCOUNT_IS_EXISTED);
+        throw new BadRequestException(
+          ErrorMessage.DAILY_LOTTERY_RESULT_EXISTED,
+        );
     }
     return await writeConnection.manager
       .getRepository(AccountEntity)
