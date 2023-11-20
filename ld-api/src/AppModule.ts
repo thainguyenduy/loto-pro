@@ -11,6 +11,7 @@ import { AppService } from 'src/AppService';
 import { AccountsModule } from './account/AccountModule';
 import { CacheModule } from '@nestjs/cache-manager';
 import { ConfigModule } from '@nestjs/config';
+import { LotteryResultModule } from './lottery-result/LotteryResultModule';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ConfigModule } from '@nestjs/config';
       envFilePath: '.env',
     }),
     AccountsModule,
+    LotteryResultModule,
     DatabaseModule,
     CacheModule.register({ isGlobal: true }),
     ThrottlerModule.forRoot(),

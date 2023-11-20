@@ -3,3 +3,4 @@ export * from './Password';
 export * from './Phone';
 
 export * from './Entity';
+export * from './Prize';
