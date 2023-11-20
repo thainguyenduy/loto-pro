@@ -14,8 +14,8 @@ import { AccountFactory } from 'src/account/domain/AccountFactory';
 import { IAccountRepository } from 'src/account/application/IAccountRepository';
 import { Like } from 'typeorm';
 import { Password, Phone } from 'libs/domain';
-import { ErrorMessage } from '../ErrorMessage';
 import { DeviceEntity } from '../entity/DeviceEntity';
+import { InfraErrorMessage } from 'src/lottery-result/infrastructure/InfraErrorMessage';
 
 export class AccountRepository implements IAccountRepository {
   @Inject() private readonly accountFactory: AccountFactory;
@@ -37,7 +37,7 @@ export class AccountRepository implements IAccountRepository {
         .findOneBy({ phone: data.getPhone });
       if (entity)
         throw new BadRequestException(
-          ErrorMessage.DAILY_LOTTERY_RESULT_EXISTED,
+          InfraErrorMessage.DAILY_LOTTERY_RESULT_EXISTED,
         );
     }
     return await writeConnection.manager

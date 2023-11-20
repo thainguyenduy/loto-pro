@@ -15,7 +15,7 @@ abstract class Prize extends ValueObject<IPrizeProperties> {
     if (prizeResult.value.length !== this.amount) return false;
     // trả về true nếu mọi phần tử đều là number và có độ dài bằng this.len
     return prizeResult.value.every(
-      (v) => !isNaN(parseInt(v)) && v.toString().length === this.len,
+      (v) => !isNaN(parseInt(v)) && v.toString().trim().length === this.len,
     );
   }
 }

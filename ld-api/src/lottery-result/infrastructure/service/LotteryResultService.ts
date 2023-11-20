@@ -78,7 +78,7 @@ export class KQXSParserResultStrategy implements IParserResultStrategy {
     ]);
     const queries = this.queryIds.map((id) => {
       return page.$$eval(`[id^='${id}']`, (items: HTMLInputElement[]) => {
-        return items.map((item) => item.innerHTML || '');
+        return items.map((item) => item.innerHTML.trim() || '');
       });
     });
     return await Promise.all(queries);
@@ -86,8 +86,7 @@ export class KQXSParserResultStrategy implements IParserResultStrategy {
 }
 export class SXDaiPhatParserResultStrategy implements IParserResultStrategy {
   day: string;
-  public readonly endpoint: string =
-    'https://xosodaiphat.com/xsmb-xo-so-mien-bac.html';
+  public readonly endpoint: string = 'https://xosodaiphat.com/';
   public readonly queryIds: string[] = [
     'mb_prize_DB',
     'mb_prize_1',
@@ -99,45 +98,15 @@ export class SXDaiPhatParserResultStrategy implements IParserResultStrategy {
     'mb_prize_7',
   ];
   async parse(page: Page, day: string): Promise<string[][]> {
-    const resultsSelector = 'body';
-    const giaiDacBiet = await page.evaluate((resultsSelector) => {
-      // const results = Array.from(
-      //   // document.querySelectorAll('[id=^mb_prize_DB]'),
-      //   document.querySelectorAll('.special-prize-lg'),
-      // );
-      let test = Array.from(document.querySelectorAll('.special-prize-lg'));
-      return test.map((result) => {
-        const title = result.textContent.trim();
-        return title;
+    await Promise.all([
+      page.waitForNavigation(),
+      page.goto(`${this.endpoint}xsmb-${day}.html`),
+    ]);
+    const queries = this.queryIds.map((id) => {
+      return page.$$eval(`[id^='${id}']`, (items: HTMLInputElement[]) => {
+        return items.map((item) => item.innerHTML.trim() || '');
       });
-    }, resultsSelector);
-
-    const giaiNhat = await page.evaluate((resultsSelector) => {
-      const results = Array.from(document.querySelectorAll('mb_prize_DB'));
-      return results.map((result) => {
-        const title = result.textContent.trim();
-        return title;
-      });
-    }, resultsSelector);
-
-    // day;
-    // let data: string[][];
-    // await page.evaluate(('body') => {
-    //   for (let i = 0; i < this.queryIds.length; i++) {
-    //     data[i] = this.selectPrize(this.queryIds[i]);
-    //   }
-    //   return data
-    // }, 'body');
-    // return data;
-    return [giaiDacBiet, giaiNhat];
-  }
-
-  private selectPrize(id: string): string[] {
-    const prize = [];
-    const prizeTags = document.querySelectorAll(`'[id^="${id}"]'`);
-    prizeTags.forEach((prizeTag) => {
-      prize.push(prizeTag.innerHTML);
     });
-    return prize;
+    return await Promise.all(queries);
   }
 }

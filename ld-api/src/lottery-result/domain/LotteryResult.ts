@@ -26,7 +26,16 @@ export type LotteryResultProps = Readonly<
 >;
 
 export interface ILotteryResult {
-  compare: (result: LotteryResult) => boolean;
+  readonly day: Day;
+  readonly giaiDacBiet: GiaiDacBiet;
+  readonly giaiNhat: GiaiNhat;
+  readonly giaiNhi: GiaiNhi;
+  readonly giaiBa: GiaiBa;
+  readonly giaiTu: GiaiTu;
+  readonly giaiNam: GiaiNam;
+  readonly giaiSau: GiaiSau;
+  readonly giaiBay: GiaiBay;
+  compare: (result: ILotteryResult) => boolean;
   // create: (options: LotteryResultProps) => ILotteryResult;
 }
 
@@ -46,8 +55,9 @@ export class LotteryResult
   constructor(options: LotteryResultProps) {
     super(options);
   }
-  public compare(result: LotteryResult): boolean {
+  public compare(result: ILotteryResult): boolean {
     return (
+      this.day.equals(result.day) &&
       this.giaiDacBiet.equals(result.giaiDacBiet) &&
       this.giaiNhat.equals(result.giaiNhat) &&
       this.giaiNhi.equals(result.giaiNhi) &&

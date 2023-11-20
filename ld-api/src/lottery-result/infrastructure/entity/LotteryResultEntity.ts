@@ -5,7 +5,7 @@ export class LotteryResultEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   day: string;
 
   @Column('simple-array')
