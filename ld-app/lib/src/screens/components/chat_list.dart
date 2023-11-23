@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:ld_app/src/domain/chat.dart';
+import 'package:ld_app/src/domain/message.dart';
 
-import '../models/chat.dart';
-import '../models/message.dart';
-import '../screens/chat.dart';
-import '../utils.dart';
+import '../chat/chat.dart';
+import 'utils.dart';
 
 class ChatList extends StatelessWidget {
   final List<Chat> chats;

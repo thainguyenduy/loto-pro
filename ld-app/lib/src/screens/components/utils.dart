@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
-import './models/chat.dart';
-import './models/message.dart';
-import './models/user.dart';
+import 'package:ld_app/src/domain/chat.dart';
+import 'package:ld_app/src/domain/message.dart';
+import 'package:ld_app/src/domain/user.dart';
 
 const _colors = [
   Color(0xffe17076),

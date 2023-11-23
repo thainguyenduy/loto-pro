@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:ld_app/src/domain/chat.dart';
 
 import '../components/bubbles.dart';
 import '../components/chat_info_title.dart';
-import '../models/chat.dart';
 
 class ChatScreen extends StatefulWidget {
   final Chat chat;

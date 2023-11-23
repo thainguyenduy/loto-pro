@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ld_app/src/utils.dart';
+import 'package:ld_app/src/domain/message.dart';
+import 'package:ld_app/src/screens/components/utils.dart';
 import 'package:intl/intl.dart';
 
-import '../models/message.dart';
 
 enum ChatMessageStatus {
   sending,
