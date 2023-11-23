@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:ld_app/src/domain/chat.dart';
 
 import '../components/chat_info_title.dart';
-import '../models/chat.dart';
-import '../utils.dart';
+import '../components/utils.dart';
 
 class ChatInfoScreen extends StatefulWidget {
   final Chat chat;

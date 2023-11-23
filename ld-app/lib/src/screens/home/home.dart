@@ -1,17 +1,19 @@
 import 'dart:math';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:ld_app/src/domain/chat.dart';
+import 'package:ld_app/src/domain/message.dart';
+import 'package:ld_app/src/domain/user.dart';
+import 'package:ld_app/src/screens/login/login_page.dart';
 
-import './chat.dart';
-import './login.dart';
-import './settings/menu.dart';
+import '../chat/chat.dart';
+import '../settings/menu.dart';
 import '../components/chat_list.dart';
 import '../components/search_chat_field.dart';
-import '../models/chat.dart';
-import '../models/message.dart';
-import '../models/user.dart';
 
+@RoutePage()
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -38,11 +40,13 @@ class _HomeScreenState extends State<HomeScreen> {
     final query = _searchController.text.toLowerCase();
     _displayChats.clear();
     if (query.isNotEmpty) {
-      _displayChats.addAll(_chats.where((chat) => chat.title.toLowerCase().contains(query)));
+      _displayChats.addAll(
+          _chats.where((chat) => chat.title.toLowerCase().contains(query)));
     } else {
       _displayChats.addAll(_chats);
     }
-    _displayChats.sort((a, b) => b.messages.last.date.compareTo(a.messages.last.date));
+    _displayChats
+        .sort((a, b) => b.messages.last.date.compareTo(a.messages.last.date));
   }
 
   static final savedMessages = PrivateChat(
@@ -51,7 +55,10 @@ class _HomeScreenState extends State<HomeScreen> {
     messages: List<Message>.generate(
       25,
       (i) => TextMessage(
-        text: generateWordPairs().take(Random().nextInt(3) + 1).map((e) => e.join(' ')).join(' '),
+        text: generateWordPairs()
+            .take(Random().nextInt(3) + 1)
+            .map((e) => e.join(' '))
+            .join(' '),
         date: _baseDate.add(Duration(minutes: i)),
         sender: User.me,
       ),
@@ -80,8 +87,9 @@ class _HomeScreenState extends State<HomeScreen> {
           random.nextInt(20) + 5,
           (i) {
             final date = baseDate.add(Duration(minutes: i));
-            final sender =
-                random.nextInt(3) == 0 ? User.me : members[random.nextInt(members.length)];
+            final sender = random.nextInt(3) == 0
+                ? User.me
+                : members[random.nextInt(members.length)];
             return random.nextBool()
                 ? TextMessage(
                     text: generateWordPairs()
@@ -94,7 +102,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 : PhotoMessage(
                     date: date,
                     sender: sender,
-                    photo: "https://picsum.photos/seed/${random.nextInt(2048)}/512?random=$i",
+                    photo:
+                        "https://picsum.photos/seed/${random.nextInt(2048)}/512?random=$i",
                   );
           },
         ),
@@ -125,7 +134,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 : PhotoMessage(
                     date: date,
                     sender: sender,
-                    photo: "https://picsum.photos/seed/${random.nextInt(2048)}/512?random=$i",
+                    photo:
+                        "https://picsum.photos/seed/${random.nextInt(2048)}/512?random=$i",
                   );
           },
         ),
@@ -155,7 +165,8 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Stack(
           children: [
             ChatList(chats: _displayChats),
-            SearchChatField(controller: _searchController, scaffoldKey: _scaffold),
+            SearchChatField(
+                controller: _searchController, scaffoldKey: _scaffold),
           ],
         ),
       ),
@@ -193,7 +204,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.pop(context);
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const SettingsHomeScreen()),
+                    MaterialPageRoute(
+                        builder: (context) => const SettingsHomeScreen()),
                   );
                 },
               ),
@@ -204,7 +216,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.pop(context);
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const LoginScreen()),
+                    MaterialPageRoute(builder: (context) => const LoginPage()),
                   );
                 },
               ),

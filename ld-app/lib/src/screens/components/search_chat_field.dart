@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ld_app/src/domain/user.dart';
 
-import '../models/user.dart';
-import '../utils.dart';
+import 'utils.dart';
 
 class SearchChatField extends StatelessWidget {
   final TextEditingController controller;

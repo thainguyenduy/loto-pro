@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:ld_app/src/domain/chat.dart';
 
-import '../models/chat.dart';
-import '../screens/chat_info.dart';
-import '../utils.dart';
+import '../chat/chat_info.dart';
+import 'utils.dart';
 
 class ChatInfoHeader extends StatelessWidget {
   final Chat chat;

@@ -1,15 +1,17 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import './home.dart';
+import '../home/home.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+@RoutePage()
+class TelegramSignInScreen extends StatefulWidget {
+  const TelegramSignInScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<TelegramSignInScreen> createState() => _TelegramSignInScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _TelegramSignInScreenState extends State<TelegramSignInScreen> {
   bool _codeSent = false;
   bool _passwordRequired = false;
 
@@ -40,7 +42,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   autofocus: true,
                   keyboardType: TextInputType.number,
-                  onSubmitted: (value) => setState(() => _passwordRequired = true),
+                  onSubmitted: (value) =>
+                      setState(() => _passwordRequired = true),
                 ),
               if (_passwordRequired)
                 TextField(
