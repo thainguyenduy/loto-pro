@@ -1,11 +1,14 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ld_app/src/domain/account.dart';
 import 'package:ld_app/src/infrastructure/auth/i_auth_facade.dart';
 
 @Singleton(as: IAuthFacade)
 class AuthFacade implements IAuthFacade {
+  Dio dio;
+  AuthFacade(this.dio);
   final _controller = StreamController<Account>();
   @override
   Stream<Account> get status async* {
@@ -14,6 +17,7 @@ class AuthFacade implements IAuthFacade {
   }
 
   /// Throws a [LogOutFailure] if an exception occurs.
+  @override
   Future<void> logOut() async {
     throw UnimplementedError();
   }
@@ -25,10 +29,12 @@ class AuthFacade implements IAuthFacade {
   }
 
   @override
-  Future<Token> signIn({
+  Future<Token> logIn({
     required String phone,
     required String password,
   }) {
+    final access_token =
+        dio.post('login', data: {phone: phone, password: password});
     // TODO: implement signIn
     throw UnimplementedError();
   }

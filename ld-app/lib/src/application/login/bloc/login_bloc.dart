@@ -53,7 +53,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (state.isValid) {
       emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
       try {
-        await authFacade.signIn(
+        await authFacade.logIn(
           phone: state.phone.value,
           password: state.password.value,
         );

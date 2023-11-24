@@ -8,7 +8,7 @@ class Token {
 abstract interface class IAuthFacade {
   Stream<Account> get status;
   Account? get currentAccount;
-  Future<Token> signIn({required String phone, required String password});
+  Future<Token> logIn({required String phone, required String password});
   Future<Account?> register({required String phone, required String password});
   Future<void> logOut();
 }
