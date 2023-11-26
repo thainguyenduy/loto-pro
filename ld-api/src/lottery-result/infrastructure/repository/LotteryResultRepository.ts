@@ -22,7 +22,9 @@ export class LotteryResultRepository implements ILotteryResultRepository {
 
     const entity = await writeConnection.manager
       .getRepository(LotteryResultEntity)
-      .findOneBy({ day: lotteryResult.day.value });
+      .findOneBy({
+        day: lotteryResult.day.value,
+      });
     if (entity)
       throw new BadRequestException(
         InfraErrorMessage.DAILY_LOTTERY_RESULT_EXISTED,

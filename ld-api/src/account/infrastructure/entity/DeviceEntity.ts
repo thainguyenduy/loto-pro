@@ -12,6 +12,9 @@ export class DeviceEntity extends BaseEntity {
   deviceId: string;
 
   @Column()
+  active: boolean;
+
+  @Column()
   accountId: number;
 
   @Column({ type: 'datetime', precision: 6, nullable: true })

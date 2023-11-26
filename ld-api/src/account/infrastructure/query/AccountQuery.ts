@@ -13,6 +13,7 @@ import { FindAccountsResult } from 'src/account/application/query/FindAccountsRe
 import { FindAccountsQuery } from 'src/account/application/query/FindAccountsQuery';
 import { IAccountQuery } from 'src/account/application/query/IAccountQuery';
 import { Like } from 'typeorm';
+import { DeviceEntity } from '../entity/DeviceEntity';
 
 @Injectable()
 export class AccountQuery implements IAccountQuery {
@@ -26,10 +27,12 @@ export class AccountQuery implements IAccountQuery {
       .then((entity) => entity || null);
   }
   async findOneByPhone(phone: string): Promise<{
+    activated: boolean;
     accountId: number;
     phone: string;
     deviceId: string;
     password: string;
+    devices: DeviceEntity[];
   } | null> {
     return readConnection
       .getRepository(AccountEntity)
@@ -41,6 +44,8 @@ export class AccountQuery implements IAccountQuery {
               phone: entity.phone,
               deviceId: entity.deviceId,
               password: entity.password,
+              devices: entity.devices,
+              activated: entity.activated,
             }
           : null,
       );

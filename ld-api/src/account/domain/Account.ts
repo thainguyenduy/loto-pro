@@ -1,10 +1,11 @@
 import { UnprocessableEntityException } from '@nestjs/common';
 import { Entity, Password, Phone } from '../../../libs/domain';
-import { AccountDeviceChangedEvent } from './event/AccountDeviceChangedEvent';
+import { AccountLoggedInEvent } from './event/AccountLoggedInEvent';
 import { AccountActivationExtendedEvent } from './event/AccountActivationExtendedEvent';
 import { PasswordUpdatedEvent } from './event/PasswordUpdatedEvent';
 import { AccountLockedEvent } from './event/AccountLockedEvent';
 import { AccountOpenedEvent } from './event/AccountOpenedEvent';
+import { Device } from './Device';
 
 export type AccountEssentialProps = Readonly<
   Required<{
@@ -44,17 +45,20 @@ export interface IAccount {
   lock: () => void;
   changeDevice: (device_id: string) => void;
   commit: () => void;
+  signOutDevice: (accountId: string) => void;
 }
 
 export class Account extends Entity<AccountProps> implements IAccount {
-  private readonly phone: Phone;
+  public readonly phone: Phone;
   private readonly createdAt: Date;
   private activated: boolean;
   private expirationDate: Date;
   private password: Password;
   private lockedAt: Date | null;
   private updatedAt: Date;
+  // khi dang nhap thanh cong thi cap nhat con` khi dang xuat thi xoa'
   private deviceId: string;
+  public devices: Device[];
 
   private constructor(props: AccountProps) {
     super(props);
@@ -79,7 +83,7 @@ export class Account extends Entity<AccountProps> implements IAccount {
   }
 
   get getUpdatedAt() {
-    return this.createdAt;
+    return this.updatedAt;
   }
 
   get getLockedAt() {
@@ -99,9 +103,7 @@ export class Account extends Entity<AccountProps> implements IAccount {
   }
   changeDevice(device_id: string): void {
     this.deviceId = device_id;
-    this.apply(
-      new AccountDeviceChangedEvent(this.id, this.deviceId, this.phone),
-    );
+    this.apply(new AccountLoggedInEvent(this.id, this.deviceId, this.phone));
   }
 
   active(expiration_date: Date): void {
@@ -130,5 +132,10 @@ export class Account extends Entity<AccountProps> implements IAccount {
     this.lockedAt = new Date();
     this.updatedAt = new Date();
     this.apply(new AccountLockedEvent(this.id, this.phone));
+  }
+  signOutDevice(): void {
+    const i = this.devices.findIndex((e) => e.getDeviceId == this.deviceId);
+    this.devices[i].active = false;
+    this.deviceId = null;
   }
 }

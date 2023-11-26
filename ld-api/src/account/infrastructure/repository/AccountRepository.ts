@@ -16,9 +16,11 @@ import { Like } from 'typeorm';
 import { Password, Phone } from 'libs/domain';
 import { DeviceEntity } from '../entity/DeviceEntity';
 import { InfraErrorMessage } from 'src/lottery-result/infrastructure/InfraErrorMessage';
+import { DeviceRepository } from './DeviceRepository';
 
 export class AccountRepository implements IAccountRepository {
   @Inject() private readonly accountFactory: AccountFactory;
+  @Inject() private readonly deviceRepository: DeviceRepository;
   @Inject(ENTITY_ID_TRANSFORMER)
   private readonly entityIdTransformer: EntityIdTransformer;
 
@@ -67,17 +69,22 @@ export class AccountRepository implements IAccountRepository {
       writeConnection.manager
         .getRepository(AccountEntity)
         .update(accountId, { deviceId }),
-      writeConnection.manager
-        .getRepository(DeviceEntity)
-        .upsert(
-          [{ updatedAt: new Date(), accountId: accountId, deviceId }],
-          ['deviceId'],
-        ),
+      writeConnection.manager.getRepository(DeviceEntity).upsert(
+        [
+          {
+            updatedAt: new Date(),
+            accountId: accountId,
+            deviceId,
+            active: true,
+          },
+        ],
+        ['deviceId'],
+      ),
     ]);
     return;
   }
 
-  private async modelToEntity(model: Account): Promise<AccountEntity> {
+  public async modelToEntity(model: Account): Promise<AccountEntity> {
     return new AccountEntity({
       ...model,
       id: model.Id,
@@ -89,11 +96,16 @@ export class AccountRepository implements IAccountRepository {
       updatedAt: model.getUpdatedAt,
       lockedAt: model.getLockedAt,
       expirationDate: model.getExpirationDate,
-      devices: [],
+      devices: await Promise.all(
+        model.devices.map(
+          async (device) => await this.deviceRepository.modelToEntity(device),
+        ),
+      ),
+      // devices: await this.deviceRepository.modelToEntity(model.devices),
     });
   }
 
-  private entityToModel(entity: AccountEntity): IAccount {
+  public entityToModel(entity: AccountEntity): IAccount {
     return this.accountFactory.reconstitute({
       ...entity,
       phone: Phone.create({ value: entity.phone }),

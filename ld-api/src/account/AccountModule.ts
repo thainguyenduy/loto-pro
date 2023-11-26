@@ -29,13 +29,19 @@ import { LockAccountHandler } from './application/command/LockAccountHandler';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoginAccountHandler } from './application/query/LoginAccountHandler';
-import { AccountDeviceChangedHandler } from './application/event/AccountDeviceChangedHandler';
 import { AuthGuard } from 'libs/Auth';
+import { AccountLoggedInEvent } from './domain/event/AccountLoggedInEvent';
+import { DeviceRepository } from './infrastructure/repository/DeviceRepository';
+import { DeviceFactory } from './domain/DeviceFactory';
 
 const infrastructure: Provider[] = [
   {
     provide: InjectionToken.ACCOUNT_REPOSITORY,
     useClass: AccountRepository,
+  },
+  {
+    provide: InjectionToken.DEVICE_REPOSITORY,
+    useClass: DeviceRepository,
   },
   {
     provide: InjectionToken.ACCOUNT_QUERY,
@@ -53,10 +59,10 @@ const application = [
   FindAccountsHandler,
   LockAccountHandler,
   LoginAccountHandler,
-  AccountDeviceChangedHandler,
+  AccountLoggedInEvent,
 ];
 
-const domain = [AccountFactory];
+const domain = [AccountFactory, DeviceFactory];
 
 @Module({
   imports: [
@@ -89,6 +95,7 @@ export class AccountsModule {
         .getRepository(AccountEntity)
         .findBy({ expirationDate: LessThan(new Date()) })
     ).forEach((account) =>
+      // FIXME: Refactor update with only one query
       this.commandBus.execute(new LockAccountCommand(account.id)),
     );
   }
