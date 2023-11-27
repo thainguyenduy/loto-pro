@@ -37,7 +37,7 @@ export class Device extends Entity<DeviceProps> implements IDevice {
   private lockedAt: Date | null;
   private accountId: number;
   private deviceId: string;
-  public account: Account;
+  // public account: Account;
 
   private constructor(props: DeviceProps) {
     super(props);

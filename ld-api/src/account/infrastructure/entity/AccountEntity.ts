@@ -26,7 +26,10 @@ export class AccountEntity extends BaseEntity {
   @Column({ type: 'datetime', precision: 6, nullable: true })
   expirationDate: Date | null;
 
-  @OneToMany(() => DeviceEntity, (device) => device.account, { eager: true })
+  @OneToMany(() => DeviceEntity, (device) => device.account, {
+    eager: true,
+    cascade: ['insert', 'update'],
+  })
   devices: DeviceEntity[];
   constructor(options: AccountEntity) {
     super();

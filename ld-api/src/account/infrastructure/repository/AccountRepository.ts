@@ -17,10 +17,12 @@ import { Password, Phone } from 'libs/domain';
 import { DeviceEntity } from '../entity/DeviceEntity';
 import { InfraErrorMessage } from 'src/lottery-result/infrastructure/InfraErrorMessage';
 import { DeviceRepository } from './DeviceRepository';
+import { InjectionToken } from 'src/account/application/InjectionToken';
 
 export class AccountRepository implements IAccountRepository {
+  @Inject(InjectionToken.DEVICE_REPOSITORY)
+  private readonly deviceRepository: DeviceRepository;
   @Inject() private readonly accountFactory: AccountFactory;
-  @Inject() private readonly deviceRepository: DeviceRepository;
   @Inject(ENTITY_ID_TRANSFORMER)
   private readonly entityIdTransformer: EntityIdTransformer;
 

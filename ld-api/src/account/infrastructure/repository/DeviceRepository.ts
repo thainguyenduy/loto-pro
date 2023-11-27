@@ -3,11 +3,9 @@ import { IDeviceRepository } from 'src/account/application/IDeviceRepository';
 import { Device, IDevice } from 'src/account/domain/Device';
 import { DeviceFactory } from 'src/account/domain/DeviceFactory';
 import { DeviceEntity } from '../entity/DeviceEntity';
-import { AccountRepository } from './AccountRepository';
 
 export class DeviceRepository implements IDeviceRepository {
   @Inject() private readonly deviceFactory: DeviceFactory;
-  @Inject() private readonly accountRepository: AccountRepository;
   public async modelToEntity(model: Device): Promise<DeviceEntity> {
     return new DeviceEntity({
       ...model,
@@ -18,7 +16,7 @@ export class DeviceRepository implements IDeviceRepository {
       createdAt: model.getCreatedAt,
       updatedAt: model.getUpdatedAt,
       lockedAt: model.getLockedAt,
-      account: await this.accountRepository.modelToEntity(model.account),
+      account: null,
     });
   }
 
