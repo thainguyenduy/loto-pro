@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { FindAccountByIdResult } from 'src/account/application/query/FindAccountByIdResult';
 
-export class FindAccountByIdResponseDTO extends FindAccountByIdResult {
+export class FindAccountByIdResponseDto extends FindAccountByIdResult {
   @ApiProperty({ example: 1 })
   readonly id: number;
 

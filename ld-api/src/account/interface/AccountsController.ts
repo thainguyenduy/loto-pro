@@ -27,9 +27,9 @@ import { FindAccountsRequestQueryString } from 'src/account/interface/dto/FindAc
 import { OpenAccountRequestDTO } from 'src/account/interface/dto/OpenAccountRequestDTO';
 import { UpdatePasswordRequestDTO } from 'src/account/interface/dto/UpdatePasswordRequestDTO';
 import { UpdatePasswordRequestParam } from 'src/account/interface/dto/UpdatePasswordRequestParam';
-import { FindAccountByIdResponseDTO } from 'src/account/interface/dto/FindAccountByIdResponseDTO';
+
 import { FindAccountsResponseDto } from 'src/account/interface/dto/FindAccountsResponseDto';
-import { LoginRequestParam } from './dto/LoginRequestParam';
+import { LoginRequestDto } from './dto/LoginRequestDto';
 import { LoginAccountQuery } from '../application/query/LoginAccountQuery';
 import { ResponseDescription } from 'src/account/interface/ResponseDescription';
 
@@ -39,7 +39,8 @@ import { FindAccountByIdQuery } from 'src/account/application/query/FindAccountB
 import { FindAccountsQuery } from 'src/account/application/query/FindAccountsQuery';
 
 import { CacheInterceptor } from '@nestjs/cache-manager';
-import { LoginRequestResponseDTO } from './dto/LoginRequestResponseDto';
+import { LoginRequestResponseDTO as LoginResponseDto } from './dto/LoginRequestResponseDto';
+import { SignOutAccountCommand } from '../application/command/SignOutAccountCommand';
 
 @ApiTags('Accounts')
 @Controller()
@@ -58,9 +59,7 @@ export class AccountsController {
   @ApiInternalServerErrorResponse({
     description: ResponseDescription.INTERNAL_SERVER_ERROR,
   })
-  async signIn(
-    @Body() body: LoginRequestParam,
-  ): Promise<LoginRequestResponseDTO> {
+  async signIn(@Body() body: LoginRequestDto): Promise<LoginResponseDto> {
     return this.queryBus.execute(
       new LoginAccountQuery(body.phone, body.password, body.deviceId),
     );
@@ -127,7 +126,7 @@ export class AccountsController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: ResponseDescription.OK,
-    type: FindAccountByIdResponseDTO,
+    type: FindAccountsResponseDto,
   })
   @ApiBadRequestResponse({ description: ResponseDescription.BAD_REQUEST })
   @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
@@ -136,7 +135,26 @@ export class AccountsController {
   })
   async findAccountById(
     @Param('accountId', ParseIntPipe) accountId: number,
-  ): Promise<FindAccountByIdResponseDTO> {
+  ): Promise<FindAccountsResponseDto> {
     return this.queryBus.execute(new FindAccountByIdQuery(accountId));
+  }
+
+  @Auth()
+  @Get('signout/:accountId/:deviceId')
+  // @UseInterceptors(CacheInterceptor)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: ResponseDescription.OK,
+  })
+  @ApiBadRequestResponse({ description: ResponseDescription.BAD_REQUEST })
+  @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
+  @ApiInternalServerErrorResponse({
+    description: ResponseDescription.INTERNAL_SERVER_ERROR,
+  })
+  async signOutAccount(
+    @Headers() header: AuthorizedHeader,
+    @Param('accountId', ParseIntPipe) accountId: number,
+  ): Promise<void> {
+    await this.commandBus.execute(new SignOutAccountCommand(accountId));
   }
 }

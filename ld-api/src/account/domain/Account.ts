@@ -23,6 +23,7 @@ export type AccountOptionalProps = Readonly<
     createdAt: Date;
     updatedAt: Date;
     lockedAt: Date | null;
+    devices: Device[] | Device;
   }>
 >;
 
@@ -45,7 +46,7 @@ export interface IAccount {
   lock: () => void;
   changeDevice: (device_id: string) => void;
   commit: () => void;
-  signOutDevice: (accountId: string) => void;
+  signOutDevice: () => void;
 }
 
 export class Account extends Entity<AccountProps> implements IAccount {

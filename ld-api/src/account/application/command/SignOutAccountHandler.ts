@@ -22,7 +22,7 @@ export class SignOutAccountCommandHandler
     );
     if (!account) throw new NotFoundException('Account is not found');
 
-    // account.signOutDevice();
+    account.signOutDevice();
 
     await this.accountRepository.save(account);
 

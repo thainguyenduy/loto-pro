@@ -1,5 +1,4 @@
 import { Entity } from 'libs/domain';
-import { Account } from './Account';
 
 export type DeviceEssentialProps = Readonly<
   Required<{

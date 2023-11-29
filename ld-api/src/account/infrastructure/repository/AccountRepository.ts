@@ -18,6 +18,7 @@ import { DeviceEntity } from '../entity/DeviceEntity';
 import { InfraErrorMessage } from 'src/lottery-result/infrastructure/InfraErrorMessage';
 import { DeviceRepository } from './DeviceRepository';
 import { InjectionToken } from 'src/account/application/InjectionToken';
+import { Device } from 'src/account/domain/Device';
 
 export class AccountRepository implements IAccountRepository {
   @Inject(InjectionToken.DEVICE_REPOSITORY)
@@ -114,6 +115,9 @@ export class AccountRepository implements IAccountRepository {
       password: Password.create({ value: entity.password, hashed: true }),
       id: entity.id,
       createdAt: entity.createdAt,
+      devices: Device.create(
+        this.deviceRepository.entityToModel(entity.devices),
+      ),
     });
   }
 }

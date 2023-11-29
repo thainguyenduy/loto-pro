@@ -33,6 +33,7 @@ import { AuthGuard } from 'libs/Auth';
 import { AccountLoggedInEvent } from './domain/event/AccountLoggedInEvent';
 import { DeviceRepository } from './infrastructure/repository/DeviceRepository';
 import { DeviceFactory } from './domain/DeviceFactory';
+import { SignOutAccountCommandHandler } from './application/command/SignOutAccountHandler';
 
 const infrastructure: Provider[] = [
   {
@@ -59,6 +60,7 @@ const application = [
   FindAccountsHandler,
   LockAccountHandler,
   LoginAccountHandler,
+  SignOutAccountCommandHandler,
   AccountLoggedInEvent,
 ];
 
