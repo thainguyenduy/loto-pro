@@ -1,29 +1,14 @@
-import 'package:dio/dio.dart';
-import 'package:fpdart/fpdart.dart';
-import 'package:ld_app/src/domain/account.dart';
+import 'dart:async';
 
-class Token {
-  String accessToken;
-  Token(this.accessToken);
-}
+import 'package:fpdart/fpdart.dart';
+import 'package:ld_app/src/application/app/app.dart';
+import 'package:ld_app/src/domain/account.dart';
+import 'package:ld_app/src/infrastructure/exception/network_error_handler.dart';
 
 abstract interface class IAuthFacade {
-  Stream<Account> get status;
-  Account? get currentAccount;
-  TaskEither<LoginFailure, Token> logIn(
+  Stream<AppStatus> get status;
+  TaskEither<NetworkErrorHandler, Unit> logIn(
       {required String phone, required String password});
   Future<Account?> register({required String phone, required String password});
   Future<void> logOut();
-}
-
-sealed class AuthFacadeFailure {}
-
-class LoginFailure extends AuthFacadeFailure {
-  String message;
-  LoginFailure(this.message);
-}
-
-class RegistrationFailure extends AuthFacadeFailure {
-  String message;
-  RegistrationFailure(this.message);
 }

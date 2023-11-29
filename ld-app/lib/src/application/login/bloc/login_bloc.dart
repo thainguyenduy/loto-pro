@@ -53,13 +53,17 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (state.isValid) {
       emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
       (await authFacade
-          .logIn(
-            phone: state.phone.value,
-            password: state.password.value,
-          )
-          .run()).fold(
-          (l) => emit(state.copyWith(status: FormzSubmissionStatus.failure)),
-          (r) => emit(state.copyWith(status: FormzSubmissionStatus.success)));
+              .logIn(
+                phone: state.phone.value,
+                password: state.password.value,
+              )
+              .run())
+          .fold(
+              (e) => emit(state.copyWith(
+                  status: FormzSubmissionStatus.failure,
+                  message: e.toString())),
+              (r) =>
+                  emit(state.copyWith(status: FormzSubmissionStatus.success)));
       /* try {
         await authFacade.logIn(
           phone: state.phone.value,

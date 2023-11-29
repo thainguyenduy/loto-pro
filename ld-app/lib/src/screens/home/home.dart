@@ -3,9 +3,11 @@ import 'dart:math';
 import 'package:auto_route/auto_route.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:ld_app/src/application/app/app.dart';
 import 'package:ld_app/src/domain/chat.dart';
 import 'package:ld_app/src/domain/message.dart';
 import 'package:ld_app/src/domain/user.dart';
+import 'package:ld_app/src/infrastructure/injector.dart';
 import 'package:ld_app/src/screens/login/login_page.dart';
 
 import '../chat/chat.dart';
@@ -213,11 +215,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 leading: const Icon(Icons.logout),
                 title: const Text("Logout"),
                 onTap: () {
+                  final app_bloc = locator<AppBloc>();
+                  app_bloc.add(const AppLogoutRequested());
                   Navigator.pop(context);
-                  Navigator.pushReplacement(
+                  /* Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => const LoginPage()),
-                  );
+                  ); */
                 },
               ),
             ],

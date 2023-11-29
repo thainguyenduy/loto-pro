@@ -1,8 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:ld_app/src/application/app/app.dart';
 import 'package:ld_app/src/infrastructure/injector.dart';
+import 'package:ld_app/src/screens/app.dart';
 import 'package:telegram_client/telegram_client.dart';
 import 'src/screens/app.dart';
 
@@ -20,6 +23,6 @@ void main() async {
   });
 
   await tg.initIsolate();
-  await configureDependencies();
-  runApp(const MyApp());
+  await configureDependencies(environment: 'dev');
+  runApp(const App());
 }

@@ -14,7 +14,8 @@ class LoginForm extends StatelessWidget {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
-              const SnackBar(content: Text('Authentication Failure')),
+              SnackBar(
+                  content: Text(state.message ?? 'Authentication Failure')),
             );
         }
       },
@@ -43,6 +44,7 @@ class _PhoneInput extends StatelessWidget {
       builder: (context, state) {
         return TextField(
           key: const Key('loginForm_phoneInput_textField'),
+          keyboardType: TextInputType.number,
           onChanged: (phone) =>
               context.read<LoginBloc>().add(LoginPhoneChanged(phone)),
           decoration: InputDecoration(

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
-import 'package:ld_app/src/domain/account.dart';
+import 'package:ld_app/src/domain/accessToken.dart';
 import 'package:ld_app/src/infrastructure/auth/i_auth_facade.dart';
 
 part 'app_event.dart';
@@ -15,25 +15,25 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   AppBloc(this.authFacade)
       : super(
-          authFacade.currentAccount != null
-              ? AppState.authenticated(authFacade.currentAccount!)
-              : const AppState.unauthenticated(),
+          const AppState.unauthenticated(),
         ) {
-    on<_AppAccountChanged>(_onAccountChanged);
+    on<_AppStatusChanged>(_onAppStatusChanged);
     on<AppLogoutRequested>(_onLogoutRequested);
-    _accountSubscription = authFacade.status.listen(
-      (account) => add(_AppAccountChanged(account)),
+    _appStatusSubscription = authFacade.status.listen(
+      (status) => add(_AppStatusChanged(status)),
     );
   }
 
-  late final StreamSubscription<Account> _accountSubscription;
+  late final StreamSubscription<AppStatus> _appStatusSubscription;
 
-  void _onAccountChanged(_AppAccountChanged event, Emitter<AppState> emit) {
-    emit(
-      event.account != null
-          ? AppState.authenticated(event.account)
-          : const AppState.unauthenticated(),
-    );
+  void _onAppStatusChanged(_AppStatusChanged event, Emitter<AppState> emit) {
+    switch (event.appStatus) {
+      case AppStatus.unauthenticated:
+        return emit(const AppState.unauthenticated());
+      case AppStatus.authenticated:
+        final accessToken = AccessToken.fromCache();
+        return emit(AppState.authenticated(accessToken));
+    }
   }
 
   void _onLogoutRequested(AppLogoutRequested event, Emitter<AppState> emit) {
@@ -42,7 +42,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   @override
   Future<void> close() {
-    _accountSubscription.cancel();
+    _appStatusSubscription.cancel();
     return super.close();
   }
 }

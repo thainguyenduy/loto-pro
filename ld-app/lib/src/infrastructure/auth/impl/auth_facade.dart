@@ -1,27 +1,38 @@
 import 'dart:async';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ld_app/src/application/app/app.dart';
+import 'package:ld_app/src/domain/accessToken.dart';
 import 'package:ld_app/src/domain/account.dart';
 import 'package:ld_app/src/infrastructure/auth/i_auth_facade.dart';
+import 'package:ld_app/src/infrastructure/device_info.dart';
+import 'package:ld_app/src/infrastructure/exception/network_error_handler.dart';
 
 @Singleton(as: IAuthFacade)
 class AuthFacade implements IAuthFacade {
   Dio dio;
-  AuthFacade(this.dio);
-  final _controller = StreamController<Account>();
+  DeviceInfo deviceInfo;
+  AuthFacade(this.dio, this.deviceInfo);
+  final _controller = StreamController<AppStatus>();
   @override
-  Stream<Account> get status async* {
-    await Future<void>.delayed(const Duration(seconds: 1));
+  Stream<AppStatus> get status async* {
+    final accessToken = AccessToken.fromCache();
+    if (accessToken.isValid) {
+      yield AppStatus.authenticated;
+    } else {
+      yield AppStatus.unauthenticated;
+    }
     yield* _controller.stream;
   }
 
   /// Throws a [LogOutFailure] if an exception occurs.
   @override
   Future<void> logOut() async {
-    throw UnimplementedError();
+    final accessToken = AccessToken.fromCache();
+    await accessToken.clear();
+    _controller.add(AppStatus.unauthenticated);
   }
 
   @override
@@ -31,39 +42,30 @@ class AuthFacade implements IAuthFacade {
   }
 
   @override
-  TaskEither<LoginFailure, Token> logIn({
+  TaskEither<NetworkErrorHandler, Unit> logIn({
     required String phone,
     required String password,
   }) {
-    return TaskEither.tryCatch(
+    TaskEither<Object, String> getDeviceId =
+        TaskEither.tryCatch(() => deviceInfo.deviceId, (_, __) => _);
+    return getDeviceId
+        .flatMap((deviceId) => TaskEither.tryCatch(
             () => dio.post('/login', data: {
                   'phone': phone,
                   'password': password,
-                  'deviceId': 'oifjwef'
+                  'deviceId': deviceId
                 }),
-            (_, __) => _)
-        .mapLeft((l) => LoginFailure(l.response.data['message'][0][0]))
-        .map((r) => Token(r.data));
-    /* try {
-      final accessToken = await dio.post('/login',
-          data: {'phone': phone, 'password': password, 'deviceId': 'oifjwef'});
-      // TODO: implement signIn
-      return Token(accessToken.data.toString());
-    } on DioException catch (e) {
-      throw UnimplementedError();
-    } */
+            (e, _) => e))
+        .flatMap((result) => TaskEither.fromTask(Task.Do(($) async {
+              final accessToken =
+                  AccessToken(result.data['accessToken'] as String);
+              accessToken.save();
+              _controller.add(AppStatus.authenticated);
+            })))
+        .map((_) {
+      return unit;
+    }).mapLeft((e) => NetworkErrorHandler<DioException>(e as DioException));
   }
 
-  @override
-  // TODO: implement currentAccount
-  Account? get currentAccount => null;
-}
-
-String logFailure(AuthFacadeFailure authFailure) {
-  switch (authFailure) {
-    case LoginFailure _:
-      return authFailure.message;
-    case RegistrationFailure _:
-      return authFailure.message;
-  }
+  void dispose() => _controller.close();
 }

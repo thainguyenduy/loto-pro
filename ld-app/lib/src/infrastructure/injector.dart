@@ -10,4 +10,5 @@ final locator = GetIt.instance;
   preferRelativeImports: true, // default
   asExtension: true, // default
 )
-Future<void> configureDependencies() async => await locator.init();
+Future<void> configureDependencies({String? environment}) async =>
+    await locator.init(environment: environment);

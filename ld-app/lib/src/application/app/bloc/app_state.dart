@@ -6,16 +6,15 @@ enum AppStatus {
 }
 
 final class AppState extends Equatable {
-  const AppState._({required this.status, this.account});
+  const AppState._({required this.status, this.accessToken});
 
-  const AppState.authenticated(Account account)
-      : this._(status: AppStatus.authenticated, account: account);
+  const AppState.authenticated(AccessToken accessToken)
+      : this._(status: AppStatus.authenticated, accessToken: accessToken);
 
   const AppState.unauthenticated() : this._(status: AppStatus.unauthenticated);
 
+  final AccessToken? accessToken;
   final AppStatus status;
-  final Account? account;
-
   @override
-  List<Object> get props => [status, account!];
+  List<Object> get props => [status];
 }
