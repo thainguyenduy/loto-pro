@@ -284,6 +284,13 @@ Start this api and connect http://localhost:5000/api in your browser.
   helm delete --purge <releasename> # delete helm chart
 ```
 
+## Troubleshooting
+
+- docker-compose: npm ci The `npm ci` command can only install with an existing package-lock.json or
+1.432 npm ERR! npm-shrinkwrap.json with lockfileVersion >= 1. Run an install with npm@5 or
+1.432 npm ERR! later to generate a package-lock.json file, then try again.
+  - Solution: `npm install`
+
 ## Links
 Github: [https://github.com/kyhsa93/nestjs-rest-cqrs-example](https://github.com/kyhsa93/nestjs-rest-cqrs-example)
 

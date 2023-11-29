@@ -3,9 +3,13 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  awesome_notifications
+  awesome_notifications_core
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
+  telegram_client_flutter
+  telegram_client_windows
 )
 
 set(PLUGIN_BUNDLED_LIBRARIES)
