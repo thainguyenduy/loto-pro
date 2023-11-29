@@ -16,7 +16,7 @@ class NetworkErrorHandler<E> {
 
 extension _DioExceptionExtension on DioException {
   String toErrorString() => response != null
-      ? response?.data['message'][0]
+      ? response?.data['message']?.first
       : type.toPrettyDescription();
 }
 

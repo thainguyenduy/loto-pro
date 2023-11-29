@@ -9,6 +9,9 @@ class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, LoginState>(
+      listenWhen: (previous, current) {
+        return previous.message != current.message;
+      },
       listener: (context, state) {
         if (state.status.isFailure) {
           ScaffoldMessenger.of(context)

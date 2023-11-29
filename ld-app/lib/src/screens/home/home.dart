@@ -215,8 +215,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 leading: const Icon(Icons.logout),
                 title: const Text("Logout"),
                 onTap: () {
-                  final app_bloc = locator<AppBloc>();
-                  app_bloc.add(const AppLogoutRequested());
+                  final appBloc = locator<AppBloc>();
+                  appBloc.add(const AppLogoutRequested());
                   Navigator.pop(context);
                   /* Navigator.pushReplacement(
                     context,

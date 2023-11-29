@@ -21,7 +21,8 @@ void main() async {
   tg.on("update", (UpdateTd update) {
     print(update.raw);
   });
-
+  tg.request("sendMessage",
+      parameters: {"chat_id": 4067410070, "text": "Hello world"});
   await tg.initIsolate();
   await configureDependencies(environment: 'dev');
   runApp(const App());
