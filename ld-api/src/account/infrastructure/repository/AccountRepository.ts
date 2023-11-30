@@ -19,11 +19,13 @@ import { InfraErrorMessage } from 'src/lottery-result/infrastructure/InfraErrorM
 import { DeviceRepository } from './DeviceRepository';
 import { InjectionToken } from 'src/account/application/InjectionToken';
 import { Device } from 'src/account/domain/Device';
+import { DeviceFactory } from 'src/account/domain/DeviceFactory';
 
 export class AccountRepository implements IAccountRepository {
   @Inject(InjectionToken.DEVICE_REPOSITORY)
   private readonly deviceRepository: DeviceRepository;
   @Inject() private readonly accountFactory: AccountFactory;
+  @Inject() private readonly deviceFactory: DeviceFactory;
   @Inject(ENTITY_ID_TRANSFORMER)
   private readonly entityIdTransformer: EntityIdTransformer;
 
@@ -115,9 +117,23 @@ export class AccountRepository implements IAccountRepository {
       password: Password.create({ value: entity.password, hashed: true }),
       id: entity.id,
       createdAt: entity.createdAt,
-      devices: Device.create(
-        this.deviceRepository.entityToModel(entity.devices),
+      devices: entity.devices.map(
+        (device) =>
+          this.deviceFactory.reconstitute({
+            ...device,
+            accountId: null,
+            id: null,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          }) as Device,
       ),
+      // devices: Device.create({
+      //   ...entity.devices[0],
+      //   id: null,
+      //   lockedAt: null,
+      //   createdAt: new Date(),
+      //   updatedAt: new Date(),
+      // }),
     });
   }
 }

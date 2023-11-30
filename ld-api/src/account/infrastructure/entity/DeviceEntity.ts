@@ -14,8 +14,8 @@ export class DeviceEntity extends BaseEntity {
   @Column()
   active: boolean;
 
-  @Column()
-  accountId: number;
+  @Column({ nullable: true })
+  accountId?: number;
 
   @Column({ type: 'datetime', precision: 6, nullable: true })
   lockedAt: Date | null;

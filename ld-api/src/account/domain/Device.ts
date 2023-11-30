@@ -4,12 +4,12 @@ export type DeviceEssentialProps = Readonly<
   Required<{
     deviceId: string;
     active: boolean;
-    accountId: number;
   }>
 >;
 
 export type DeviceOptionalProps = Readonly<
   Partial<{
+    accountId: number;
     id: number;
     createdAt: Date;
     updatedAt: Date;
@@ -34,7 +34,7 @@ export class Device extends Entity<DeviceProps> implements IDevice {
   private readonly updatedAt: Date;
   public active: boolean;
   private lockedAt: Date | null;
-  private accountId: number;
+  private accountId?: number;
   private deviceId: string;
   // public account: Account;
 

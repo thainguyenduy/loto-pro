@@ -11,7 +11,7 @@ export class DeviceRepository implements IDeviceRepository {
       ...model,
       id: model.Id,
       active: model.active,
-      accountId: model.getAccountId,
+      // accountId: model.getAccountId,
       deviceId: model.getDeviceId,
       createdAt: model.getCreatedAt,
       updatedAt: model.getUpdatedAt,

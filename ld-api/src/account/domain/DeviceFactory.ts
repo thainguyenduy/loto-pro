@@ -6,7 +6,6 @@ import { IDevice, DeviceProps, Device } from './Device';
 type CreateDeviceOptions = Readonly<{
   deviceId: string;
   active: boolean;
-  accountId: number;
 }>;
 
 export class DeviceFactory {
@@ -17,6 +16,7 @@ export class DeviceFactory {
       Device.create({
         ...options,
         id: null,
+        accountId: null,
         lockedAt: null,
         createdAt: new Date(),
         updatedAt: new Date(),

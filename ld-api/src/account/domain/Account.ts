@@ -15,6 +15,8 @@ export type AccountEssentialProps = Readonly<
   }>
 >;
 
+/* TODO: Refactor partial type: no need to provide 
+values for all fields when using factory create */
 export type AccountOptionalProps = Readonly<
   Partial<{
     id: number;
@@ -23,7 +25,7 @@ export type AccountOptionalProps = Readonly<
     createdAt: Date;
     updatedAt: Date;
     lockedAt: Date | null;
-    devices: Device[] | Device;
+    devices: Device[];
   }>
 >;
 
