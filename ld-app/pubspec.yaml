@@ -58,8 +58,7 @@ dependencies:
   shared_preferences: ^2.2.2
   sqfentity: ^2.4.0
   sqfentity_gen: ^2.4.0
-  telegram_client_flutter: ^0.0.15
-  telegram_client: ^0.5.82
+  teledart: ^0.6.1
   
 dev_dependencies:
   flutter_test:
