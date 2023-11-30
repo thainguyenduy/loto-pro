@@ -4,12 +4,12 @@ import { FindAccountsResult } from './FindAccountsResult';
 import { DeviceEntity } from 'src/account/infrastructure/entity/DeviceEntity';
 
 export interface IAccountQuery {
-  findById: (id: number) => Promise<FindAccountByIdResult | null>;
+  findById: (id: string) => Promise<FindAccountByIdResult | null>;
   findByPhone: (query: FindAccountsQuery) => Promise<FindAccountsResult>;
   findOneByPhone: (phone: string) => Promise<{
     activated: boolean;
     devices: DeviceEntity[];
-    accountId: number;
+    accountId: string;
     phone: string;
     deviceId: string;
     password: string;

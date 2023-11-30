@@ -32,15 +32,16 @@ export class OpenAccountHandler
     account.open();
 
     const accounts = await this.accountRepository.save(account);
-    if (accounts.length > 0)
+    if (accounts.length > 0) {
+      const account = (await accounts[0].toPlainObject()) as any;
       this.eventBus.publish(
         new AccountLoggedInEvent(
-          accounts[0].Id,
+          account.id,
           command.deviceId,
           Phone.create({ value: command.phone }),
         ),
       );
-
+    }
     account.commit();
   }
 }

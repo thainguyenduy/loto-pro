@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
 
 export class LockAccountCommand implements ICommand {
-  constructor(readonly accountId: number) {}
+  constructor(readonly accountId: string) {}
 }

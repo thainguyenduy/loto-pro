@@ -1,8 +1,8 @@
 import { IEvent } from '@nestjs/cqrs';
-import { Phone } from '../../../../libs/domain';
+import { Id, Phone } from '../../../../libs/domain';
 export class AccountActivationExtendedEvent implements IEvent {
   constructor(
-    readonly id: number,
+    readonly id: Id,
     readonly deviceId: string,
     readonly phone: Phone,
     readonly expirationDate: Date,
