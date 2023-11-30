@@ -9,7 +9,9 @@ interface ValueObjectProps {
 
 export abstract class ValueObject<T extends ValueObjectProps> {
   public props: T;
-  abstract get value(): any;
+  get value(): any {
+    return this.props.value;
+  }
   constructor(props: T) {
     const baseProps: any = {
       ...props,

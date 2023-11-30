@@ -20,7 +20,7 @@ export class AccountQuery implements IAccountQuery {
   @Inject(ENTITY_ID_TRANSFORMER)
   private readonly entityIdTransformer: EntityIdTransformer;
 
-  async findById(id: number): Promise<FindAccountByIdResult | null> {
+  async findById(id: string): Promise<FindAccountByIdResult | null> {
     return readConnection
       .getRepository(AccountEntity)
       .findOneBy({ id })
@@ -28,7 +28,7 @@ export class AccountQuery implements IAccountQuery {
   }
   async findOneByPhone(phone: string): Promise<{
     activated: boolean;
-    accountId: number;
+    accountId: string;
     phone: string;
     deviceId: string;
     password: string;

@@ -1,11 +1,12 @@
 import { AggregateRoot } from '@nestjs/cqrs';
+import { Id } from './Id';
 
 const isEntity = (v: any): v is Entity<any> => {
   return v instanceof Entity;
 };
 
 export abstract class Entity<T> extends AggregateRoot {
-  protected readonly id?: number;
+  private readonly id: Id;
   constructor(props: T) {
     super();
     Object.assign(this, props);
@@ -27,6 +28,6 @@ export abstract class Entity<T> extends AggregateRoot {
       return false;
     }
 
-    return this.id === object.id;
+    return this.id.equals(object.id);
   }
 }

@@ -2,8 +2,10 @@ import { Inject } from '@nestjs/common';
 import { EventPublisher } from '@nestjs/cqrs';
 
 import { IDevice, DeviceProps, Device } from './Device';
+import { Id } from 'libs/domain';
 
 type CreateDeviceOptions = Readonly<{
+  accountId: Id;
   deviceId: string;
   active: boolean;
 }>;
@@ -12,19 +14,16 @@ export class DeviceFactory {
   @Inject(EventPublisher) private readonly eventPublisher: EventPublisher;
 
   create(options: CreateDeviceOptions): IDevice {
+    const dId = Id.create();
     return this.eventPublisher.mergeObjectContext(
-      Device.create({
+      new Device({
         ...options,
-        id: null,
-        accountId: null,
-        lockedAt: null,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        id: dId,
       }),
-    );
+    ) as IDevice;
   }
 
   reconstitute(properties: DeviceProps): IDevice {
-    return this.eventPublisher.mergeObjectContext(Device.create(properties));
+    return this.eventPublisher.mergeObjectContext(new Device(properties));
   }
 }

@@ -6,7 +6,7 @@ import { InjectionToken } from '../InjectionToken';
 import { JwtService } from '@nestjs/jwt';
 import { ErrorMessage } from 'src/account/domain/ErrorMessage';
 import { IAccountQuery } from './IAccountQuery';
-import { Password, Phone } from 'libs/domain';
+import { Id, Password, Phone } from 'libs/domain';
 import { ConfigService } from '@nestjs/config';
 import { AccountLoggedInEvent } from 'src/account/domain/event/AccountLoggedInEvent';
 
@@ -55,7 +55,7 @@ export class LoginAccountHandler
     this.eventBus.publish(
       // UPDATE CODE TRONG HANDLER UPDATE TRUONG ACTIVE bang device
       new AccountLoggedInEvent(
-        payload.accountId,
+        Id.from(payload.accountId),
         query.deviceId,
         Phone.create({ value: payload.phone }),
       ),

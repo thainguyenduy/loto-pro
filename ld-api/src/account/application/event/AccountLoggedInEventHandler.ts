@@ -15,6 +15,6 @@ export class AccountLoggedInEventHandler
 
   async handle(event: AccountLoggedInEvent) {
     /* neu co deviceId roi thi cap nhat updatedAt, neu chua thi insert */
-    await this.accountRepository.updateDevice(event.id, event.deviceId);
+    await this.accountRepository.updateDevice(event.id.value, event.deviceId);
   }
 }

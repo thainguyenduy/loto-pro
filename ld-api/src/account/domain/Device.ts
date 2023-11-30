@@ -1,7 +1,9 @@
-import { Entity } from 'libs/domain';
+import { instanceToPlain } from 'class-transformer';
+import { Entity, Id } from 'libs/domain';
 
 export type DeviceEssentialProps = Readonly<
   Required<{
+    id: Id;
     deviceId: string;
     active: boolean;
   }>
@@ -9,64 +11,44 @@ export type DeviceEssentialProps = Readonly<
 
 export type DeviceOptionalProps = Readonly<
   Partial<{
-    accountId: number;
-    id: number;
+    accountId: Id;
     createdAt: Date;
     updatedAt: Date;
     lockedAt: Date | null;
   }>
 >;
 
-export type DeviceProps = DeviceEssentialProps & Required<DeviceOptionalProps>;
+export type DeviceProps = DeviceEssentialProps & DeviceOptionalProps;
 
 export interface IDevice {
-  Id: number;
-  getActive: boolean;
-  getDeviceId: string;
-  getCreatedAt: Date;
-  getUpdatedAt: Date;
-  getLockedAt: Date;
-  getAccountId: number;
+  isA: (device_id: string) => boolean;
+  activate: () => void;
+  deactivate: () => void;
+  toPlainObject: () => object;
 }
 
 export class Device extends Entity<DeviceProps> implements IDevice {
-  private readonly createdAt: Date;
-  private readonly updatedAt: Date;
-  public active: boolean;
-  private lockedAt: Date | null;
-  private accountId?: number;
-  private deviceId: string;
+  private readonly deviceId: string;
+  private active: boolean;
+  private readonly createdAt: Date = new Date();
+  private updatedAt: Date = new Date();
+  private lockedAt?: Date;
+  private accountId: Id;
   // public account: Account;
-
-  private constructor(props: DeviceProps) {
-    super(props);
+  public isA(device_id: string): boolean {
+    return this.deviceId == device_id;
   }
-
-  public static create(props: DeviceProps) {
-    return new Device(props);
+  activate(): void {
+    this.active = true;
   }
-
-  get getDeviceId() {
-    return this.deviceId;
+  deactivate(): void {
+    this.active = false;
   }
-
-  get getActive(): boolean {
-    return this.active;
-  }
-
-  get getAccountId() {
-    return this.accountId;
-  }
-
-  get getCreatedAt() {
-    return this.createdAt;
-  }
-
-  get getUpdatedAt() {
-    return this.updatedAt;
-  }
-
-  get getLockedAt() {
-    return this.lockedAt;
+  toPlainObject() {
+    return {
+      ...instanceToPlain(this),
+      id: this.Id.value,
+      accountId: this.accountId.value,
+    };
   }
 }

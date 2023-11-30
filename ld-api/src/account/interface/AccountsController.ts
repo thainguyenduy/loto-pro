@@ -9,7 +9,6 @@ import {
   UseInterceptors,
   HttpStatus,
   Headers,
-  ParseIntPipe,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import {
@@ -134,7 +133,7 @@ export class AccountsController {
     description: ResponseDescription.INTERNAL_SERVER_ERROR,
   })
   async findAccountById(
-    @Param('accountId', ParseIntPipe) accountId: number,
+    @Param('accountId') accountId: string,
   ): Promise<FindAccountsResponseDto> {
     return this.queryBus.execute(new FindAccountByIdQuery(accountId));
   }
@@ -153,7 +152,7 @@ export class AccountsController {
   })
   async signOutAccount(
     @Headers() header: AuthorizedHeader,
-    @Param('accountId', ParseIntPipe) accountId: number,
+    @Param('accountId') accountId: string,
   ): Promise<void> {
     await this.commandBus.execute(new SignOutAccountCommand(accountId));
   }

@@ -13,12 +13,11 @@ import { Account, IAccount } from 'src/account/domain/Account';
 import { AccountFactory } from 'src/account/domain/AccountFactory';
 import { IAccountRepository } from 'src/account/application/IAccountRepository';
 import { Like } from 'typeorm';
-import { Password, Phone } from 'libs/domain';
+import { Id, Password, Phone } from 'libs/domain';
 import { DeviceEntity } from '../entity/DeviceEntity';
 import { InfraErrorMessage } from 'src/lottery-result/infrastructure/InfraErrorMessage';
 import { DeviceRepository } from './DeviceRepository';
 import { InjectionToken } from 'src/account/application/InjectionToken';
-import { Device } from 'src/account/domain/Device';
 import { DeviceFactory } from 'src/account/domain/DeviceFactory';
 
 export class AccountRepository implements IAccountRepository {
@@ -33,15 +32,15 @@ export class AccountRepository implements IAccountRepository {
     return new EntityId().toString();
   }
 
-  async save(data: Account | Account[]): Promise<IAccount[]> {
-    const models = Array.isArray(data) ? data : [data];
+  async save(account: IAccount | IAccount[]): Promise<IAccount[]> {
+    const models = Array.isArray(account) ? account : [account];
     const entities = await Promise.all(
       models.map((model) => this.modelToEntity(model)),
     );
-    if (data instanceof Account) {
+    if (account instanceof Account) {
       const entity = await writeConnection.manager
         .getRepository(AccountEntity)
-        .findOneBy({ phone: data.getPhone });
+        .findOneBy({ phone: entities[0].phone });
       if (entity)
         throw new BadRequestException(
           InfraErrorMessage.DAILY_LOTTERY_RESULT_EXISTED,
@@ -54,7 +53,7 @@ export class AccountRepository implements IAccountRepository {
     // return result.map((entity) => this.entityToModel(entity));
   }
 
-  async findById(id: number): Promise<IAccount | null> {
+  async findById(id: string): Promise<IAccount | null> {
     const entity = await writeConnection.manager
       .getRepository(AccountEntity)
       .findOneBy({ id });
@@ -68,7 +67,7 @@ export class AccountRepository implements IAccountRepository {
     return entities.map((entity) => this.entityToModel(entity));
   }
 
-  async updateDevice(accountId: number, deviceId: string): Promise<void> {
+  async updateDevice(accountId: string, deviceId: string): Promise<void> {
     //TODO: Refactor: apply transaction to this flow
     await Promise.all([
       writeConnection.manager
@@ -89,25 +88,8 @@ export class AccountRepository implements IAccountRepository {
     return;
   }
 
-  public async modelToEntity(model: Account): Promise<AccountEntity> {
-    return new AccountEntity({
-      ...model,
-      id: model.Id,
-      phone: model.getPhone,
-      password: await model.getHashedPassword,
-      activated: model.isActivated,
-      deviceId: model.getDeviceId,
-      createdAt: model.getCreatedAt,
-      updatedAt: model.getUpdatedAt,
-      lockedAt: model.getLockedAt,
-      expirationDate: model.getExpirationDate,
-      devices: await Promise.all(
-        model.devices.map(
-          async (device) => await this.deviceRepository.modelToEntity(device),
-        ),
-      ),
-      // devices: await this.deviceRepository.modelToEntity(model.devices),
-    });
+  public async modelToEntity(model: IAccount): Promise<AccountEntity> {
+    return new AccountEntity((await model.toPlainObject()) as AccountEntity);
   }
 
   public entityToModel(entity: AccountEntity): IAccount {
@@ -115,25 +97,11 @@ export class AccountRepository implements IAccountRepository {
       ...entity,
       phone: Phone.create({ value: entity.phone }),
       password: Password.create({ value: entity.password, hashed: true }),
-      id: entity.id,
+      id: Id.from(entity.id),
       createdAt: entity.createdAt,
-      devices: entity.devices.map(
-        (device) =>
-          this.deviceFactory.reconstitute({
-            ...device,
-            accountId: null,
-            id: null,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-          }) as Device,
+      devices: entity.devices.map((device) =>
+        this.deviceRepository.entityToModel(device),
       ),
-      // devices: Device.create({
-      //   ...entity.devices[0],
-      //   id: null,
-      //   lockedAt: null,
-      //   createdAt: new Date(),
-      //   updatedAt: new Date(),
-      // }),
     });
   }
 }
