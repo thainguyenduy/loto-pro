@@ -10,15 +10,13 @@ export class LotteryResultFactory {
   @Inject(EventPublisher) private readonly eventPublisher: EventPublisher;
 
   create(options: LotteryResultProps): ILotteryResult {
-    return this.eventPublisher.mergeObjectContext(
-      LotteryResult.create(options) as LotteryResult,
-    );
+    return this.eventPublisher.mergeObjectContext(new LotteryResult(options));
   }
   reconstitute(
-    properties: LotteryResultProps & { id: number },
+    properties: LotteryResultProps & { id: string },
   ): ILotteryResult {
     return this.eventPublisher.mergeObjectContext(
-      LotteryResult.create(properties) as LotteryResult,
+      new LotteryResult(properties),
     );
   }
 }

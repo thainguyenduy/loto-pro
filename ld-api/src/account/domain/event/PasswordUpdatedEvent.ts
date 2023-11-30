@@ -1,9 +1,9 @@
 import { IEvent } from '@nestjs/cqrs';
-import { Phone } from '../../../../libs/domain';
+import { Id, Phone } from '../../../../libs/domain';
 
 export class PasswordUpdatedEvent implements IEvent {
   constructor(
-    readonly id: number,
+    readonly id: Id,
     readonly phone: Phone,
   ) {}
 }

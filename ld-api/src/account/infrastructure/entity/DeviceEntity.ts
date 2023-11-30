@@ -1,18 +1,18 @@
-import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, ManyToOne } from 'typeorm';
 
 import { BaseEntity } from 'libs/infrastructure/typeorm/BaseEntity';
 import { AccountEntity } from './AccountEntity';
 
 @Entity({ name: 'device' })
 export class DeviceEntity extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
   @Column()
   deviceId: string;
 
   @Column()
-  accountId: number;
+  active: boolean;
+
+  @Column({ type: 'uuid' })
+  accountId?: string;
 
   @Column({ type: 'datetime', precision: 6, nullable: true })
   lockedAt: Date | null;
