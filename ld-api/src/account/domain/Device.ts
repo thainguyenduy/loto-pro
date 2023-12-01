@@ -25,9 +25,11 @@ export interface IDevice {
   activate: () => void;
   deactivate: () => void;
   toPlainObject: () => object;
+  changeAccount: (account_id: Id) => void;
 }
 
 export class Device extends Entity<DeviceProps> implements IDevice {
+  changeAccount: (account_id: Id) => void;
   private readonly deviceId: string;
   private active: boolean;
   private readonly createdAt: Date = new Date();
