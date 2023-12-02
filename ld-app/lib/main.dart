@@ -1,10 +1,8 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:tdlib/td_api.dart';
 
 import 'package:tdlib/td_api.dart' as td_api;
 import 'package:ld_app/src/infrastructure/injector.dart';
@@ -14,7 +12,11 @@ import 'package:tdlib/tdlib.dart';
 void main() async {
   await dotenv.load(fileName: ".env");
   var path = Directory.current.path;
-  await TdPlugin.initialize();
+  final tdlibPath =
+      (Platform.isAndroid || Platform.isLinux || Platform.isWindows)
+          ? 'libtdjson.so'
+          : null;
+  await TdPlugin.initialize(tdlibPath);
   int clientId = tdCreate();
   tdSend(
       clientId,
@@ -29,8 +31,8 @@ void main() async {
           applicationVersion: '1.0',
           enableStorageOptimizer: true,
           useTestDc: true,
-          databaseDirectory: "$path/user/",
-          filesDirectory: "$path/user/",
+          databaseDirectory: "${path}user/",
+          filesDirectory: "${path}user/",
           useFileDatabase: true,
           ignoreFileNames: true,
           useChatInfoDatabase: true,
