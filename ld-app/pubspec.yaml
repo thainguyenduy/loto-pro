@@ -58,7 +58,7 @@ dependencies:
   shared_preferences: ^2.2.2
   sqfentity: ^2.4.0
   sqfentity_gen: ^2.4.0
-  teledart: ^0.6.1
+  tdlib: ^1.6.0
   
 dev_dependencies:
   flutter_test:

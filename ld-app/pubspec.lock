@@ -416,14 +416,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.1"
-  http:
-    dependency: transitive
-    description:
-      name: http
-      sha256: d4872660c46d929f6b8a9ef4e7a7eff7e49bbf0c4ec3f385ee32df5119175139
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.2"
   http_multi_server:
     dependency: transitive
     description:
@@ -877,14 +869,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.0"
-  teledart:
+  tdlib:
     dependency: "direct main"
     description:
-      name: teledart
-      sha256: e542336801a0366441f5019e30e00cc0e49aabfcd5675590d30a00a8a4a54c3f
+      name: tdlib
+      sha256: "4aa3cbb7c3a1231104e2b61c77d56c7c719bd048d5b52ffa3195f9ec0d2e1724"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.1"
+    version: "1.6.0"
   term_glyph:
     dependency: transitive
     description:
@@ -990,5 +982,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.2.0 <4.0.0"
+  dart: ">=3.2.0-194.0.dev <4.0.0"
   flutter: ">=3.13.0"
