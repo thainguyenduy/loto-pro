@@ -17,7 +17,7 @@ export type AccountEssentialProps = Readonly<
   }>
 >;
 
-/* TODO: Refactor partial type: no need to provide 
+/* TODO: Refactor partial type: no need to provide
 values for all fields when using factory create */
 export type AccountOptionalProps = Readonly<
   Partial<{
@@ -92,8 +92,13 @@ export class Account extends Entity<AccountProps> implements IAccount {
   }
   signOutDevice(): void {
     const i = this.devices.findIndex((e) => e.isA(this.deviceId));
-    this.devices[i].deactivate();
-    this.deviceId = null;
+    if (i) {
+      this.devices[i].deactivate();
+      this.deviceId = null;
+    } else
+      throw new UnprocessableEntityException(
+        'Signout device: device not found',
+      );
   }
   async toPlainObject(): Promise<object> {
     return {

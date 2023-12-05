@@ -25,7 +25,7 @@ export class AccountFactory {
           this.deviceFactory.create({
             accountId: aId,
             deviceId: options.deviceId,
-            active: true,
+            active: false,
           }),
         ],
       }),
