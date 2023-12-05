@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ld_app/src/application/app/app.dart';
-import 'package:ld_app/src/screens/home/home.dart';
+import 'package:ld_app/src/screens/telegram_home/telegram_home.dart';
 import 'package:ld_app/src/screens/login/login_page.dart';
 import 'package:ld_app/src/screens/telegram_sign_in/telegram_sign_in.dart';
 
@@ -25,7 +25,7 @@ List<Page<dynamic>> onGenerateAppViewPages(
 ) {
   switch (state) {
     case AppStatus.authenticated:
-      return [const MaterialPage(child: HomeScreen())];
+      return [const MaterialPage(child: TelegramSignInScreen())];
     case AppStatus.unauthenticated:
       return [const MaterialPage(child: LoginPage())];
   }

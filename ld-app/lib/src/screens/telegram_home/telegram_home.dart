@@ -16,14 +16,14 @@ import '../components/chat_list.dart';
 import '../components/search_chat_field.dart';
 
 @RoutePage()
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class TelegramHomeScreen extends StatefulWidget {
+  const TelegramHomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<TelegramHomeScreen> createState() => _TelegramHomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _TelegramHomeScreenState extends State<TelegramHomeScreen> {
   final _chats = List<Chat>.generate(4, (i) => _generateChat());
   static final _baseDate = DateTime.now().subtract(const Duration(days: 1));
   final _scaffold = GlobalKey<ScaffoldState>();

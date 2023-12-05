@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../home/home.dart';
+import '../telegram_home/telegram_home.dart';
 
 @RoutePage()
 class TelegramSignInScreen extends StatefulWidget {
@@ -54,7 +54,8 @@ class _TelegramSignInScreenState extends State<TelegramSignInScreen> {
                   obscureText: true,
                   onSubmitted: (value) => Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const HomeScreen()),
+                    MaterialPageRoute(
+                        builder: (context) => const TelegramHomeScreen()),
                   ),
                 ),
             ],
