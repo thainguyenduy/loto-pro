@@ -139,7 +139,7 @@ export class AccountsController {
   }
 
   @Auth()
-  @Get('signout/:accountId/:deviceId')
+  @Get('signout/:accountId')
   // @UseInterceptors(CacheInterceptor)
   @ApiResponse({
     status: HttpStatus.OK,

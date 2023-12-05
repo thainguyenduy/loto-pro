@@ -5,7 +5,7 @@ import { AccountEntity } from './AccountEntity';
 
 @Entity({ name: 'device' })
 export class DeviceEntity extends BaseEntity {
-  @Column()
+  @Column({ nullable: false })
   deviceId: string;
 
   @Column()
