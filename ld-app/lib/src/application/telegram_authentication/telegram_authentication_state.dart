@@ -1,10 +1,12 @@
 part of 'telegram_authentication_bloc.dart';
 
-sealed class TelegramAuthenticationState extends Equatable {
-  const TelegramAuthenticationState();
-  
-  @override
-  List<Object> get props => [];
-}
+enum TelegramAuthStatus { initial, waitPhoneNumber, waitCode, success, failure }
 
-final class TelegramAuthenticationInitial extends TelegramAuthenticationState {}
+@freezed
+class TelegramAuthState with _$TelegramAuthState {
+  const factory TelegramAuthState(
+      {@Default(TelegramAuthStatus.initial) TelegramAuthStatus status,
+      String? phone,
+      String? code,
+      String? errorMessage}) = _TelegramAuthState;
+}

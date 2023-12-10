@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ld_app/src/application/app/app.dart';
+import 'package:ld_app/src/application/app/app_bloc.dart';
 import 'package:ld_app/src/domain/accessToken.dart';
 import 'package:ld_app/src/domain/account.dart';
 import 'package:ld_app/src/infrastructure/auth/i_auth_facade.dart';

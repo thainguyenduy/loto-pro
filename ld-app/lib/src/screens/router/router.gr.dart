@@ -15,16 +15,22 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
-    HomeRoute.name: (routeData) {
+    LoginRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const LoginPage(),
+      );
+    },
+    TelegramHomeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const TelegramHomeScreen(),
       );
     },
-    LoginRoute.name: (routeData) {
+    TelegramRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const LoginPage(),
+        child: const TelegramPage(),
       );
     },
     TelegramSignInRoute.name: (routeData) {
@@ -37,20 +43,6 @@ abstract class _$AppRouter extends RootStackRouter {
 }
 
 /// generated route for
-/// [TelegramHomeScreen]
-class HomeRoute extends PageRouteInfo<void> {
-  const HomeRoute({List<PageRouteInfo>? children})
-      : super(
-          HomeRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'HomeRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
 /// [LoginPage]
 class LoginRoute extends PageRouteInfo<void> {
   const LoginRoute({List<PageRouteInfo>? children})
@@ -60,6 +52,34 @@ class LoginRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'LoginRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TelegramHomeScreen]
+class TelegramHomeRoute extends PageRouteInfo<void> {
+  const TelegramHomeRoute({List<PageRouteInfo>? children})
+      : super(
+          TelegramHomeRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'TelegramHomeRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TelegramPage]
+class TelegramRoute extends PageRouteInfo<void> {
+  const TelegramRoute({List<PageRouteInfo>? children})
+      : super(
+          TelegramRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'TelegramRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

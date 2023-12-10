@@ -6,3 +6,23 @@ sealed class TelegramAuthenticationEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+final class TelegramLogoutRequested extends TelegramAuthenticationEvent {
+  const TelegramLogoutRequested();
+}
+
+final class _TelegramAuthStateChanged extends TelegramAuthenticationEvent {
+  const _TelegramAuthStateChanged(this.status);
+  final td.AuthorizationState status;
+}
+
+final class TelegramAuthPhoneNumberSubmitted
+    extends TelegramAuthenticationEvent {
+  const TelegramAuthPhoneNumberSubmitted(this.phone);
+  final String phone;
+}
+
+final class TelegramAuthCodeSubmitted extends TelegramAuthenticationEvent {
+  const TelegramAuthCodeSubmitted(this.code);
+  final String code;
+}

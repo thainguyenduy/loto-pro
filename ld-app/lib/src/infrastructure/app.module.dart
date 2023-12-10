@@ -20,7 +20,7 @@ abstract class AppModule {
       connectTimeout: const Duration(seconds: 3),
       receiveTimeout: const Duration(seconds: 3)));
 
-  @injectable
+  @singleton
   AppRouter get appRouter => AppRouter();
 
   @preResolve

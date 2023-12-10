@@ -10,18 +10,20 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:android_id/android_id.dart' as _i3;
 import 'package:device_info_plus/device_info_plus.dart' as _i5;
-import 'package:dio/dio.dart' as _i9;
+import 'package:dio/dio.dart' as _i10;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 import 'package:shared_preferences/shared_preferences.dart' as _i7;
 
-import '../application/app/bloc/app_bloc.dart' as _i13;
-import '../application/login/bloc/login_bloc.dart' as _i12;
+import '../application/app/app_bloc.dart' as _i14;
+import '../application/login/login_bloc.dart' as _i13;
+import '../application/telegram_authentication/telegram_authentication_bloc.dart'
+    as _i8;
 import '../screens/router/router.dart' as _i4;
-import 'app.module.dart' as _i14;
-import 'auth/i_auth_facade.dart' as _i10;
-import 'auth/impl/auth_facade.dart' as _i11;
-import 'device_info.dart' as _i8;
+import 'app.module.dart' as _i15;
+import 'auth/i_auth_facade.dart' as _i11;
+import 'auth/impl/auth_facade.dart' as _i12;
+import 'device_info.dart' as _i9;
 import 'notification.service.dart' as _i6;
 
 extension GetItInjectableX on _i1.GetIt {
@@ -37,7 +39,7 @@ extension GetItInjectableX on _i1.GetIt {
     );
     final appModule = _$AppModule();
     gh.lazySingleton<_i3.AndroidId>(() => appModule.androidId);
-    gh.factory<_i4.AppRouter>(() => appModule.appRouter);
+    gh.singleton<_i4.AppRouter>(appModule.appRouter);
     gh.lazySingleton<_i5.DeviceInfoPlugin>(() => appModule.deviceInfo);
     await gh.factoryAsync<_i6.NotificationService>(
       () => appModule.notificationService,
@@ -51,24 +53,26 @@ extension GetItInjectableX on _i1.GetIt {
       () => appModule.baseUrl,
       instanceName: 'BaseUrl',
     );
-    gh.lazySingleton<_i8.DeviceInfo>(() => _i8.DeviceInfo(
+    gh.lazySingleton<_i8.TelegramAuthenticationBloc>(
+        () => _i8.TelegramAuthenticationBloc());
+    gh.lazySingleton<_i9.DeviceInfo>(() => _i9.DeviceInfo(
           gh<_i5.DeviceInfoPlugin>(),
           gh<_i3.AndroidId>(),
         ));
-    gh.lazySingleton<_i9.Dio>(
+    gh.lazySingleton<_i10.Dio>(
         () => appModule.dio(gh<String>(instanceName: 'BaseUrl')));
-    gh.singleton<_i10.IAuthFacade>(_i11.AuthFacade(
-      gh<_i9.Dio>(),
-      gh<_i8.DeviceInfo>(),
+    gh.singleton<_i11.IAuthFacade>(_i12.AuthFacade(
+      gh<_i10.Dio>(),
+      gh<_i9.DeviceInfo>(),
     ));
-    gh.factory<_i12.LoginBloc>(
-        () => _i12.LoginBloc(authFacade: gh<_i10.IAuthFacade>()));
-    gh.singleton<_i13.AppBloc>(_i13.AppBloc(gh<_i10.IAuthFacade>()));
+    gh.factory<_i13.LoginBloc>(
+        () => _i13.LoginBloc(authFacade: gh<_i11.IAuthFacade>()));
+    gh.singleton<_i14.AppBloc>(_i14.AppBloc(gh<_i11.IAuthFacade>()));
     return this;
   }
 }
 
-class _$AppModule extends _i14.AppModule {
+class _$AppModule extends _i15.AppModule {
   @override
   _i3.AndroidId get androidId => const _i3.AndroidId();
 
