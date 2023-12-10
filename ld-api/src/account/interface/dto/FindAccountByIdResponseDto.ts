@@ -2,9 +2,9 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { FindAccountByIdResult } from 'src/account/application/query/FindAccountByIdResult';
 
-export class FindAccountByIdResponseDTO extends FindAccountByIdResult {
+export class FindAccountByIdResponseDto extends FindAccountByIdResult {
   @ApiProperty({ example: 1 })
-  readonly id: number;
+  readonly id: string;
 
   @ApiProperty({ example: '0912345678', minLength: 10, maxLength: 10 })
   readonly phone: string;

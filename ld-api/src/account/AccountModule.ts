@@ -28,14 +28,23 @@ import { LockAccountCommand } from './application/command/LockAccountCommand';
 import { LockAccountHandler } from './application/command/LockAccountHandler';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { LoginAccountHandler } from './application/query/LoginAccountHandler';
-import { AccountDeviceChangedHandler } from './application/event/AccountDeviceChangedHandler';
+
 import { AuthGuard } from 'libs/Auth';
+
+import { DeviceRepository } from './infrastructure/repository/DeviceRepository';
+import { DeviceFactory } from './domain/DeviceFactory';
+import { SignOutAccountCommandHandler } from './application/command/SignOutAccountHandler';
+import { LoginAccountHandler } from './application/query/LoginAccountHandler';
+import { AccountLoggedInEventHandler } from './application/event/AccountLoggedInEventHandler';
 
 const infrastructure: Provider[] = [
   {
     provide: InjectionToken.ACCOUNT_REPOSITORY,
     useClass: AccountRepository,
+  },
+  {
+    provide: InjectionToken.DEVICE_REPOSITORY,
+    useClass: DeviceRepository,
   },
   {
     provide: InjectionToken.ACCOUNT_QUERY,
@@ -53,10 +62,11 @@ const application = [
   FindAccountsHandler,
   LockAccountHandler,
   LoginAccountHandler,
-  AccountDeviceChangedHandler,
+  SignOutAccountCommandHandler,
+  AccountLoggedInEventHandler,
 ];
 
-const domain = [AccountFactory];
+const domain = [AccountFactory, DeviceFactory];
 
 @Module({
   imports: [
@@ -89,6 +99,7 @@ export class AccountsModule {
         .getRepository(AccountEntity)
         .findBy({ expirationDate: LessThan(new Date()) })
     ).forEach((account) =>
+      // FIXME: Refactor update with only one query
       this.commandBus.execute(new LockAccountCommand(account.id)),
     );
   }

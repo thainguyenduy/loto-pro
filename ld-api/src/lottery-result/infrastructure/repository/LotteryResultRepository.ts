@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Logger } from '@nestjs/common';
+import { BadRequestException, Inject } from '@nestjs/common';
 
 import { writeConnection } from 'libs/DatabaseModule';
 
@@ -22,7 +22,9 @@ export class LotteryResultRepository implements ILotteryResultRepository {
 
     const entity = await writeConnection.manager
       .getRepository(LotteryResultEntity)
-      .findOneBy({ day: lotteryResult.day.value });
+      .findOneBy({
+        day: lotteryResult.day.value,
+      });
     if (entity)
       throw new BadRequestException(
         InfraErrorMessage.DAILY_LOTTERY_RESULT_EXISTED,
@@ -36,19 +38,9 @@ export class LotteryResultRepository implements ILotteryResultRepository {
   }
 
   private modelToEntity(model: LotteryResult) {
-    return new LotteryResultEntity({
-      ...model,
-      id: model.Id,
-      giaiDacBiet: model.giaiDacBiet.value,
-      giaiNhat: model.giaiNhat.value,
-      giaiNhi: model.giaiNhi.value,
-      giaiBa: model.giaiBa.value,
-      giaiTu: model.giaiTu.value,
-      giaiNam: model.giaiNam.value,
-      giaiSau: model.giaiSau.value,
-      giaiBay: model.giaiBay.value,
-      day: model.day.value,
-    });
+    return new LotteryResultEntity(
+      model.toPlainObject() as LotteryResultEntity,
+    );
   }
 
   private entityToModel(entity: LotteryResultEntity): ILotteryResult {

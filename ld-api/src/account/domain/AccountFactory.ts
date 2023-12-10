@@ -2,7 +2,8 @@ import { Inject } from '@nestjs/common';
 import { EventPublisher } from '@nestjs/cqrs';
 
 import { IAccount, AccountProps, Account } from './Account';
-import { Password, Phone } from 'libs/domain';
+import { Id, Password, Phone } from 'libs/domain';
+import { DeviceFactory } from './DeviceFactory';
 
 type CreateAccountOptions = Readonly<{
   phone: Phone;
@@ -12,22 +13,28 @@ type CreateAccountOptions = Readonly<{
 
 export class AccountFactory {
   @Inject(EventPublisher) private readonly eventPublisher: EventPublisher;
-
+  @Inject() private readonly deviceFactory: DeviceFactory;
   create(options: CreateAccountOptions): IAccount {
+    const aId = Id.create();
+
     return this.eventPublisher.mergeObjectContext(
-      Account.create({
+      new Account({
         ...options,
-        id: null,
-        activated: false,
-        expirationDate: null,
-        lockedAt: null,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        id: aId,
+        devices: [
+          /* this.deviceFactory.create({
+            accountId: aId,
+            deviceId: options.deviceId,
+            active: false,
+          }), */
+        ],
       }),
-    );
+    ) as IAccount;
   }
 
   reconstitute(properties: AccountProps): IAccount {
-    return this.eventPublisher.mergeObjectContext(Account.create(properties));
+    return this.eventPublisher.mergeObjectContext(
+      new Account(properties),
+    ) as IAccount;
   }
 }

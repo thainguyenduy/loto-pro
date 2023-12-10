@@ -7,7 +7,7 @@ import { InjectionToken } from '../InjectionToken';
 import { AccountFactory } from '../../domain/AccountFactory';
 import { IAccountRepository } from '../IAccountRepository';
 import { EventBus } from '@nestjs/cqrs';
-import { AccountLoggedInEvent } from 'src/account/domain/event/AccountLoggedInEvent';
+import { AccountLoggedInEvent } from '../../domain/event/AccountLoggedInEvent';
 
 jest.mock('../../../../libs/Transactional', () => ({
   Transactional: () => () => undefined,

@@ -36,6 +36,7 @@ export interface ILotteryResult {
   readonly giaiSau: GiaiSau;
   readonly giaiBay: GiaiBay;
   compare: (result: ILotteryResult) => boolean;
+  toPlainObject: () => object;
   // create: (options: LotteryResultProps) => ILotteryResult;
 }
 
@@ -68,7 +69,18 @@ export class LotteryResult
       this.giaiBay.equals(result.giaiBay)
     );
   }
-  public static create(options: LotteryResultProps): ILotteryResult {
-    return new LotteryResult(options);
+  toPlainObject(): object {
+    return {
+      id: this.Id,
+      giaiDacBiet: this.giaiDacBiet.value,
+      giaiNhat: this.giaiNhat.value,
+      giaiNhi: this.giaiNhi.value,
+      giaiBa: this.giaiBa.value,
+      giaiTu: this.giaiTu.value,
+      giaiNam: this.giaiNam.value,
+      giaiSau: this.giaiSau.value,
+      giaiBay: this.giaiBay.value,
+      day: this.day.value,
+    };
   }
 }

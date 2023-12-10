@@ -9,7 +9,7 @@ import { InjectionToken } from '../InjectionToken';
 import { AccountFactory } from '../../domain/AccountFactory';
 import { IAccountRepository } from '../IAccountRepository';
 import { Password, Phone } from '../../../../libs/domain';
-import { AccountDeviceChangedEvent } from '../../domain/event/AccountDeviceChangedEvent';
+// import { AccountLoggedInEvent } from 'src/account/domain/event/AccountLoggedInEvent';
 
 @CommandHandler(OpenAccountCommand)
 export class OpenAccountHandler
@@ -31,16 +31,17 @@ export class OpenAccountHandler
 
     account.open();
 
-    const accounts = await this.accountRepository.save(account);
-    if (accounts.length > 0)
-      this.eventBus.publish(
-        new AccountDeviceChangedEvent(
-          accounts[0].Id,
-          command.deviceId,
-          Phone.create({ value: command.phone }),
-        ),
-      );
-
+    await this.accountRepository.save(account);
+    // if (accounts.length > 0) {
+    //   const account = (await accounts[0].toPlainObject()) as any;
+    //   this.eventBus.publish(
+    //     new AccountLoggedInEvent(
+    //       account.id,
+    //       command.deviceId,
+    //       Phone.create({ value: command.phone }),
+    //     ),
+    //   );
+    // }
     account.commit();
   }
 }
