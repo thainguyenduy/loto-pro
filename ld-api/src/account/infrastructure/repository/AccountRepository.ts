@@ -81,7 +81,7 @@ export class AccountRepository implements IAccountRepository {
       writeConnection.manager.getRepository(DeviceEntity).upsert(
         [
           {
-            // id: Id.create().value,
+            id: Id.create().value,
             updatedAt: new Date(),
             accountId: accountId,
             deviceId,

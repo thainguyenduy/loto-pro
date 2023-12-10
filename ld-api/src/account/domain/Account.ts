@@ -5,8 +5,8 @@ import { AccountActivationExtendedEvent } from './event/AccountActivationExtende
 import { PasswordUpdatedEvent } from './event/PasswordUpdatedEvent';
 import { AccountLockedEvent } from './event/AccountLockedEvent';
 import { AccountOpenedEvent } from './event/AccountOpenedEvent';
-import { IDevice } from './Device';
-import { instanceToPlain } from 'class-transformer';
+import { Device, IDevice } from './Device';
+import { Exclude, Expose, Type, instanceToPlain } from 'class-transformer';
 
 export type AccountEssentialProps = Readonly<
   Required<{
@@ -42,17 +42,19 @@ export interface IAccount {
   signOutDevice: () => void;
   toPlainObject: () => Promise<object>;
 }
-
+@Exclude()
 export class Account extends Entity<AccountProps> implements IAccount {
-  private readonly phone: Phone;
-  private password: Password;
-  private deviceId: string;
-  private activated: boolean = true;
-  private expirationDate?: Date;
-  private readonly createdAt: Date = new Date();
-  private updatedAt: Date = new Date();
-  private lockedAt: Date | null;
+  @Expose() private readonly phone: Phone;
+  @Expose() private password: Password;
+  @Expose() private deviceId: string;
+  @Expose() private activated: boolean = true;
+  @Expose() private expirationDate?: Date;
+  @Expose() private readonly createdAt: Date = new Date();
+  @Expose() private updatedAt: Date = new Date();
+  @Expose() private lockedAt: Date | null;
   // khi dang nhap thanh cong thi cap nhat con` khi dang xuat thi xoa'
+  @Expose()
+  @Type(() => Device)
   private devices: IDevice[];
 
   open(): void {

@@ -1,4 +1,4 @@
-import { instanceToPlain } from 'class-transformer';
+import { Exclude, Expose, instanceToPlain } from 'class-transformer';
 import { Entity, Id } from 'libs/domain';
 
 export type DeviceEssentialProps = Readonly<
@@ -28,14 +28,15 @@ export interface IDevice {
   changeAccount: (account_id: Id) => void;
 }
 
+@Exclude()
 export class Device extends Entity<DeviceProps> implements IDevice {
   changeAccount: (account_id: Id) => void;
-  private readonly deviceId: string;
-  private active: boolean;
-  private readonly createdAt: Date = new Date();
-  private updatedAt: Date = new Date();
-  private lockedAt?: Date;
-  private accountId: Id;
+  @Expose() private readonly deviceId: string;
+  @Expose() private active: boolean;
+  @Expose() private readonly createdAt: Date = new Date();
+  @Expose() private updatedAt: Date = new Date();
+  @Expose() private lockedAt?: Date;
+  @Expose() private accountId: Id;
   // public account: Account;
   public isA(device_id: string): boolean {
     return this.deviceId == device_id;
