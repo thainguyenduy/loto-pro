@@ -3,13 +3,11 @@ import 'dart:math';
 import 'package:auto_route/auto_route.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
-import 'package:ld_app/src/application/app/app.dart';
 import 'package:ld_app/src/application/telegram_authentication/telegram_authentication_bloc.dart';
 import 'package:ld_app/src/domain/chat.dart';
 import 'package:ld_app/src/domain/message.dart';
 import 'package:ld_app/src/domain/user.dart';
 import 'package:ld_app/src/infrastructure/injector.dart';
-import 'package:ld_app/src/screens/login/login_page.dart';
 
 import '../chat/chat.dart';
 import '../settings/menu.dart';
@@ -216,8 +214,6 @@ class _TelegramHomeScreenState extends State<TelegramHomeScreen> {
                 leading: const Icon(Icons.logout),
                 title: const Text("Logout"),
                 onTap: () {
-                  final appBloc = locator<AppBloc>();
-                  appBloc.add(const AppLogoutRequested());
                   final telegramAuthBloc =
                       locator<TelegramAuthenticationBloc>();
                   telegramAuthBloc.add(const TelegramLogoutRequested());

@@ -2,7 +2,6 @@ import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ld_app/src/application/app/app_bloc.dart';
-import 'package:ld_app/src/application/telegram_authentication/telegram_authentication_bloc.dart';
 import 'package:ld_app/src/infrastructure/injector.dart';
 import 'package:ld_app/src/infrastructure/theme/theme.dart';
 import 'package:ld_app/src/screens/router/router.dart';
@@ -15,17 +14,9 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          lazy: false,
-          create: (_) => locator<AppBloc>(),
-        ),
-        BlocProvider(
-          lazy: false,
-          create: (_) => locator<TelegramAuthenticationBloc>(),
-        ),
-      ],
+    return BlocProvider(
+      lazy: false,
+      create: (_) => locator<AppBloc>(),
       child: const AppView(),
     );
   }

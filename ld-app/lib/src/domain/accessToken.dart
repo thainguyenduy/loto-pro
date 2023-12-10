@@ -6,7 +6,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AccessToken {
   String? accessToken;
   final SharedPreferences _cache = locator<SharedPreferences>();
-  AccessToken._(this.accessToken);
+  late final dynamic payload;
+  late final bool expired;
+  AccessToken._(this.accessToken) {
+    if (accessToken == null) return;
+    _parse();
+  }
   factory AccessToken(String accessToken) {
     return AccessToken._(accessToken);
   }
@@ -16,22 +21,26 @@ class AccessToken {
   AccessToken.fromCache() {
     accessToken = _cache.getString(
         dotenv.env['ACCESS_TOKEN_CACHE_KEY'] ?? '__access_token_cache_key__');
+    _parse();
   }
   bool get isValid {
-    if (accessToken == null) return false;
+    return expired == false && accessToken != null;
+  }
+
+  _parse() {
     try {
       // Verify a token (SecretKey for HMAC & PublicKey for all the others)
       final jwt = JWT.verify(
           accessToken!, SecretKey(dotenv.env['SECRET_PASSPHRASE'] ?? ''));
 
       print('Payload: ${jwt.payload}');
-      return true;
+      payload = jwt.payload;
+      expired = false;
     } on JWTExpiredException {
       print('jwt expired');
-      return false;
+      expired = true;
     } on JWTException catch (ex) {
       print(ex.message); // ex: invalid signature
-      return false;
     }
   }
 
@@ -47,5 +56,10 @@ class AccessToken {
     await _cache.remove(
         dotenv.env['ACCESS_TOKEN_CACHE_KEY'] ?? '__access_token_cache_key__');
     accessToken = null;
+  }
+
+  @override
+  String toString() {
+    return accessToken ?? '';
   }
 }

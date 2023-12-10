@@ -32,6 +32,11 @@ class AuthFacade implements IAuthFacade {
   @override
   Future<void> logOut() async {
     final accessToken = AccessToken.fromCache();
+    await dio.get("/signout/${(accessToken.payload as Map)['accountId']}",
+        options: Options(headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $accessToken",
+        }));
     await accessToken.clear();
     _controller.add(AppStatus.unauthenticated);
   }
