@@ -15,10 +15,11 @@ import { IAccountRepository } from 'src/account/application/IAccountRepository';
 import { Like } from 'typeorm';
 import { Id, Password, Phone } from 'libs/domain';
 import { DeviceEntity } from '../entity/DeviceEntity';
-import { InfraErrorMessage } from 'src/lottery-result/infrastructure/InfraErrorMessage';
+
 import { DeviceRepository } from './DeviceRepository';
 import { InjectionToken } from 'src/account/application/InjectionToken';
 import { DeviceFactory } from 'src/account/domain/DeviceFactory';
+import { ErrorMessage } from 'src/account/domain/ErrorMessage';
 
 export class AccountRepository implements IAccountRepository {
   @Inject(InjectionToken.DEVICE_REPOSITORY)
@@ -33,24 +34,28 @@ export class AccountRepository implements IAccountRepository {
   }
 
   async save(account: IAccount | IAccount[]): Promise<IAccount[]> {
-    const models = Array.isArray(account) ? account : [account];
-    const entities = await Promise.all(
-      models.map((model) => this.modelToEntity(model)),
-    );
-    if (account instanceof Account) {
-      const entity = await writeConnection.manager
+    try {
+      const models = Array.isArray(account) ? account : [account];
+      const entities = await Promise.all(
+        models.map((model) => this.modelToEntity(model)),
+      );
+      if (account instanceof Account) {
+        const entity = await writeConnection.manager
+          .getRepository(AccountEntity)
+          .findOneBy({ phone: entities[0].phone });
+        if (entity)
+          throw new BadRequestException(ErrorMessage.ACCOUNT_ALREADY_EXISTED);
+      }
+      return await writeConnection.manager
         .getRepository(AccountEntity)
-        .findOneBy({ phone: entities[0].phone });
-      if (entity)
-        throw new BadRequestException(
-          InfraErrorMessage.DAILY_LOTTERY_RESULT_EXISTED,
+        .save(entities)
+        .then((entities) =>
+          entities.map((entity) => this.entityToModel(entity)),
         );
+      // return result.map((entity) => this.entityToModel(entity));
+    } catch (error) {
+      console.log(error);
     }
-    return await writeConnection.manager
-      .getRepository(AccountEntity)
-      .save(entities)
-      .then((entities) => entities.map((entity) => this.entityToModel(entity)));
-    // return result.map((entity) => this.entityToModel(entity));
   }
 
   async findById(id: string): Promise<IAccount | null> {
@@ -76,6 +81,7 @@ export class AccountRepository implements IAccountRepository {
       writeConnection.manager.getRepository(DeviceEntity).upsert(
         [
           {
+            id: Id.create().value,
             updatedAt: new Date(),
             accountId: accountId,
             deviceId,

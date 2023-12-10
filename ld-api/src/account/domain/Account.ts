@@ -5,8 +5,8 @@ import { AccountActivationExtendedEvent } from './event/AccountActivationExtende
 import { PasswordUpdatedEvent } from './event/PasswordUpdatedEvent';
 import { AccountLockedEvent } from './event/AccountLockedEvent';
 import { AccountOpenedEvent } from './event/AccountOpenedEvent';
-import { IDevice } from './Device';
-import { instanceToPlain } from 'class-transformer';
+import { Device, IDevice } from './Device';
+import { Exclude, Expose, Type, instanceToPlain } from 'class-transformer';
 
 export type AccountEssentialProps = Readonly<
   Required<{
@@ -17,7 +17,7 @@ export type AccountEssentialProps = Readonly<
   }>
 >;
 
-/* TODO: Refactor partial type: no need to provide 
+/* TODO: Refactor partial type: no need to provide
 values for all fields when using factory create */
 export type AccountOptionalProps = Readonly<
   Partial<{
@@ -42,17 +42,19 @@ export interface IAccount {
   signOutDevice: () => void;
   toPlainObject: () => Promise<object>;
 }
-
+@Exclude()
 export class Account extends Entity<AccountProps> implements IAccount {
-  private readonly phone: Phone;
-  private password: Password;
-  private deviceId: string;
-  private activated: boolean = true;
-  private expirationDate?: Date;
-  private readonly createdAt: Date = new Date();
-  private updatedAt: Date = new Date();
-  private lockedAt: Date | null;
+  @Expose() private readonly phone: Phone;
+  @Expose() private password: Password;
+  @Expose() private deviceId: string;
+  @Expose() private activated: boolean = true;
+  @Expose() private expirationDate?: Date;
+  @Expose() private readonly createdAt: Date = new Date();
+  @Expose() private updatedAt: Date = new Date();
+  @Expose() private lockedAt: Date | null;
   // khi dang nhap thanh cong thi cap nhat con` khi dang xuat thi xoa'
+  @Expose()
+  @Type(() => Device)
   private devices: IDevice[];
 
   open(): void {
@@ -92,8 +94,13 @@ export class Account extends Entity<AccountProps> implements IAccount {
   }
   signOutDevice(): void {
     const i = this.devices.findIndex((e) => e.isA(this.deviceId));
-    this.devices[i].deactivate();
-    this.deviceId = null;
+    if (i) {
+      this.devices[i].deactivate();
+      this.deviceId = null;
+    } else
+      throw new UnprocessableEntityException(
+        'Signout device: device not found',
+      );
   }
   async toPlainObject(): Promise<object> {
     return {

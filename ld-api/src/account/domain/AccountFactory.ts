@@ -22,11 +22,11 @@ export class AccountFactory {
         ...options,
         id: aId,
         devices: [
-          this.deviceFactory.create({
+          /* this.deviceFactory.create({
             accountId: aId,
             deviceId: options.deviceId,
-            active: true,
-          }),
+            active: false,
+          }), */
         ],
       }),
     ) as IAccount;

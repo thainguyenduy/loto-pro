@@ -28,12 +28,14 @@ import { LockAccountCommand } from './application/command/LockAccountCommand';
 import { LockAccountHandler } from './application/command/LockAccountHandler';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { LoginAccountHandler } from './application/query/LoginAccountHandler';
+
 import { AuthGuard } from 'libs/Auth';
-import { AccountLoggedInEvent } from './domain/event/AccountLoggedInEvent';
+
 import { DeviceRepository } from './infrastructure/repository/DeviceRepository';
 import { DeviceFactory } from './domain/DeviceFactory';
 import { SignOutAccountCommandHandler } from './application/command/SignOutAccountHandler';
+import { LoginAccountHandler } from './application/query/LoginAccountHandler';
+import { AccountLoggedInEventHandler } from './application/event/AccountLoggedInEventHandler';
 
 const infrastructure: Provider[] = [
   {
@@ -61,7 +63,7 @@ const application = [
   LockAccountHandler,
   LoginAccountHandler,
   SignOutAccountCommandHandler,
-  AccountLoggedInEvent,
+  AccountLoggedInEventHandler,
 ];
 
 const domain = [AccountFactory, DeviceFactory];
