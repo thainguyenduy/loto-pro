@@ -94,7 +94,7 @@ export class Account extends Entity<AccountProps> implements IAccount {
   }
   signOutDevice(): void {
     const i = this.devices.findIndex((e) => e.isA(this.deviceId));
-    if (i) {
+    if (i !== null) {
       this.devices[i].deactivate();
       this.deviceId = null;
     } else

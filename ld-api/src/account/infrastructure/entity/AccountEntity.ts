@@ -11,7 +11,7 @@ export class AccountEntity extends BaseEntity {
   @Column()
   activated: boolean;
 
-  @Column()
+  @Column({ nullable: true })
   deviceId: string;
 
   @Column()

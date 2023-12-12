@@ -21,7 +21,7 @@ export class SignOutAccountCommandHandler
       command.accountId,
     );
     if (!account) throw new NotFoundException('Account is not found');
-
+    // TODO: Use token from another account and signout for this account --> error
     account.signOutDevice();
 
     await this.accountRepository.save(account);

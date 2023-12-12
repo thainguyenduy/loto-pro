@@ -1,4 +1,4 @@
-import { BadRequestException, Inject } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
 
 import {
   EntityId,
@@ -9,7 +9,7 @@ import {
 
 import { AccountEntity } from 'src/account/infrastructure/entity/AccountEntity';
 
-import { Account, IAccount } from 'src/account/domain/Account';
+import { IAccount } from 'src/account/domain/Account';
 import { AccountFactory } from 'src/account/domain/AccountFactory';
 import { IAccountRepository } from 'src/account/application/IAccountRepository';
 import { Like } from 'typeorm';
@@ -19,7 +19,6 @@ import { DeviceEntity } from '../entity/DeviceEntity';
 import { DeviceRepository } from './DeviceRepository';
 import { InjectionToken } from 'src/account/application/InjectionToken';
 import { DeviceFactory } from 'src/account/domain/DeviceFactory';
-import { ErrorMessage } from 'src/account/domain/ErrorMessage';
 
 export class AccountRepository implements IAccountRepository {
   @Inject(InjectionToken.DEVICE_REPOSITORY)
@@ -39,13 +38,7 @@ export class AccountRepository implements IAccountRepository {
       const entities = await Promise.all(
         models.map((model) => this.modelToEntity(model)),
       );
-      if (account instanceof Account) {
-        const entity = await writeConnection.manager
-          .getRepository(AccountEntity)
-          .findOneBy({ phone: entities[0].phone });
-        if (entity)
-          throw new BadRequestException(ErrorMessage.ACCOUNT_ALREADY_EXISTED);
-      }
+
       return await writeConnection.manager
         .getRepository(AccountEntity)
         .save(entities)
@@ -62,6 +55,12 @@ export class AccountRepository implements IAccountRepository {
     const entity = await writeConnection.manager
       .getRepository(AccountEntity)
       .findOneBy({ id });
+    return entity ? this.entityToModel(entity) : null;
+  }
+  async findOneByPhone(phone: string): Promise<IAccount | null> {
+    const entity = await writeConnection.manager
+      .getRepository(AccountEntity)
+      .findOneBy({ phone });
     return entity ? this.entityToModel(entity) : null;
   }
 
