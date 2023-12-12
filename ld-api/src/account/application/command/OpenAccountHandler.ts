@@ -1,4 +1,4 @@
-import { Inject } from '@nestjs/common';
+import { BadRequestException, Inject } from '@nestjs/common';
 import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 
 import { Transactional } from '../../../../libs/Transactional';
@@ -9,6 +9,7 @@ import { InjectionToken } from '../InjectionToken';
 import { AccountFactory } from '../../domain/AccountFactory';
 import { IAccountRepository } from '../IAccountRepository';
 import { Password, Phone } from '../../../../libs/domain';
+import { ErrorMessage } from '../ApplicationError';
 // import { AccountLoggedInEvent } from 'src/account/domain/event/AccountLoggedInEvent';
 
 @CommandHandler(OpenAccountCommand)
@@ -30,7 +31,11 @@ export class OpenAccountHandler
     });
 
     account.open();
-
+    const accountExisted = await this.accountRepository.findOneByPhone(
+      command.phone,
+    );
+    if (accountExisted)
+      throw new BadRequestException(ErrorMessage.ACCOUNT_ALREADY_EXISTED);
     await this.accountRepository.save(account);
     // if (accounts.length > 0) {
     //   const account = (await accounts[0].toPlainObject()) as any;
