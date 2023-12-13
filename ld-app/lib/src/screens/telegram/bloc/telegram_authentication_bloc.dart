@@ -17,22 +17,20 @@ part 'telegram_authentication_bloc.freezed.dart';
 @lazySingleton
 class TelegramAuthenticationBloc
     extends Bloc<TelegramAuthenticationEvent, TelegramAuthState> {
-  TelegramAuthenticationBloc() : super(const TelegramAuthState()) {
+  TelegramAuthenticationBloc(this.tdClient) : super(const TelegramAuthState()) {
     on<_TelegramAuthStateChanged>(_onTelegramAuthStateChanged);
     on<TelegramLogoutRequested>(_onTelegramLogoutRequested);
     on<TelegramAuthPhoneNumberSubmitted>(_onTelegramAuthPhoneNumberSubmitted);
     on<TelegramAuthCodeSubmitted>(_onTelegramAuthCodeSubmitted);
-    telegramClient = Client.create();
     // if (_eventsSubscription != null) _eventsSubscription?.cancel();
-    _eventsSubscription = telegramClient?.updates.listen(_onNewEvent);
-    telegramClient?.initialize();
+    _eventsSubscription = tdClient.updates.listen(_onNewEvent);
   }
-  late final Client? telegramClient;
+  final Client tdClient;
   late StreamSubscription<td.TdObject>? _eventsSubscription;
   Future<void> _onTelegramAuthStateChanged(
       _TelegramAuthStateChanged event, Emitter<TelegramAuthState> emit) async {
     if (event.status is td.AuthorizationStateWaitTdlibParameters) {
-      await telegramClient?.send(
+      final result = await tdClient.send(
         td.SetTdlibParameters(
           systemVersion: '',
           useTestDc: true,
@@ -52,6 +50,9 @@ class TelegramAuthenticationBloc
           databaseEncryptionKey: '',
         ),
       );
+      if (result is td.TdError) {
+        print(result);
+      }
     } else if (event.status is td.AuthorizationStateWaitPhoneNumber) {
       emit(state.copyWith(status: TelegramAuthStatus.waitPhoneNumber));
     } else if (event.status is td.AuthorizationStateWaitCode) {
@@ -66,29 +67,28 @@ class TelegramAuthenticationBloc
   Future<void> _onTelegramAuthPhoneNumberSubmitted(
       TelegramAuthPhoneNumberSubmitted event,
       Emitter<TelegramAuthState> emit) async {
-    await telegramClient?.send(td.SetAuthenticationPhoneNumber(
+    final res = await tdClient.send(td.SetAuthenticationPhoneNumber(
         phoneNumber: event.phone)); /* '9996621234' */
     emit(state.copyWith(phone: event.phone));
   }
 
   Future<void> _onTelegramAuthCodeSubmitted(
       TelegramAuthCodeSubmitted event, Emitter<TelegramAuthState> emit) async {
-    await telegramClient
-        ?.send(td.CheckAuthenticationCode(code: event.code)); // '22222'
+    final res = await tdClient
+        .send(td.CheckAuthenticationCode(code: event.code)); // '22222'
     emit(state.copyWith(code: event.code));
   }
 
   Future<void> _onTelegramLogoutRequested(
       TelegramLogoutRequested event, Emitter<TelegramAuthState> emit) async {
-    await telegramClient?.send(const td.LogOut());
+    await tdClient.send(const td.LogOut());
+    emit(state.copyWith(status: TelegramAuthStatus.loggedOut));
   }
 
   @override
   close() async {
     super.close();
-    telegramClient?.destroy();
     await _eventsSubscription?.cancel();
-    telegramClient = null;
   }
 
   void _onNewEvent(td.TdObject event) async {

@@ -2,6 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:ld_app/src/domain/chat.dart';
+import 'package:ld_app/src/infrastructure/injector.dart';
+import 'package:tdlib/td_client.dart';
+import 'package:tdlib/td_api.dart' as td;
 
 import '../components/bubbles.dart';
 import '../components/chat_info_title.dart';
@@ -27,10 +30,17 @@ class _ChatScreenState extends State<ChatScreen> {
     super.dispose();
   }
 
-  void _sendMessage(String text) {
+  void _sendMessage(String text) async {
     if (text.isEmpty) {
       return;
     }
+    final result = await locator<Client>().send(td.SendMessage(
+        chatId: widget.chat.id,
+        messageThreadId: 0,
+        inputMessageContent: td.InputMessageText(
+            text: td.FormattedText(text: text, entities: []),
+            clearDraft: true)));
+    print(result);
     setState(() {
       widget.chat.sendMessage(text);
       _controller.clear();
@@ -54,13 +64,15 @@ class _ChatScreenState extends State<ChatScreen> {
               reverse: true,
               itemCount: widget.chat.messages.length,
               itemBuilder: (context, i) {
-                final currentMessage = widget.chat.messages[widget.chat.messages.length - i - 1];
+                final currentMessage =
+                    widget.chat.messages[widget.chat.messages.length - i - 1];
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                   child: ChatMessageBubble(
                     message: currentMessage,
-                    status:
-                        ChatMessageStatus.values[Random().nextInt(ChatMessageStatus.values.length)],
+                    status: ChatMessageStatus.values[
+                        Random().nextInt(ChatMessageStatus.values.length)],
                     showSender: widget.chat is GroupChat,
                   ),
                 );
@@ -85,7 +97,8 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                     child: TextField(
                       controller: _controller,
                       decoration: const InputDecoration(

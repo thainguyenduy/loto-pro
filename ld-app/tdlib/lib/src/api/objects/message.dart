@@ -217,7 +217,8 @@ class Message extends TdObject {
       isPinned: json['is_pinned'] as bool,
       canBeEdited: json['can_be_edited'] as bool,
       canBeForwarded: json['can_be_forwarded'] as bool,
-      canBeRepliedInAnotherChat: json['can_be_replied_in_another_chat'] as bool,
+      canBeRepliedInAnotherChat:
+          (json['can_be_replied_in_another_chat'] ?? true) as bool,
       canBeSaved: json['can_be_saved'] as bool,
       canBeDeletedOnlyForSelf: json['can_be_deleted_only_for_self'] as bool,
       canBeDeletedForAllUsers: json['can_be_deleted_for_all_users'] as bool,

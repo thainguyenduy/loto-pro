@@ -1,6 +1,13 @@
 part of 'telegram_authentication_bloc.dart';
 
-enum TelegramAuthStatus { initial, waitPhoneNumber, waitCode, success, failure }
+enum TelegramAuthStatus {
+  initial,
+  waitPhoneNumber,
+  waitCode,
+  success,
+  failure,
+  loggedOut
+}
 
 @freezed
 class TelegramAuthState with _$TelegramAuthState {

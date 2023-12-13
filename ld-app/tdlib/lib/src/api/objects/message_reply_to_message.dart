@@ -62,9 +62,9 @@ class MessageReplyToMessage extends MessageReplyTo {
       chatId: json['chat_id'] as int,
       messageId: json['message_id'] as int,
       quote: FormattedText.fromJson(json['quote'] as Map<String, dynamic>?),
-      isQuoteManual: json['is_quote_manual'] as bool,
+      isQuoteManual: (json['is_quote_manual'] ?? true) as bool,
       origin: MessageOrigin.fromJson(json['origin'] as Map<String, dynamic>?),
-      originSendDate: json['origin_send_date'] as int,
+      originSendDate: (json['origin_send_date'] ?? 0) as int,
       content:
           MessageContent.fromJson(json['content'] as Map<String, dynamic>?),
     );

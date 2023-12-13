@@ -3,16 +3,18 @@ import 'dart:math';
 import 'package:auto_route/auto_route.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
-import 'package:ld_app/src/application/telegram_authentication/telegram_authentication_bloc.dart';
 import 'package:ld_app/src/domain/chat.dart';
 import 'package:ld_app/src/domain/message.dart';
 import 'package:ld_app/src/domain/user.dart';
 import 'package:ld_app/src/infrastructure/injector.dart';
+import 'package:ld_app/src/screens/telegram/bloc/telegram_authentication_bloc.dart';
+import 'package:tdlib/td_client.dart';
+import 'package:tdlib/td_api.dart' as td;
 
-import '../chat/chat.dart';
-import '../settings/menu.dart';
-import '../components/chat_list.dart';
-import '../components/search_chat_field.dart';
+import '../../chat/chat.dart';
+import '../../settings/menu.dart';
+import '../../components/chat_list.dart';
+import '../../components/search_chat_field.dart';
 
 @RoutePage()
 class TelegramHomeScreen extends StatefulWidget {
@@ -23,11 +25,12 @@ class TelegramHomeScreen extends StatefulWidget {
 }
 
 class _TelegramHomeScreenState extends State<TelegramHomeScreen> {
-  final _chats = List<Chat>.generate(4, (i) => _generateChat());
+  // final _chats = List<Chat>.generate(4, (i) => _generateChat());
   static final _baseDate = DateTime.now().subtract(const Duration(days: 1));
   final _scaffold = GlobalKey<ScaffoldState>();
   final _displayChats = <Chat>[];
   final _searchController = TextEditingController();
+  List<Chat> _chats = [];
 
   void _write() {
     setState(() {
@@ -73,7 +76,7 @@ class _TelegramHomeScreenState extends State<TelegramHomeScreen> {
   static Chat _generateChat() {
     final random = Random();
     final baseDate = DateTime.now().subtract(const Duration(days: 1));
-    if (random.nextBool()) {
+    if (1 == 1) {
       final members = List<User>.generate(
         random.nextInt(2047) + 1,
         (i) => User(
@@ -147,15 +150,38 @@ class _TelegramHomeScreenState extends State<TelegramHomeScreen> {
   @override
   void initState() {
     super.initState();
-    _chats.add(savedMessages);
-    _performSearch();
+    // _chats.add(savedMessages);
     _searchController.addListener(() => setState(() => _performSearch()));
+    _loadChats();
+    _performSearch();
   }
 
   @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
+  }
+
+  _loadChats() async {
+    final tdClient = locator<Client>();
+    final chatsList = await tdClient.send(const td.GetChats(limit: 100));
+    if (chatsList is td.TdError) print(chatsList);
+    List<int> chatIds = (chatsList as td.Chats).chatIds;
+    List<td.Chat> messages = await Future.wait(
+        chatIds.map((id) => tdClient.send(td.GetChat(chatId: id))));
+    final _messages = messages.map((message) {
+      return PrivateChat(id: message.id, title: message.title, messages: [
+        TextMessage(
+            date:
+                DateTime.fromMillisecondsSinceEpoch(message.lastMessage!.date),
+            sender: const User(id: 1, name: 'test'),
+            text: message.lastMessage!.content.toString())
+      ]);
+    });
+    setState(() {
+      _chats = _messages.toList();
+      _performSearch();
+    });
   }
 
   @override

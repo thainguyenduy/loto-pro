@@ -1,11 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ld_app/src/application/app/app.dart';
-import 'package:ld_app/src/application/telegram_authentication/telegram_authentication_bloc.dart';
 import 'package:ld_app/src/infrastructure/injector.dart';
+import 'package:ld_app/src/screens/app/bloc/app_bloc.dart';
 import 'package:ld_app/src/screens/splash/splash_page.dart';
-import 'package:ld_app/src/screens/telegram_home/telegram_home.dart';
+import 'package:ld_app/src/screens/telegram/bloc/telegram_authentication_bloc.dart';
+import 'package:ld_app/src/screens/telegram/telegram_home/telegram_home.dart';
+import 'package:ld_app/src/screens/telegram/telegram_sign_in/telegram_sign_in.dart';
 
 @RoutePage()
 class TelegramPage extends StatelessWidget {
@@ -36,7 +37,7 @@ class TelegramPage extends StatelessWidget {
                 child: Text('Danh mục'),
               ),
               ListTile(
-                leading: Icon(
+                leading: const Icon(
                   Icons.logout,
                 ),
                 title: const Text('Đăng xuất'),
@@ -51,10 +52,17 @@ class TelegramPage extends StatelessWidget {
         ),
         body: BlocBuilder<TelegramAuthenticationBloc, TelegramAuthState>(
             builder: (context, state) {
-          if (state.status == TelegramAuthStatus.success) {
+          if ([
+            TelegramAuthStatus.success,
+          ].contains(state.status)) {
             return const TelegramHomeScreen();
-          } else if (state.status == TelegramAuthStatus.failure) {
-            return const TelegramHomeScreen();
+          } else if ([
+            TelegramAuthStatus.waitPhoneNumber,
+            TelegramAuthStatus.waitCode,
+            TelegramAuthStatus.failure,
+            TelegramAuthStatus.loggedOut,
+          ].contains(state.status)) {
+            return const TelegramSignInScreen();
           } else {
             return const SplashPage();
           }

@@ -33,7 +33,7 @@ class Chat extends TdObject {
     required this.notificationSettings,
     required this.availableReactions,
     required this.messageAutoDeleteTime,
-    required this.background,
+    this.background,
     required this.themeName,
     this.actionBar,
     required this.videoChat,
@@ -141,7 +141,7 @@ class Chat extends TdObject {
   /// [background]_custom_emoji_id Identifier of a custom emoji to be shown on
   /// the reply header background in replies to messages sent by the chat; 0 if
   /// none
-  final ChatBackground background;
+  final ChatBackground? background;
 
   /// [themeName] If non-empty, name of a theme, set for the chat
   final String themeName;
@@ -181,9 +181,9 @@ class Chat extends TdObject {
       type: ChatType.fromJson(json['type'] as Map<String, dynamic>?)!,
       title: json['title'] as String,
       photo: ChatPhotoInfo.fromJson(json['photo'] as Map<String, dynamic>?),
-      accentColorId: json['accent_color_id'] as int,
+      accentColorId: (json['accent_color_id'] ?? 0) as int,
       backgroundCustomEmojiId:
-          int.tryParse(json['background_custom_emoji_id']) ?? 0,
+          int.tryParse(json['background_custom_emoji_id'] ?? '') ?? 0,
       permissions: ChatPermissions.fromJson(
           json['permissions'] as Map<String, dynamic>?)!,
       lastMessage:
@@ -215,7 +215,7 @@ class Chat extends TdObject {
           json['available_reactions'] as Map<String, dynamic>?)!,
       messageAutoDeleteTime: json['message_auto_delete_time'] as int,
       background:
-          ChatBackground.fromJson(json['background'] as Map<String, dynamic>?)!,
+          ChatBackground.fromJson(json['background'] as Map<String, dynamic>?),
       themeName: json['theme_name'] as String,
       actionBar:
           ChatActionBar.fromJson(json['action_bar'] as Map<String, dynamic>?),
@@ -262,7 +262,7 @@ class Chat extends TdObject {
         'notification_settings': notificationSettings.toJson(),
         'available_reactions': availableReactions.toJson(),
         'message_auto_delete_time': messageAutoDeleteTime,
-        'background': background.toJson(),
+        'background': background?.toJson(),
         'theme_name': themeName,
         'action_bar': actionBar?.toJson(),
         'video_chat': videoChat.toJson(),
