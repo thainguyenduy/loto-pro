@@ -59,6 +59,7 @@ class TelegramPage extends StatelessWidget {
           } else if ([
             TelegramAuthStatus.waitPhoneNumber,
             TelegramAuthStatus.waitCode,
+            TelegramAuthStatus.waitPassword,
             TelegramAuthStatus.failure,
             TelegramAuthStatus.loggedOut,
           ].contains(state.status)) {

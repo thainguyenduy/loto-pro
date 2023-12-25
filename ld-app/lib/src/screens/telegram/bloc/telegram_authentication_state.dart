@@ -4,6 +4,7 @@ enum TelegramAuthStatus {
   initial,
   waitPhoneNumber,
   waitCode,
+  waitPassword,
   success,
   failure,
   loggedOut
@@ -15,5 +16,6 @@ class TelegramAuthState with _$TelegramAuthState {
       {@Default(TelegramAuthStatus.initial) TelegramAuthStatus status,
       String? phone,
       String? code,
+      String? password,
       String? errorMessage}) = _TelegramAuthState;
 }

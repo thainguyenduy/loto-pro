@@ -40,7 +40,7 @@ extension GetItInjectableX on _i1.GetIt {
     final appModule = _$AppModule();
     gh.lazySingleton<_i3.AndroidId>(() => appModule.androidId);
     gh.singleton<_i4.AppRouter>(appModule.appRouter);
-    gh.lazySingleton<_i5.Client>(() => appModule.tdClient);
+    gh.singleton<_i5.Client>(appModule.tdClient);
     gh.lazySingleton<_i6.DeviceInfoPlugin>(() => appModule.deviceInfo);
     await gh.factoryAsync<_i7.NotificationService>(
       () => appModule.notificationService,
@@ -54,8 +54,8 @@ extension GetItInjectableX on _i1.GetIt {
       () => appModule.baseUrl,
       instanceName: 'BaseUrl',
     );
-    gh.lazySingleton<_i9.TelegramAuthenticationBloc>(
-        () => _i9.TelegramAuthenticationBloc(gh<_i5.Client>()));
+    gh.singleton<_i9.TelegramAuthenticationBloc>(
+        _i9.TelegramAuthenticationBloc(gh<_i5.Client>()));
     gh.lazySingleton<_i10.DeviceInfo>(() => _i10.DeviceInfo(
           gh<_i6.DeviceInfoPlugin>(),
           gh<_i3.AndroidId>(),

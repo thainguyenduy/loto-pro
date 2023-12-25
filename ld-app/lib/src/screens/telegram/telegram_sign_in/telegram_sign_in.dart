@@ -40,17 +40,18 @@ class _TelegramSignInScreenState extends State<TelegramSignInScreen> {
                 child: Column(
                   children: [
                     // no validation for you at all, sorry :(
-                    TextField(
-                      decoration: const InputDecoration(
-                        hintText: 'Phone number (with country code)',
+                    if (state.status == TelegramAuthStatus.waitPhoneNumber)
+                      TextField(
+                        decoration: const InputDecoration(
+                          hintText: 'Phone number (with country code)',
+                        ),
+                        autofocus: true,
+                        keyboardType: TextInputType.phone,
+                        onSubmitted: (value) => context
+                            .read<TelegramAuthenticationBloc>()
+                            .add(TelegramAuthPhoneNumberSubmitted(value)),
                       ),
-                      autofocus: true,
-                      keyboardType: TextInputType.phone,
-                      onSubmitted: (value) => context
-                          .read<TelegramAuthenticationBloc>()
-                          .add(TelegramAuthPhoneNumberSubmitted(value)),
-                    ),
-                    if (state.phone != null)
+                    if (state.status == TelegramAuthStatus.waitCode)
                       TextField(
                         decoration: const InputDecoration(
                           hintText: 'Verification code',
@@ -61,19 +62,17 @@ class _TelegramSignInScreenState extends State<TelegramSignInScreen> {
                             .read<TelegramAuthenticationBloc>()
                             .add(TelegramAuthCodeSubmitted(value)),
                       ),
-                    /* if (_passwordRequired)
+                    if (state.status == TelegramAuthStatus.waitPassword)
                       TextField(
                         decoration: const InputDecoration(
                           hintText: '2FA Password',
                         ),
                         autofocus: true,
                         obscureText: true,
-                        onSubmitted: (value) => Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const TelegramHomeScreen()),
-                        ),
-                      ), */
+                        onSubmitted: (value) => context
+                            .read<TelegramAuthenticationBloc>()
+                            .add(TelegramAuthPasswordSubmitted(value)),
+                      ),
                   ],
                 ),
               ),

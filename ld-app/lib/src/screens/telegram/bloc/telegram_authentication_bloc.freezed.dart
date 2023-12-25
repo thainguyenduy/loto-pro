@@ -19,6 +19,7 @@ mixin _$TelegramAuthState {
   TelegramAuthStatus get status => throw _privateConstructorUsedError;
   String? get phone => throw _privateConstructorUsedError;
   String? get code => throw _privateConstructorUsedError;
+  String? get password => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -36,6 +37,7 @@ abstract class $TelegramAuthStateCopyWith<$Res> {
       {TelegramAuthStatus status,
       String? phone,
       String? code,
+      String? password,
       String? errorMessage});
 }
 
@@ -55,6 +57,7 @@ class _$TelegramAuthStateCopyWithImpl<$Res, $Val extends TelegramAuthState>
     Object? status = null,
     Object? phone = freezed,
     Object? code = freezed,
+    Object? password = freezed,
     Object? errorMessage = freezed,
   }) {
     return _then(_value.copyWith(
@@ -69,6 +72,10 @@ class _$TelegramAuthStateCopyWithImpl<$Res, $Val extends TelegramAuthState>
       code: freezed == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
+              as String?,
+      password: freezed == password
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
               as String?,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
@@ -90,6 +97,7 @@ abstract class _$$TelegramAuthStateImplCopyWith<$Res>
       {TelegramAuthStatus status,
       String? phone,
       String? code,
+      String? password,
       String? errorMessage});
 }
 
@@ -107,6 +115,7 @@ class __$$TelegramAuthStateImplCopyWithImpl<$Res>
     Object? status = null,
     Object? phone = freezed,
     Object? code = freezed,
+    Object? password = freezed,
     Object? errorMessage = freezed,
   }) {
     return _then(_$TelegramAuthStateImpl(
@@ -121,6 +130,10 @@ class __$$TelegramAuthStateImplCopyWithImpl<$Res>
       code: freezed == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
+              as String?,
+      password: freezed == password
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
               as String?,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
@@ -139,6 +152,7 @@ class _$TelegramAuthStateImpl
       {this.status = TelegramAuthStatus.initial,
       this.phone,
       this.code,
+      this.password,
       this.errorMessage});
 
   @override
@@ -149,11 +163,13 @@ class _$TelegramAuthStateImpl
   @override
   final String? code;
   @override
+  final String? password;
+  @override
   final String? errorMessage;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'TelegramAuthState(status: $status, phone: $phone, code: $code, errorMessage: $errorMessage)';
+    return 'TelegramAuthState(status: $status, phone: $phone, code: $code, password: $password, errorMessage: $errorMessage)';
   }
 
   @override
@@ -164,6 +180,7 @@ class _$TelegramAuthStateImpl
       ..add(DiagnosticsProperty('status', status))
       ..add(DiagnosticsProperty('phone', phone))
       ..add(DiagnosticsProperty('code', code))
+      ..add(DiagnosticsProperty('password', password))
       ..add(DiagnosticsProperty('errorMessage', errorMessage));
   }
 
@@ -175,13 +192,15 @@ class _$TelegramAuthStateImpl
             (identical(other.status, status) || other.status == status) &&
             (identical(other.phone, phone) || other.phone == phone) &&
             (identical(other.code, code) || other.code == code) &&
+            (identical(other.password, password) ||
+                other.password == password) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, status, phone, code, errorMessage);
+      Object.hash(runtimeType, status, phone, code, password, errorMessage);
 
   @JsonKey(ignore: true)
   @override
@@ -196,6 +215,7 @@ abstract class _TelegramAuthState implements TelegramAuthState {
       {final TelegramAuthStatus status,
       final String? phone,
       final String? code,
+      final String? password,
       final String? errorMessage}) = _$TelegramAuthStateImpl;
 
   @override
@@ -204,6 +224,8 @@ abstract class _TelegramAuthState implements TelegramAuthState {
   String? get phone;
   @override
   String? get code;
+  @override
+  String? get password;
   @override
   String? get errorMessage;
   @override

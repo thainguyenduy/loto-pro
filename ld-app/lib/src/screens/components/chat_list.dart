@@ -40,8 +40,13 @@ class ChatListTile extends StatelessWidget {
     final lastMessage = chat.messages.last;
     return ListTile(
       leading: getChatAvatar(chat),
-      title: Text(chat.title),
-      subtitle: Text(lastMessage is TextMessage ? lastMessage.text : "<Photo>"),
+      title:
+          Text(chat.title, style: const TextStyle(fontWeight: FontWeight.w500)),
+      subtitle: Text(
+        lastMessage is TextMessage ? lastMessage.text : "<Photo>",
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+      ),
       trailing: Text(
         DateFormat.Hm().format(chat.messages.last.date),
         style: Theme.of(context).textTheme.bodySmall,

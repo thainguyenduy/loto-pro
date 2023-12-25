@@ -1,4 +1,5 @@
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:ld_app/src/infrastructure/injector.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,14 +34,14 @@ class AccessToken {
       final jwt = JWT.verify(
           accessToken!, SecretKey(dotenv.env['SECRET_PASSPHRASE'] ?? ''));
 
-      print('Payload: ${jwt.payload}');
+      debugPrint('Payload: ${jwt.payload}');
       payload = jwt.payload;
       expired = false;
     } on JWTExpiredException {
-      print('jwt expired');
+      debugPrint('jwt expired');
       expired = true;
     } on JWTException catch (ex) {
-      print(ex.message); // ex: invalid signature
+      debugPrint('${ex.message}'); // ex: invalid signature
     }
   }
 

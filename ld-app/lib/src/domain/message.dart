@@ -1,3 +1,5 @@
+import 'package:tdlib/td_api.dart' as td;
+
 import './user.dart';
 
 abstract class Message {
@@ -18,6 +20,14 @@ class TextMessage extends Message {
     required super.sender,
     required this.text,
   });
+  factory TextMessage.fromTdlib(td.Message message, String senderName) {
+    return TextMessage(
+        date: DateTime.fromMillisecondsSinceEpoch(message.date),
+        sender: User(
+            id: (message.senderId as td.MessageSenderUser).userId,
+            name: senderName),
+        text: (message.content as td.MessageText).text.text);
+  }
 }
 
 class PhotoMessage extends Message {

@@ -22,6 +22,13 @@ final class TelegramAuthPhoneNumberSubmitted
   final String phone;
 }
 
+final class TelegramAuthPasswordSubmitted extends TelegramAuthenticationEvent {
+  const TelegramAuthPasswordSubmitted(this.password);
+  final String password;
+}
+
+final class TelegramAuthReady extends TelegramAuthenticationEvent {}
+
 final class TelegramAuthCodeSubmitted extends TelegramAuthenticationEvent {
   const TelegramAuthCodeSubmitted(this.code);
   final String code;

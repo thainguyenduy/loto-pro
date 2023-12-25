@@ -1,4 +1,7 @@
 import 'package:flutter/widgets.dart';
+import 'package:ld_app/src/infrastructure/injector.dart';
+import 'package:ld_app/src/infrastructure/service/telegram_service.dart';
+import 'package:tdlib/td_api.dart' as td;
 
 import './message.dart';
 import './user.dart';
@@ -23,18 +26,19 @@ abstract class Chat {
     this.avatar,
   });
 
-  void sendMessage(String text) {
+  sendMessage(User sender, String text) {
     final message = TextMessage(
       text: text,
       date: DateTime.now(),
-      sender: User.me,
+      sender: sender,
     );
     messages.add(message);
   }
 
   @override
   bool operator ==(Object? other) =>
-      identical(this, other) || other is Chat && id == other.id && type == other.type;
+      identical(this, other) ||
+      other is Chat && id == other.id && type == other.type;
 
   @override
   int get hashCode => id.hashCode ^ type.hashCode;
@@ -53,6 +57,15 @@ class PrivateChat extends Chat {
           messages: messages,
           avatar: avatar,
         );
+  factory PrivateChat.fromTdlib(td.Chat message) {
+    var _messages = (message.lastMessage!.content is td.MessageText)
+        ? [TextMessage.fromTdlib(message.lastMessage!, message.title)]
+        : [];
+    return PrivateChat(
+        id: message.id,
+        title: message.title,
+        messages: _messages.toList() as List<Message>);
+  }
 }
 
 class GroupChat extends Chat {
