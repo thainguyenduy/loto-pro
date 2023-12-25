@@ -10,6 +10,7 @@ class User extends TdObject {
     required this.firstName,
     required this.lastName,
     this.usernames,
+    required this.accessHash,
     required this.phoneNumber,
     required this.status,
     this.profilePhoto,
@@ -35,6 +36,8 @@ class User extends TdObject {
 
   /// [id] User identifier
   final int id;
+
+  final int accessHash;
 
   /// [firstName] First name of the user
   final String firstName;
@@ -129,6 +132,7 @@ class User extends TdObject {
 
     return User(
       id: json['id'] as int,
+      accessHash: json['access_hash'] as int,
       firstName: json['first_name'] as String,
       lastName: json['last_name'] as String,
       usernames: Usernames.fromJson(json['usernames'] as Map<String, dynamic>?),
@@ -165,6 +169,7 @@ class User extends TdObject {
   @override
   Map<String, dynamic> toJson() => <String, dynamic>{
         'id': id,
+        'access_hash': accessHash,
         'first_name': firstName,
         'last_name': lastName,
         'usernames': usernames?.toJson(),

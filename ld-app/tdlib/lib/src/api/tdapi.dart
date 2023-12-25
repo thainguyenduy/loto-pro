@@ -2109,3 +2109,8 @@ export 'objects/web_app.dart';
 export 'objects/web_app_info.dart';
 export 'objects/web_page.dart';
 export 'objects/web_page_instant_view.dart';
+export 'objects/input_peer.dart';
+export 'objects/input_peer_empty.dart';
+export 'objects/input_peer_self.dart';
+export 'objects/input_peer_user.dart';
+export 'functions/get_history.dart';

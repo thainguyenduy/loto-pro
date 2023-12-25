@@ -31226,3 +31226,73 @@ extension TestReturnErrorDataClassExtensions on TestReturnError {
   int get overriddenHashCode =>
       Object.hashAll([runtimeType, const DeepCollectionEquality().hash(error)]);
 }
+
+extension InputPeerDataClassExtensions on InputPeer {
+  bool overriddenEquality(Object other) =>
+      identical(this, other) ||
+      (other.runtimeType == runtimeType && other is InputPeer);
+
+  int get overriddenHashCode => runtimeType.hashCode;
+}
+
+extension InputPeerEmptyDataClassExtensions on InputPeerEmpty {
+  bool overriddenEquality(Object other) =>
+      identical(this, other) ||
+      (other.runtimeType == runtimeType && other is InputPeerEmpty);
+  int get overriddenHashCode => runtimeType.hashCode;
+}
+
+extension InputPeerSelfDataClassExtensions on InputPeerSelf {
+  bool overriddenEquality(Object other) =>
+      identical(this, other) ||
+      (other.runtimeType == runtimeType && other is InputPeerSelf);
+  int get overriddenHashCode => runtimeType.hashCode;
+}
+
+extension InputPeerUserDataClassExtensions on InputPeerUser {
+  bool overriddenEquality(Object other) =>
+      identical(this, other) ||
+      (other.runtimeType == runtimeType && other is InputPeerUser &&
+      const DeepCollectionEquality().equals(other.userId, userId) &&
+      const DeepCollectionEquality().equals(other.accessHash, accessHash));
+      
+  int get overriddenHashCode => Object.hashAll([
+        runtimeType,
+        const DeepCollectionEquality().hash(userId),
+        const DeepCollectionEquality().hash(accessHash)
+      ]);
+}
+
+extension GetHistoryDataClassExtensions on GetHistory {
+  bool overriddenEquality(Object other) =>
+      identical(this, other) ||
+      (other.runtimeType == runtimeType &&
+          other is GetHistory &&
+          const DeepCollectionEquality().equals(other.inputPeer, inputPeer) &&
+          const DeepCollectionEquality()
+              .equals(other.offsetId, offsetId) &&
+              const DeepCollectionEquality()
+              .equals(other.offsetDate, offsetDate) &&
+              const DeepCollectionEquality()
+              .equals(other.addOffset, addOffset) &&
+              const DeepCollectionEquality()
+              .equals(other.limit, limit) &&
+              const DeepCollectionEquality()
+              .equals(other.maxId, maxId) &&
+              const DeepCollectionEquality()
+              .equals(other.minId, minId) &&
+              const DeepCollectionEquality()
+              .equals(other.hash, hash));
+
+  int get overriddenHashCode => Object.hashAll([
+        runtimeType,
+        const DeepCollectionEquality().hash(inputPeer),
+        const DeepCollectionEquality().hash(offsetId),
+        const DeepCollectionEquality().hash(offsetDate),
+        const DeepCollectionEquality().hash(addOffset),
+        const DeepCollectionEquality().hash(limit),
+        const DeepCollectionEquality().hash(maxId),
+        const DeepCollectionEquality().hash(minId),
+        const DeepCollectionEquality().hash(hash),
+      ]);
+}

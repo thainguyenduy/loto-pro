@@ -1,4 +1,5 @@
 import 'package:tdlib/td_api.dart';
+
 extension TdErrorExtensions on TdError {
   TdError copyWith({
     int? code,
@@ -2353,6 +2354,7 @@ extension UsernamesExtensions on Usernames {
 extension UserExtensions on User {
   User copyWith({
     int? id,
+    int? accessHash,
     String? firstName,
     String? lastName,
     Usernames? usernames,
@@ -2380,6 +2382,7 @@ extension UserExtensions on User {
   }) =>
       User(
         id: id ?? this.id,
+        accessHash: accessHash ?? this.accessHash,
         firstName: firstName ?? this.firstName,
         lastName: lastName ?? this.lastName,
         usernames: usernames ?? this.usernames,
@@ -31633,4 +31636,74 @@ extension TestReturnErrorExtensions on TestReturnError {
       TestReturnError(
         error: error ?? this.error,
       );
+}
+
+extension InputPeerExtensions on InputPeer {
+  TResult map<TResult extends Object?>({
+    required TResult Function(InputPeerEmpty value) empty,
+    required TResult Function(InputPeerSelf value) self,
+    required TResult Function(InputPeerUser value) user,
+  }) {
+    switch (getConstructor()) {
+      case InputPeerEmpty.constructor:
+        return empty.call(this as InputPeerEmpty);
+      case InputPeerSelf.constructor:
+        return self.call(this as InputPeerSelf);
+      case InputPeerUser.constructor:
+        return user.call(this as InputPeerUser);
+    }
+    throw StateError('not handled type Generator');
+  }
+
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(InputPeerEmpty value)? empty,
+    TResult Function(InputPeerSelf value)? self,
+    TResult Function(InputPeerUser value)? user,
+    required TResult Function() orElse,
+  }) {
+    switch (getConstructor()) {
+      case InputPeerEmpty.constructor:
+        if (empty != null) {
+          return empty.call(this as InputPeerEmpty);
+        }
+        break;
+      case InputPeerSelf.constructor:
+        if (self != null) {
+          return self.call(this as InputPeerSelf);
+        }
+        break;
+      case InputPeerUser.constructor:
+        if (user != null) {
+          return user.call(this as InputPeerUser);
+        }
+        break;
+    }
+    return orElse.call();
+  }
+}
+
+extension InputPeerUserExtensions on InputPeerUser {
+  InputPeerUser copyWith({int? userId, int? accessHash}) => InputPeerUser(
+      userId: userId ?? this.userId, accessHash: accessHash ?? this.accessHash);
+}
+
+extension GetHistoryExtensions on GetHistory {
+  GetHistory copyWith(
+          {InputPeer? inputPeer,
+          int? offsetId,
+          int? offsetDate,
+          int? addOffset,
+          int? limit,
+          int? maxId,
+          int? minId,
+          int? hash}) =>
+      GetHistory(
+          inputPeer: inputPeer ?? this.inputPeer,
+          offsetId: offsetId ?? this.offsetId,
+          offsetDate: offsetDate ?? this.offsetDate,
+          addOffset: addOffset ?? this.addOffset,
+          limit: limit ?? this.limit,
+          maxId: maxId ?? this.minId,
+          minId: minId ?? this.minId,
+          hash: hash ?? this.hash);
 }
