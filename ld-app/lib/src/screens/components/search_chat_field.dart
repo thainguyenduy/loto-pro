@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:ld_app/src/domain/user.dart';
+import 'package:ld_app/src/infrastructure/injector.dart';
+import 'package:ld_app/src/infrastructure/service/telegram_service.dart';
 
 import 'utils.dart';
 
 class SearchChatField extends StatelessWidget {
   final TextEditingController controller;
   final GlobalKey<ScaffoldState> scaffoldKey;
-
   const SearchChatField({
     super.key,
     required this.controller,
@@ -26,7 +27,7 @@ class SearchChatField extends StatelessWidget {
           suffixIcon: IconButton(
             padding: const EdgeInsets.all(6),
             splashRadius: 16,
-            icon: getUserAvatar(User.me),
+            icon: getUserAvatar(locator<TelegramService>().me),
             onPressed: () {
               scaffoldKey.currentState!.openDrawer();
             },

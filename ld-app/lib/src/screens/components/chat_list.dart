@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:ld_app/src/domain/chat.dart';
-import 'package:ld_app/src/domain/message.dart';
 
 import '../chat/chat.dart';
 import 'utils.dart';
@@ -40,15 +38,15 @@ class ChatListTile extends StatelessWidget {
     final lastMessage = chat.messages.last;
     return ListTile(
       leading: getChatAvatar(chat),
-      title:
-          Text(chat.title, style: const TextStyle(fontWeight: FontWeight.w500)),
+      title: Text(chat.title.isNotEmpty ? chat.title : "Deleted Account",
+          style: const TextStyle(fontWeight: FontWeight.w500)),
       subtitle: Text(
-        lastMessage is TextMessage ? lastMessage.text : "<Photo>",
+        lastMessage.content,
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
       ),
       trailing: Text(
-        DateFormat.Hm().format(chat.messages.last.date),
+        telegramFormatDate(chat.messages.last.date),
         style: Theme.of(context).textTheme.bodySmall,
       ),
       onTap: () {

@@ -37,14 +37,13 @@ abstract class AppModule {
   @preResolve
   Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
 
-
-  @singleton
-  Client get tdClient {
+  @lazySingleton
+  Client get client {
     final client = Client.create();
-    client.initialize();
+    // client.initialize();
     return client;
   }
 
-  /* @lazySingleton
-  TelegramService getService(Client client) => TelegramService.create(client); */
+  @lazySingleton
+  TelegramService getService(Client client) => TelegramService.create(client);
 }

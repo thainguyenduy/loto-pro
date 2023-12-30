@@ -2354,7 +2354,6 @@ extension UsernamesExtensions on Usernames {
 extension UserExtensions on User {
   User copyWith({
     int? id,
-    int? accessHash,
     String? firstName,
     String? lastName,
     Usernames? usernames,
@@ -2382,7 +2381,6 @@ extension UserExtensions on User {
   }) =>
       User(
         id: id ?? this.id,
-        accessHash: accessHash ?? this.accessHash,
         firstName: firstName ?? this.firstName,
         lastName: lastName ?? this.lastName,
         usernames: usernames ?? this.usernames,

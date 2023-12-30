@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:ld_app/src/infrastructure/injector.dart';
-import 'package:ld_app/src/infrastructure/service/telegram_service.dart';
+import 'package:ld_app/src/screens/components/utils.dart';
 import 'package:tdlib/td_api.dart' as td;
 
 import './message.dart';
@@ -46,25 +45,17 @@ abstract class Chat {
 
 class PrivateChat extends Chat {
   const PrivateChat({
-    required int id,
-    required String title,
-    required List<Message> messages,
-    Widget? avatar,
-  }) : super(
-          id: id,
-          title: title,
-          type: ChatType.private,
-          messages: messages,
-          avatar: avatar,
-        );
-  factory PrivateChat.fromTdlib(td.Chat message) {
-    var _messages = (message.lastMessage!.content is td.MessageText)
-        ? [TextMessage.fromTdlib(message.lastMessage!, message.title)]
-        : [];
+    required super.id,
+    required super.title,
+    required super.messages,
+    super.avatar,
+  }) : super(type: ChatType.private);
+  factory PrivateChat.fromTdlib(td.Chat chat, User me) {
+    List<Message> messages = [];
+    messages.add(createMessageFactory(chat.lastMessage!, chat.title)!);
+
     return PrivateChat(
-        id: message.id,
-        title: message.title,
-        messages: _messages.toList() as List<Message>);
+        id: chat.id, title: chat.title, messages: messages.toList());
   }
 }
 
@@ -72,16 +63,10 @@ class GroupChat extends Chat {
   final List<User> members;
 
   const GroupChat({
-    required int id,
-    required String title,
-    required List<Message> messages,
-    Widget? avatar,
+    required super.id,
+    required super.title,
+    required super.messages,
+    super.avatar,
     required this.members,
-  }) : super(
-          id: id,
-          title: title,
-          type: ChatType.group,
-          messages: messages,
-          avatar: avatar,
-        );
+  }) : super(type: ChatType.group);
 }

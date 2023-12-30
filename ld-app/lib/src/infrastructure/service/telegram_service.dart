@@ -1,7 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:ld_app/src/domain/chat.dart';
+import 'package:ld_app/src/domain/message.dart';
+import 'package:ld_app/src/screens/components/utils.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:tdlib/td_api.dart' as td;
 import 'package:tdlib/td_client.dart';
@@ -9,18 +12,20 @@ import 'package:tdlib/td_client.dart';
 import '../../domain/user.dart';
 
 class TelegramService {
-  final Client client;
-  TelegramService(this.client);
-  /* static TelegramService create(Client client) {
-    client.initialize();
-    TelegramService service = TelegramService._(client);
-    return service;
-  } */
+  final Client _client;
+  User? me;
+  TelegramService._(this._client);
 
-  Stream<td.TdObject> get updates => client.updates;
+  @FactoryMethod()
+  static TelegramService create(Client client) {
+    client.initialize();
+    return TelegramService._(client);
+  }
+
+  Stream<td.TdObject> get updates => _client.updates;
 
   Future<td.TdObject> setTdlibParameters() async {
-    return await client.send(
+    return await _client.send(
       td.SetTdlibParameters(
         systemVersion: '',
         useTestDc: false,
@@ -42,42 +47,66 @@ class TelegramService {
     );
   }
 
-  Future<User> get me async {
-    /* final res = await client.send(const td.GetMe());
-    return User.me(res as td.User); */
-    return const User(id: 1, name: 'test');
+  Future<void> getMe() async {
+    final res = await _client.send(const td.GetMe());
+    me = User.me(res as td.User);
+    // return const User(id: 1, name: 'test');
+  }
+
+  Future sendMessage(int chatId, String text) async {
+    return await _client.send(td.SendMessage(
+        chatId: chatId,
+        messageThreadId: 0,
+        inputMessageContent: td.InputMessageText(
+            text: td.FormattedText(text: text, entities: const []),
+            clearDraft: true)));
+  }
+
+  Future<List<Message>> getHistory(Chat chat) async {
+    td.Messages messages = await _client.send(td.GetChatHistory(
+        chatId: chat.id,
+        fromMessageId: 0,
+        offset: 0,
+        limit: 99,
+        onlyLocal: false));
+    return (messages.messages != null && messages.messages!.isNotEmpty)
+        ? messages.messages!.map((td.Message message) {
+            return createMessageFactory(message, chat.title)!;
+          }).toList()
+        : [];
   }
 
   Future<td.TdObject> setAuthenticationPhoneNumber(String phone) async {
-    return await client
+    return await _client
         .send(td.SetAuthenticationPhoneNumber(phoneNumber: phone));
   }
 
   Future<td.TdObject> checkAuthenticationCode(String code) async {
-    return await client.send(td.CheckAuthenticationCode(code: code));
+    return await _client.send(td.CheckAuthenticationCode(code: code));
   }
 
   Future<td.TdObject> checkAuthenticationPassword(String password) async {
-    return await client
+    return await _client
         .send(td.CheckAuthenticationPassword(password: password));
   }
 
   Future<td.TdObject> logOut() async {
-    return await client.send(const td.LogOut());
+    return await _client.send(const td.LogOut());
   }
 
   Future<List<Chat>> getChats() async {
-    final chatsList = await client.send(const td.LoadChats(limit: 100));
+    final chatsList = await _client.send(const td.GetChats(limit: 100));
     if (chatsList is td.TdError) print(chatsList);
     List<int> chatIds = (chatsList as td.Chats).chatIds;
     List<td.Chat> chats = await Future.wait(
-        chatIds.map((id) => client.send(td.GetChat(chatId: id))));
+        chatIds.map((id) => _client.send(td.GetChat(chatId: id))));
     return chats.where((chat) {
-      return (chat.lastMessage!.content is td.MessageText ||
-          // message.lastMessage!.content is td.MessagePhoto ||
-          chat.lastMessage!.content is td.MessageAnimatedEmoji);
+      return chat.type is td.ChatTypePrivate &&
+          (chat.lastMessage!.content is td.MessageText ||
+              chat.lastMessage!.content is td.MessagePhoto ||
+              chat.lastMessage!.content is td.MessageSticker);
     }).map((chat) {
-      return PrivateChat.fromTdlib(chat);
+      return PrivateChat.fromTdlib(chat, me!);
     }).toList();
   }
 

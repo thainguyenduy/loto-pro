@@ -3,14 +3,14 @@ import 'package:tdlib/td_api.dart' as td;
 class User {
   User.me(td.User user)
       : id = user.id,
-        accessHash = user.accessHash,
-        name = "${user.firstName} ${user.lastName}";
+        name = "${user.firstName} ${user.lastName}",
+        me = true;
 
   final int id;
   final String name;
-  final int? accessHash;
+  final bool me;
 
-  const User({required this.id, required this.name, this.accessHash});
+  const User({required this.id, required this.name, this.me = false});
 
   @override
   bool operator ==(Object? other) =>
