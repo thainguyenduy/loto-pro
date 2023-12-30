@@ -1,4 +1,6 @@
 import 'package:flutter/widgets.dart';
+import 'package:ld_app/src/screens/components/utils.dart';
+import 'package:tdlib/td_api.dart' as td;
 
 import './message.dart';
 import './user.dart';
@@ -23,18 +25,19 @@ abstract class Chat {
     this.avatar,
   });
 
-  void sendMessage(String text) {
+  sendMessage(User sender, String text) {
     final message = TextMessage(
       text: text,
       date: DateTime.now(),
-      sender: User.me,
+      sender: sender,
     );
     messages.add(message);
   }
 
   @override
   bool operator ==(Object? other) =>
-      identical(this, other) || other is Chat && id == other.id && type == other.type;
+      identical(this, other) ||
+      other is Chat && id == other.id && type == other.type;
 
   @override
   int get hashCode => id.hashCode ^ type.hashCode;
@@ -42,33 +45,28 @@ abstract class Chat {
 
 class PrivateChat extends Chat {
   const PrivateChat({
-    required int id,
-    required String title,
-    required List<Message> messages,
-    Widget? avatar,
-  }) : super(
-          id: id,
-          title: title,
-          type: ChatType.private,
-          messages: messages,
-          avatar: avatar,
-        );
+    required super.id,
+    required super.title,
+    required super.messages,
+    super.avatar,
+  }) : super(type: ChatType.private);
+  factory PrivateChat.fromTdlib(td.Chat chat, User me) {
+    List<Message> messages = [];
+    messages.add(createMessageFactory(chat.lastMessage!, chat.title)!);
+
+    return PrivateChat(
+        id: chat.id, title: chat.title, messages: messages.toList());
+  }
 }
 
 class GroupChat extends Chat {
   final List<User> members;
 
   const GroupChat({
-    required int id,
-    required String title,
-    required List<Message> messages,
-    Widget? avatar,
+    required super.id,
+    required super.title,
+    required super.messages,
+    super.avatar,
     required this.members,
-  }) : super(
-          id: id,
-          title: title,
-          type: ChatType.group,
-          messages: messages,
-          avatar: avatar,
-        );
+  }) : super(type: ChatType.group);
 }

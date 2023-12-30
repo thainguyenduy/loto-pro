@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
-import 'package:ld_app/src/application/app/app.dart';
 import 'package:ld_app/src/domain/accessToken.dart';
 import 'package:ld_app/src/domain/account.dart';
 import 'package:ld_app/src/infrastructure/auth/i_auth_facade.dart';
 import 'package:ld_app/src/infrastructure/device_info.dart';
 import 'package:ld_app/src/infrastructure/exception/network_error_handler.dart';
+import 'package:ld_app/src/screens/app/bloc/app_bloc.dart';
 
 @Singleton(as: IAuthFacade)
 class AuthFacade implements IAuthFacade {
@@ -31,6 +31,11 @@ class AuthFacade implements IAuthFacade {
   @override
   Future<void> logOut() async {
     final accessToken = AccessToken.fromCache();
+    /* await dio.get("/signout/${(accessToken.payload as Map)['accountId']}",
+        options: Options(headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $accessToken",
+        })); */
     await accessToken.clear();
     _controller.add(AppStatus.unauthenticated);
   }

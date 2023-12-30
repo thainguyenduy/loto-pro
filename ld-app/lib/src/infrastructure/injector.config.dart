@@ -9,20 +9,23 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:android_id/android_id.dart' as _i3;
-import 'package:device_info_plus/device_info_plus.dart' as _i5;
-import 'package:dio/dio.dart' as _i9;
+import 'package:device_info_plus/device_info_plus.dart' as _i6;
+import 'package:dio/dio.dart' as _i11;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
-import 'package:shared_preferences/shared_preferences.dart' as _i7;
+import 'package:shared_preferences/shared_preferences.dart' as _i8;
+import 'package:tdlib/td_client.dart' as _i5;
 
-import '../application/app/bloc/app_bloc.dart' as _i13;
-import '../application/login/bloc/login_bloc.dart' as _i12;
+import '../screens/app/bloc/app_bloc.dart' as _i16;
+import '../screens/login/bloc/login_bloc.dart' as _i14;
 import '../screens/router/router.dart' as _i4;
-import 'app.module.dart' as _i14;
-import 'auth/i_auth_facade.dart' as _i10;
-import 'auth/impl/auth_facade.dart' as _i11;
-import 'device_info.dart' as _i8;
-import 'notification.service.dart' as _i6;
+import '../screens/telegram/bloc/telegram_authentication_bloc.dart' as _i15;
+import 'app.module.dart' as _i17;
+import 'auth/i_auth_facade.dart' as _i12;
+import 'auth/impl/auth_facade.dart' as _i13;
+import 'device_info.dart' as _i10;
+import 'notification.service.dart' as _i7;
+import 'service/telegram_service.dart' as _i9;
 
 extension GetItInjectableX on _i1.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -37,13 +40,14 @@ extension GetItInjectableX on _i1.GetIt {
     );
     final appModule = _$AppModule();
     gh.lazySingleton<_i3.AndroidId>(() => appModule.androidId);
-    gh.factory<_i4.AppRouter>(() => appModule.appRouter);
-    gh.lazySingleton<_i5.DeviceInfoPlugin>(() => appModule.deviceInfo);
-    await gh.factoryAsync<_i6.NotificationService>(
+    gh.singleton<_i4.AppRouter>(appModule.appRouter);
+    gh.lazySingleton<_i5.Client>(() => appModule.client);
+    gh.lazySingleton<_i6.DeviceInfoPlugin>(() => appModule.deviceInfo);
+    await gh.factoryAsync<_i7.NotificationService>(
       () => appModule.notificationService,
       preResolve: true,
     );
-    await gh.factoryAsync<_i7.SharedPreferences>(
+    await gh.factoryAsync<_i8.SharedPreferences>(
       () => appModule.prefs,
       preResolve: true,
     );
@@ -51,27 +55,31 @@ extension GetItInjectableX on _i1.GetIt {
       () => appModule.baseUrl,
       instanceName: 'BaseUrl',
     );
-    gh.lazySingleton<_i8.DeviceInfo>(() => _i8.DeviceInfo(
-          gh<_i5.DeviceInfoPlugin>(),
+    gh.lazySingleton<_i9.TelegramService>(
+        () => appModule.getService(gh<_i5.Client>()));
+    gh.lazySingleton<_i10.DeviceInfo>(() => _i10.DeviceInfo(
+          gh<_i6.DeviceInfoPlugin>(),
           gh<_i3.AndroidId>(),
         ));
-    gh.lazySingleton<_i9.Dio>(
+    gh.lazySingleton<_i11.Dio>(
         () => appModule.dio(gh<String>(instanceName: 'BaseUrl')));
-    gh.singleton<_i10.IAuthFacade>(_i11.AuthFacade(
-      gh<_i9.Dio>(),
-      gh<_i8.DeviceInfo>(),
+    gh.singleton<_i12.IAuthFacade>(_i13.AuthFacade(
+      gh<_i11.Dio>(),
+      gh<_i10.DeviceInfo>(),
     ));
-    gh.factory<_i12.LoginBloc>(
-        () => _i12.LoginBloc(authFacade: gh<_i10.IAuthFacade>()));
-    gh.singleton<_i13.AppBloc>(_i13.AppBloc(gh<_i10.IAuthFacade>()));
+    gh.factory<_i14.LoginBloc>(
+        () => _i14.LoginBloc(authFacade: gh<_i12.IAuthFacade>()));
+    gh.singleton<_i15.TelegramAuthenticationBloc>(
+        _i15.TelegramAuthenticationBloc(gh<_i9.TelegramService>()));
+    gh.singleton<_i16.AppBloc>(_i16.AppBloc(gh<_i12.IAuthFacade>()));
     return this;
   }
 }
 
-class _$AppModule extends _i14.AppModule {
+class _$AppModule extends _i17.AppModule {
   @override
   _i3.AndroidId get androidId => const _i3.AndroidId();
 
   @override
-  _i5.DeviceInfoPlugin get deviceInfo => _i5.DeviceInfoPlugin();
+  _i6.DeviceInfoPlugin get deviceInfo => _i6.DeviceInfoPlugin();
 }

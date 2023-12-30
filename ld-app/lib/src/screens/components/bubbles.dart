@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ld_app/src/domain/message.dart';
 import 'package:ld_app/src/screens/components/utils.dart';
-import 'package:intl/intl.dart';
-
 
 enum ChatMessageStatus {
   sending,
@@ -76,25 +74,13 @@ class MessageBubble extends StatelessWidget {
         break;
     }
     final Widget content;
-    if (message is TextMessage) {
-      final text = "${(message as TextMessage).text} ";
+    if (message is TextMessage || message is StickerMessage) {
+      final text = "${message.content} ";
       content = Text.rich(
         TextSpan(
           children: <InlineSpan>[
             TextSpan(
               text: text,
-            ),
-            TextSpan(
-              text: text,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            TextSpan(
-              text: text,
-              style: const TextStyle(fontStyle: FontStyle.italic),
-            ),
-            TextSpan(
-              text: text,
-              style: const TextStyle(fontFamily: "monospace"),
             ),
           ],
         ),
@@ -184,7 +170,7 @@ class _MessageContainer extends StatelessWidget {
           child: Row(
             children: [
               Text(
-                DateFormat.Hm().format(message.date),
+                telegramFormatDate(message.date),
                 style: TextStyle(
                   color: (message.outgoing ? Colors.white : Colors.black)
                       .withOpacity(0.8),

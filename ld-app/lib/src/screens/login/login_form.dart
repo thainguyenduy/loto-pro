@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:ld_app/src/application/login/bloc/login_bloc.dart';
+import 'package:ld_app/src/screens/login/bloc/login_bloc.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({super.key});
@@ -9,9 +9,9 @@ class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, LoginState>(
-      listenWhen: (previous, current) {
+      /* listenWhen: (previous, current) {
         return previous.message != current.message;
-      },
+      }, */
       listener: (context, state) {
         if (state.status.isFailure) {
           ScaffoldMessenger.of(context)

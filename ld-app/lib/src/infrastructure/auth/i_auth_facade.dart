@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:fpdart/fpdart.dart';
-import 'package:ld_app/src/application/app/app.dart';
 import 'package:ld_app/src/domain/account.dart';
 import 'package:ld_app/src/infrastructure/exception/network_error_handler.dart';
+import 'package:ld_app/src/screens/app/bloc/app_bloc.dart';
 
 abstract interface class IAuthFacade {
   Stream<AppStatus> get status;

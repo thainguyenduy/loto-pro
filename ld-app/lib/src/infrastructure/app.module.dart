@@ -4,8 +4,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ld_app/src/infrastructure/notification.service.dart';
+import 'package:ld_app/src/infrastructure/service/telegram_service.dart';
 import 'package:ld_app/src/screens/router/router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tdlib/td_client.dart';
 
 @module
 abstract class AppModule {
@@ -20,7 +22,7 @@ abstract class AppModule {
       connectTimeout: const Duration(seconds: 3),
       receiveTimeout: const Duration(seconds: 3)));
 
-  @injectable
+  @singleton
   AppRouter get appRouter => AppRouter();
 
   @preResolve
@@ -34,4 +36,14 @@ abstract class AppModule {
 
   @preResolve
   Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
+
+  @lazySingleton
+  Client get client {
+    final client = Client.create();
+    // client.initialize();
+    return client;
+  }
+
+  @lazySingleton
+  TelegramService getService(Client client) => TelegramService.create(client);
 }

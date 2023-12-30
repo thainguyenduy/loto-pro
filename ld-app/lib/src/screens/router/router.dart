@@ -1,9 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:ld_app/src/application/app/app.dart';
-import 'package:ld_app/src/screens/home/home.dart';
+import 'package:ld_app/src/screens/app/bloc/app_bloc.dart';
+import 'package:ld_app/src/screens/telegram/telegram_page.dart';
+import 'package:ld_app/src/screens/telegram/telegram_home/telegram_home.dart';
 import 'package:ld_app/src/screens/login/login_page.dart';
-import 'package:ld_app/src/screens/telegram_sign_in/telegram_sign_in.dart';
+import 'package:ld_app/src/screens/telegram/telegram_sign_in/telegram_sign_in.dart';
 
 part 'router.gr.dart';
 
@@ -13,7 +14,7 @@ class AppRouter extends _$AppRouter {
   List<AutoRoute> get routes => [
         //HomeScreen is generated as HomeRoute because
         //of the replaceInRouteName property
-        AutoRoute(page: HomeRoute.page),
+        AutoRoute(page: TelegramRoute.page),
         AutoRoute(page: LoginRoute.page, path: '/login'),
         RedirectRoute(path: '*', redirectTo: '/'),
       ];
@@ -25,7 +26,7 @@ List<Page<dynamic>> onGenerateAppViewPages(
 ) {
   switch (state) {
     case AppStatus.authenticated:
-      return [const MaterialPage(child: HomeScreen())];
+      return [const MaterialPage(child: TelegramPage())];
     case AppStatus.unauthenticated:
       return [const MaterialPage(child: LoginPage())];
   }
