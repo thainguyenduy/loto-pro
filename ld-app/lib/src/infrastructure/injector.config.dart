@@ -16,10 +16,10 @@ import 'package:injectable/injectable.dart' as _i2;
 import 'package:shared_preferences/shared_preferences.dart' as _i8;
 import 'package:tdlib/td_client.dart' as _i5;
 
-import '../screens/app/bloc/app_bloc.dart' as _i16;
-import '../screens/login/bloc/login_bloc.dart' as _i14;
-import '../screens/router/router.dart' as _i4;
-import '../screens/telegram/bloc/telegram_authentication_bloc.dart' as _i15;
+import '../application/app/app_bloc.dart' as _i16;
+import '../application/login/login_bloc.dart' as _i14;
+import '../application/telegram_auth/telegram_authentication_bloc.dart' as _i15;
+import '../presentation/router/router.dart' as _i4;
 import 'app.module.dart' as _i17;
 import 'auth/i_auth_facade.dart' as _i12;
 import 'auth/impl/auth_facade.dart' as _i13;

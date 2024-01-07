@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ld_app/src/application/app/app.dart';
 import 'package:ld_app/src/domain/accessToken.dart';
-import 'package:ld_app/src/domain/account.dart';
+import 'package:ld_app/src/domain/account/account.dart';
 import 'package:ld_app/src/infrastructure/auth/i_auth_facade.dart';
 import 'package:ld_app/src/infrastructure/device_info.dart';
 import 'package:ld_app/src/infrastructure/exception/network_error_handler.dart';
-import 'package:ld_app/src/screens/app/bloc/app_bloc.dart';
 
 @Singleton(as: IAuthFacade)
 class AuthFacade implements IAuthFacade {

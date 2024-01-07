@@ -41,7 +41,7 @@ class AccessToken {
       debugPrint('jwt expired');
       expired = true;
     } on JWTException catch (ex) {
-      debugPrint('${ex.message}'); // ex: invalid signature
+      debugPrint(ex.message); // ex: invalid signature
     }
   }
 
