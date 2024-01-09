@@ -61,15 +61,14 @@ class AuthFacade implements IAuthFacade {
                   'deviceId': deviceId
                 }),
             (e, _) => e))
-        .flatMap((result) => TaskEither.fromTask(Task.Do(($) async {
+        .flatMap((result) => TaskEither.tryCatch(() async {
               final accessToken =
                   AccessToken(result.data['accessToken'] as String);
-              accessToken.save();
+              await accessToken.save();
               _controller.add(AppStatus.authenticated);
-            })))
-        .map((_) {
-      return unit;
-    }).mapLeft((e) => NetworkErrorHandler<DioException>(e as DioException));
+              return unit;
+            }, (e, _) => e))
+        .mapLeft((e) => NetworkErrorHandler<DioException>(e as DioException));
   }
 
   void dispose() => _controller.close();

@@ -21,7 +21,8 @@ class _TelegramSignInScreenState extends State<TelegramSignInScreen> {
           title: const Text('Login'),
         ),
         body: BlocConsumer<TelegramAuthenticationBloc, TelegramAuthState>(
-          listenWhen: (previous, current) => previous.status != current.status,
+          listenWhen: (previous, current) =>
+              previous.errorMessage != current.errorMessage,
           listener: (context, state) {
             if (state.errorMessage != null) {
               ScaffoldMessenger.of(context)
@@ -40,8 +41,10 @@ class _TelegramSignInScreenState extends State<TelegramSignInScreen> {
                 child: Column(
                   children: [
                     // no validation for you at all, sorry :(
-                    if (state.status == TelegramAuthStatus.waitPhoneNumber)
+                    if (state.status == TelegramAuthStatus.waitPhoneNumber ||
+                        state.status == TelegramAuthStatus.loggedOut)
                       TextField(
+                        key: UniqueKey(),
                         decoration: const InputDecoration(
                           hintText: 'Phone number (with country code)',
                         ),
@@ -53,6 +56,7 @@ class _TelegramSignInScreenState extends State<TelegramSignInScreen> {
                       ),
                     if (state.status == TelegramAuthStatus.waitCode)
                       TextField(
+                        key: UniqueKey(),
                         decoration: const InputDecoration(
                           hintText: 'Verification code',
                         ),
@@ -64,6 +68,7 @@ class _TelegramSignInScreenState extends State<TelegramSignInScreen> {
                       ),
                     if (state.status == TelegramAuthStatus.waitPassword)
                       TextField(
+                        key: UniqueKey(),
                         decoration: const InputDecoration(
                           hintText: '2FA Password',
                         ),
