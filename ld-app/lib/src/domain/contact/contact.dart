@@ -21,4 +21,14 @@ class Contact implements IEntity {
   Option<ValueFailure> get failureOption {
     return none();
   }
+
+  @override
+  Map<String, dynamic> toMap() {
+    final map = <String, dynamic>{};
+    map['id'] = id.getOrCrash();
+    map['name'] = name;
+    map['phone'] = phone.getOrCrash();
+    map['telegramId'] = telegramId;
+    return map;
+  }
 }

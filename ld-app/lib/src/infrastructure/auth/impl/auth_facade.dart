@@ -8,7 +8,7 @@ import 'package:ld_app/src/domain/accessToken.dart';
 import 'package:ld_app/src/domain/account/account.dart';
 import 'package:ld_app/src/infrastructure/auth/i_auth_facade.dart';
 import 'package:ld_app/src/infrastructure/device_info.dart';
-import 'package:ld_app/src/infrastructure/exception/network_error_handler.dart';
+import 'package:ld_app/src/infrastructure/exception/network_exception_handler.dart';
 
 @Singleton(as: IAuthFacade)
 class AuthFacade implements IAuthFacade {
@@ -47,7 +47,7 @@ class AuthFacade implements IAuthFacade {
   }
 
   @override
-  TaskEither<NetworkErrorHandler, Unit> logIn({
+  TaskEither<NetworkExceptionHandler, Unit> logIn({
     required String phone,
     required String password,
   }) {
@@ -68,7 +68,8 @@ class AuthFacade implements IAuthFacade {
               _controller.add(AppStatus.authenticated);
               return unit;
             }, (e, _) => e))
-        .mapLeft((e) => NetworkErrorHandler<DioException>(e as DioException));
+        .mapLeft(
+            (e) => NetworkExceptionHandler<DioException>(e as DioException));
   }
 
   void dispose() => _controller.close();

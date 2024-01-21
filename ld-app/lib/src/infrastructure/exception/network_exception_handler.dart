@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 
-class NetworkErrorHandler<E> {
+class NetworkExceptionHandler<E> {
   E exception;
-  NetworkErrorHandler(this.exception);
+  NetworkExceptionHandler(this.exception);
   @override
   String toString() {
     // return 'test';

@@ -5,10 +5,13 @@ import 'package:http/http.dart' as http;
 import 'package:sqfentity/sqfentity.dart';
 import 'package:sqfentity_gen/sqfentity_gen.dart';
 
-import 'package:ld_app/src/infrastructure/database/model/account.dart';
-import 'package:ld_app/src/infrastructure/database/model/contact.dart';
+/* import 'package:ld_app/src/infrastructure/database/model/account.dart';
+import 'package:ld_app/src/infrastructure/database/model/contact.dart'; */
 
 part 'model.g.dart';
+
+part 'account.dart';
+part 'contact.dart';
 
 // Define the 'identity' constant as SqfEntitySequence.
 const seqIdentity = SqfEntitySequence(

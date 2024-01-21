@@ -1,10 +1,8 @@
-import 'package:fpdart/fpdart.dart';
-import 'package:ld_app/src/domain/account/account.dart';
-import 'package:ld_app/src/domain/account/account_failure.dart';
+part of 'account.dart';
 
 abstract interface class AccountRepository {
-  TaskEither<AccountFailure, IAccount> get account;
-  TaskEither<AccountFailure, Unit> create(IAccount account);
-  TaskEither<AccountFailure, Unit> update(IAccount account);
-  TaskEither<AccountFailure, Unit> delete(IAccount account);
+  TaskEither<AccountException, IAccount> getAccount(String id);
+  TaskEither<AccountException, Unit> create(IAccount account);
+  TaskEither<AccountException, Unit> update(IAccount account);
+  TaskEither<AccountException, Unit> delete(IAccount account);
 }

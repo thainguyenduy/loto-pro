@@ -1,5 +1,4 @@
-import 'package:ld_app/src/infrastructure/database/model/account.dart';
-import 'package:sqfentity_gen/sqfentity_gen.dart';
+part of 'model.dart';
 
 const tableContact = SqfEntityTable(
   tableName: 'contact',
@@ -16,7 +15,7 @@ const tableContact = SqfEntityTable(
     SqfEntityField('phone', DbType.text, isNotNull: true),
     SqfEntityFieldRelationship(
       parentTable: tableAccount,
-      fieldName: 'accountId',
+      relationType: RelationType.ONE_TO_MANY,
       deleteRule: DeleteRule.NO_ACTION,
     ),
   ],

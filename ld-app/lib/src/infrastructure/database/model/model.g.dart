@@ -63,7 +63,7 @@ class TableAccount extends SqfEntityTableBase {
     // declare fields
     fields = [
       SqfEntityFieldBase('telegramId', DbType.text),
-      SqfEntityFieldBase('deviceId', DbType.text),
+      SqfEntityFieldBase('deviceId', DbType.text, isNotNull: true),
       SqfEntityFieldBase('phone', DbType.text, isNotNull: true),
       SqfEntityFieldBase('dateCreated', DbType.datetime,
           defaultValue: DateTime.now(), minValue: DateTime.parse('1900-01-01')),
