@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:ld_app/src/domain/value_objects/value_failures.dart';
 
 class NotAuthenticatedError extends Error {}
