@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ld_app/src/application/app/app.dart';
 import 'package:ld_app/src/domain/accessToken.dart';
-import 'package:ld_app/src/domain/account.dart';
+import 'package:ld_app/src/domain/account/account.dart';
 import 'package:ld_app/src/infrastructure/auth/i_auth_facade.dart';
 import 'package:ld_app/src/infrastructure/device_info.dart';
-import 'package:ld_app/src/infrastructure/exception/network_error_handler.dart';
-import 'package:ld_app/src/screens/app/bloc/app_bloc.dart';
+import 'package:ld_app/src/infrastructure/exception/network_exception_handler.dart';
 
 @Singleton(as: IAuthFacade)
 class AuthFacade implements IAuthFacade {
@@ -47,7 +47,7 @@ class AuthFacade implements IAuthFacade {
   }
 
   @override
-  TaskEither<NetworkErrorHandler, Unit> logIn({
+  TaskEither<NetworkExceptionHandler, Unit> logIn({
     required String phone,
     required String password,
   }) {
@@ -61,15 +61,15 @@ class AuthFacade implements IAuthFacade {
                   'deviceId': deviceId
                 }),
             (e, _) => e))
-        .flatMap((result) => TaskEither.fromTask(Task.Do(($) async {
+        .flatMap((result) => TaskEither.tryCatch(() async {
               final accessToken =
                   AccessToken(result.data['accessToken'] as String);
-              accessToken.save();
+              await accessToken.save();
               _controller.add(AppStatus.authenticated);
-            })))
-        .map((_) {
-      return unit;
-    }).mapLeft((e) => NetworkErrorHandler<DioException>(e as DioException));
+              return unit;
+            }, (e, _) => e))
+        .mapLeft(
+            (e) => NetworkExceptionHandler<DioException>(e as DioException));
   }
 
   void dispose() => _controller.close();
