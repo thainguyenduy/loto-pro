@@ -15,12 +15,6 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
-    AddContactRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const AddContactPage(),
-      );
-    },
     HomeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -51,21 +45,18 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const TelegramSignInScreen(),
       );
     },
+    UpsertContactRoute.name: (routeData) {
+      final args = routeData.argsAs<UpsertContactRouteArgs>(
+          orElse: () => const UpsertContactRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: UpsertContactPage(
+          key: args.key,
+          contactId: args.contactId,
+        ),
+      );
+    },
   };
-}
-
-/// generated route for
-/// [AddContactPage]
-class AddContactRoute extends PageRouteInfo<void> {
-  const AddContactRoute({List<PageRouteInfo>? children})
-      : super(
-          AddContactRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'AddContactRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -136,4 +127,42 @@ class TelegramSignInRoute extends PageRouteInfo<void> {
   static const String name = 'TelegramSignInRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [UpsertContactPage]
+class UpsertContactRoute extends PageRouteInfo<UpsertContactRouteArgs> {
+  UpsertContactRoute({
+    Key? key,
+    String? contactId,
+    List<PageRouteInfo>? children,
+  }) : super(
+          UpsertContactRoute.name,
+          args: UpsertContactRouteArgs(
+            key: key,
+            contactId: contactId,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'UpsertContactRoute';
+
+  static const PageInfo<UpsertContactRouteArgs> page =
+      PageInfo<UpsertContactRouteArgs>(name);
+}
+
+class UpsertContactRouteArgs {
+  const UpsertContactRouteArgs({
+    this.key,
+    this.contactId,
+  });
+
+  final Key? key;
+
+  final String? contactId;
+
+  @override
+  String toString() {
+    return 'UpsertContactRouteArgs{key: $key, contactId: $contactId}';
+  }
 }

@@ -1,5 +1,8 @@
+import 'package:event_bus/event_bus.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:ld_app/src/domain/account/events/contact_added_event.dart';
 import 'package:ld_app/src/domain/contact/contact.dart';
+import 'package:ld_app/src/domain/core/event.dart';
 import 'package:ld_app/src/domain/core/i_entity.dart';
 import 'package:ld_app/src/domain/value_objects/phone.dart';
 import 'package:ld_app/src/domain/value_objects/value_failures.dart';
@@ -8,7 +11,7 @@ import 'package:ld_app/src/domain/core/value_object.dart';
 part 'account_exception.dart';
 part 'account_repository.dart';
 
-class Account implements IEntity {
+class Account with DomainEvent implements IEntity {
   @override
   UniqueId id;
   String deviceId;
@@ -30,13 +33,11 @@ class Account implements IEntity {
   }
 
   addContact(Contact contact) {
-    // TODO: implement addContact
-    throw UnimplementedError();
+    eventBus.fire(ContactAddedEvent());
   }
 
   removeContact(String contactId) {
-    // TODO: implement removeContact
-    throw UnimplementedError();
+    eventBus.fire(ContactAddedEvent());
   }
 
   factory Account.create({required String deviceId, required Phone phone}) {

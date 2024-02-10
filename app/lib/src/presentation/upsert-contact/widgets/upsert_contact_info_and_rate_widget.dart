@@ -7,21 +7,21 @@ import '/flutter_flow/form_field_controller.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'add_contact_info_and_rate_model.dart';
-export 'add_contact_info_and_rate_model.dart';
+import 'add-contact-info-and-rate/add_contact_info_and_rate_model.dart';
+export 'add-contact-info-and-rate/add_contact_info_and_rate_model.dart';
 
-class AddContactInfoAndRateWidget extends StatefulWidget {
-  const AddContactInfoAndRateWidget({super.key});
+class UpsertContactInfoAndRateWidget extends StatefulWidget {
+  const UpsertContactInfoAndRateWidget({super.key});
 
   @override
-  State<AddContactInfoAndRateWidget> createState() =>
-      _AddContactInfoAndRateWidgetState();
+  State<UpsertContactInfoAndRateWidget> createState() =>
+      _UpsertContactInfoAndRateWidgetState();
 }
 
-class _AddContactInfoAndRateWidgetState
-    extends State<AddContactInfoAndRateWidget> with TickerProviderStateMixin {
+class _UpsertContactInfoAndRateWidgetState
+    extends State<UpsertContactInfoAndRateWidget>
+    with TickerProviderStateMixin {
   late AddContactInfoAndRateModel _model;
-
   final animationsMap = {
     'textFieldOnPageLoadAnimation1': AnimationInfo(
       trigger: AnimationTrigger.onPageLoad,
@@ -80,21 +80,21 @@ class _AddContactInfoAndRateWidgetState
       effects: [
         FadeEffect(
           curve: Curves.easeInOut,
-          delay: 200.ms,
+          delay: 300.ms,
           duration: 600.ms,
           begin: 0.0,
           end: 1.0,
         ),
         MoveEffect(
           curve: Curves.easeInOut,
-          delay: 200.ms,
+          delay: 300.ms,
           duration: 600.ms,
           begin: const Offset(0.0, 60.0),
           end: const Offset(0.0, 0.0),
         ),
         ScaleEffect(
           curve: Curves.easeInOut,
-          delay: 200.ms,
+          delay: 300.ms,
           duration: 600.ms,
           begin: const Offset(1.0, 0.0),
           end: const Offset(1.0, 1.0),
@@ -106,72 +106,20 @@ class _AddContactInfoAndRateWidgetState
       effects: [
         FadeEffect(
           curve: Curves.easeInOut,
-          delay: 200.ms,
+          delay: 400.ms,
           duration: 600.ms,
           begin: 0.0,
           end: 1.0,
         ),
         MoveEffect(
           curve: Curves.easeInOut,
-          delay: 200.ms,
+          delay: 400.ms,
           duration: 600.ms,
           begin: const Offset(0.0, 60.0),
           end: const Offset(0.0, 0.0),
         ),
         ScaleEffect(
           curve: Curves.easeInOut,
-          delay: 200.ms,
-          duration: 600.ms,
-          begin: const Offset(1.0, 0.0),
-          end: const Offset(1.0, 1.0),
-        ),
-      ],
-    ),
-    'buttonOnPageLoadAnimation1': AnimationInfo(
-      trigger: AnimationTrigger.onPageLoad,
-      effects: [
-        FadeEffect(
-          curve: Curves.bounceOut,
-          delay: 400.ms,
-          duration: 600.ms,
-          begin: 0.0,
-          end: 1.0,
-        ),
-        MoveEffect(
-          curve: Curves.bounceOut,
-          delay: 400.ms,
-          duration: 600.ms,
-          begin: const Offset(0.0, 40.0),
-          end: const Offset(0.0, 0.0),
-        ),
-        ScaleEffect(
-          curve: Curves.bounceOut,
-          delay: 400.ms,
-          duration: 600.ms,
-          begin: const Offset(1.0, 0.0),
-          end: const Offset(1.0, 1.0),
-        ),
-      ],
-    ),
-    'buttonOnPageLoadAnimation2': AnimationInfo(
-      trigger: AnimationTrigger.onPageLoad,
-      effects: [
-        FadeEffect(
-          curve: Curves.bounceOut,
-          delay: 400.ms,
-          duration: 600.ms,
-          begin: 0.0,
-          end: 1.0,
-        ),
-        MoveEffect(
-          curve: Curves.bounceOut,
-          delay: 400.ms,
-          duration: 600.ms,
-          begin: const Offset(0.0, 40.0),
-          end: const Offset(0.0, 0.0),
-        ),
-        ScaleEffect(
-          curve: Curves.bounceOut,
           delay: 400.ms,
           duration: 600.ms,
           begin: const Offset(1.0, 0.0),
@@ -301,7 +249,6 @@ class _AddContactInfoAndRateWidgetState
                 const Duration(milliseconds: 2000),
                 () => setState(() {}),
               ),
-              autofocus: true,
               obscureText: false,
               decoration: InputDecoration(
                 labelText: FFLocalizations.of(context).getText(
@@ -606,6 +553,7 @@ class _AddContactInfoAndRateWidgetState
                       ),
                     ),
                   ),
+                  const Divider(),
                   Align(
                     alignment: const AlignmentDirectional(-1.0, 0.0),
                     child: Padding(
@@ -709,6 +657,7 @@ class _AddContactInfoAndRateWidgetState
                         ],
                       ),
                     ),
+                    const Divider(),
                     Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -738,7 +687,6 @@ class _AddContactInfoAndRateWidgetState
                                   child: TextFormField(
                                     controller: _model.textController5,
                                     focusNode: _model.textFieldFocusNode1,
-                                    autofocus: true,
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       labelStyle: FlutterFlowTheme.of(context)
@@ -818,7 +766,6 @@ class _AddContactInfoAndRateWidgetState
                                   child: TextFormField(
                                     controller: _model.textController6,
                                     focusNode: _model.textFieldFocusNode2,
-                                    autofocus: true,
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       labelStyle: FlutterFlowTheme.of(context)
@@ -917,7 +864,6 @@ class _AddContactInfoAndRateWidgetState
                                   child: TextFormField(
                                     controller: _model.textController7,
                                     focusNode: _model.textFieldFocusNode3,
-                                    autofocus: true,
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       labelStyle: FlutterFlowTheme.of(context)
@@ -997,7 +943,6 @@ class _AddContactInfoAndRateWidgetState
                                   child: TextFormField(
                                     controller: _model.textController8,
                                     focusNode: _model.textFieldFocusNode4,
-                                    autofocus: true,
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       labelStyle: FlutterFlowTheme.of(context)
@@ -1096,7 +1041,6 @@ class _AddContactInfoAndRateWidgetState
                                   child: TextFormField(
                                     controller: _model.textController9,
                                     focusNode: _model.textFieldFocusNode5,
-                                    autofocus: true,
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       labelStyle: FlutterFlowTheme.of(context)
@@ -1176,7 +1120,6 @@ class _AddContactInfoAndRateWidgetState
                                   child: TextFormField(
                                     controller: _model.textController10,
                                     focusNode: _model.textFieldFocusNode6,
-                                    autofocus: true,
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       labelStyle: FlutterFlowTheme.of(context)
@@ -1275,7 +1218,6 @@ class _AddContactInfoAndRateWidgetState
                                   child: TextFormField(
                                     controller: _model.textController11,
                                     focusNode: _model.textFieldFocusNode7,
-                                    autofocus: true,
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       labelStyle: FlutterFlowTheme.of(context)
@@ -1355,7 +1297,6 @@ class _AddContactInfoAndRateWidgetState
                                   child: TextFormField(
                                     controller: _model.textController12,
                                     focusNode: _model.textFieldFocusNode8,
-                                    autofocus: true,
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       labelStyle: FlutterFlowTheme.of(context)
@@ -1458,7 +1399,6 @@ class _AddContactInfoAndRateWidgetState
                                     child: TextFormField(
                                       controller: _model.textController13,
                                       focusNode: _model.textFieldFocusNode9,
-                                      autofocus: true,
                                       obscureText: false,
                                       decoration: InputDecoration(
                                         labelStyle: FlutterFlowTheme.of(context)
@@ -1535,63 +1475,6 @@ class _AddContactInfoAndRateWidgetState
                 ),
               ),
             ),
-          ),
-          Padding(
-              padding:
-                  const EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
-              child: FFButtonWidget(
-                onPressed: () async {},
-                text: FFLocalizations.of(context).getText(
-                  'okfxijxv' /* Thêm liên hệ */,
-                ),
-                options: FFButtonOptions(
-                  width: 230.0,
-                  height: 50.0,
-                  padding:
-                      const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                  iconPadding:
-                      const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                  color: FlutterFlowTheme.of(context).primary,
-                  textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                        fontFamily: 'Lexend',
-                        color: FlutterFlowTheme.of(context).textColor,
-                      ),
-                  elevation: 3.0,
-                  borderSide: const BorderSide(
-                    color: Colors.transparent,
-                    width: 1.0,
-                  ),
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-              ).animateOnPageLoad(
-                  animationsMap['buttonOnPageLoadAnimation1']!)),
-          Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
-            child: FFButtonWidget(
-              onPressed: () async {},
-              text: FFLocalizations.of(context).getText(
-                'ywv1bn35' /* Hủy */,
-              ),
-              options: FFButtonOptions(
-                width: 140.0,
-                height: 50.0,
-                padding:
-                    const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                iconPadding:
-                    const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                color: FlutterFlowTheme.of(context).secondaryBackground,
-                textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                      fontFamily: 'Lexend',
-                      color: FlutterFlowTheme.of(context).primaryText,
-                    ),
-                elevation: 0.0,
-                borderSide: const BorderSide(
-                  color: Colors.transparent,
-                  width: 1.0,
-                ),
-                borderRadius: BorderRadius.circular(30.0),
-              ),
-            ).animateOnPageLoad(animationsMap['buttonOnPageLoadAnimation2']!),
           ),
         ].addToEnd(const SizedBox(height: 30.0)),
       ),

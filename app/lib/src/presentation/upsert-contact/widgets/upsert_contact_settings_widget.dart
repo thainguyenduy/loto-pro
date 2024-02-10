@@ -12,11 +12,11 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'add_contact_settings_model.dart';
-export 'add_contact_settings_model.dart';
+import 'add-contact-settings/add_contact_settings_model.dart';
+export 'add-contact-settings/add_contact_settings_model.dart';
 
-class AddContactSettingsWidget extends StatefulWidget {
-  const AddContactSettingsWidget({
+class UpsertContactSettingsWidget extends StatefulWidget {
+  const UpsertContactSettingsWidget({
     super.key,
     this.parameter1,
     this.parameter2,
@@ -28,12 +28,12 @@ class AddContactSettingsWidget extends StatefulWidget {
   final String? parameter3;
 
   @override
-  State<AddContactSettingsWidget> createState() =>
-      _AddContactSettingsWidgetState();
+  State<UpsertContactSettingsWidget> createState() =>
+      _UpsertContactSettingsWidgetState();
 }
 
-class _AddContactSettingsWidgetState extends State<AddContactSettingsWidget>
-    with TickerProviderStateMixin {
+class _UpsertContactSettingsWidgetState
+    extends State<UpsertContactSettingsWidget> with TickerProviderStateMixin {
   late AddContactSettingsModel _model;
 
   final animationsMap = {
@@ -440,64 +440,6 @@ class _AddContactSettingsWidgetState extends State<AddContactSettingsWidget>
                   borderRadius: BorderRadius.circular(8.0),
                 ),
               ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
-              child: FFButtonWidget(
-                onPressed: () async {},
-                text: FFLocalizations.of(context).getText(
-                  'ih1ebtl3' /* Thêm liên hệ */,
-                ),
-                options: FFButtonOptions(
-                  width: 230.0,
-                  height: 50.0,
-                  padding:
-                      const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                  iconPadding:
-                      const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                  color: FlutterFlowTheme.of(context).primary,
-                  textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                        fontFamily: 'Lexend',
-                        color: FlutterFlowTheme.of(context).textColor,
-                      ),
-                  elevation: 3.0,
-                  borderSide: const BorderSide(
-                    color: Colors.transparent,
-                    width: 1.0,
-                  ),
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-              ).animateOnPageLoad(animationsMap['buttonOnPageLoadAnimation1']!),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
-              child: FFButtonWidget(
-                onPressed: () async {},
-                text: FFLocalizations.of(context).getText(
-                  'k04eus7z' /* Hủy */,
-                ),
-                options: FFButtonOptions(
-                  width: 140.0,
-                  height: 50.0,
-                  padding:
-                      const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                  iconPadding:
-                      const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                  color: FlutterFlowTheme.of(context).secondaryBackground,
-                  textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                        fontFamily: 'Lexend',
-                        color: FlutterFlowTheme.of(context).primaryText,
-                      ),
-                  elevation: 0.0,
-                  borderSide: const BorderSide(
-                    color: Colors.transparent,
-                    width: 1.0,
-                  ),
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-              ).animateOnPageLoad(animationsMap['buttonOnPageLoadAnimation2']!),
             ),
           ].addToEnd(const SizedBox(height: 30.0)),
         ),

@@ -1,6 +1,9 @@
+import 'dart:html';
+
 import 'package:android_id/android_id.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ld_app/src/infrastructure/notification.service.dart';
@@ -46,4 +49,7 @@ abstract class AppModule {
 
   @lazySingleton
   TelegramService getService(Client client) => TelegramService.create(client);
+
+  @lazySingleton
+  EventBus get eventBus => EventBus();
 }

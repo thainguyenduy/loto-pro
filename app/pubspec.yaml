@@ -47,8 +47,8 @@ dependencies:
   dio: ^5.3.4
   dropdown_button2:
   easy_debounce:
-  english_words: ^4.0.0
   equatable: ^2.0.5
+  event_bus: ^2.0.0
   get_it: ^7.6.4
   google_fonts:
   fl_chart:

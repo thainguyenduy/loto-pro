@@ -61,7 +61,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _getChatHistory() async {
-    me = await locator<TelegramService>().me;
+    me = locator<TelegramService>().me;
 
     List<Message> res = await service.getHistory(chat);
     setState(() {
@@ -95,7 +95,7 @@ class _ChatScreenState extends State<ChatScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              AutoRouter.of(context).push(const AddContactRoute());
+              AutoRouter.of(context).push(UpsertContactRoute());
             },
             tooltip: "Add this contact",
             icon: const Icon(Icons.person_add),
