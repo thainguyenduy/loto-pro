@@ -13,46 +13,46 @@ final class AccountRepositoryImpl implements AccountRepository {
   AccountRepositoryImpl(this.accountMapper);
   @override
   // TODO: implement account
-  TaskEither<AccountException, Account> getAccount(String id) {
-    /* final rte = ReaderTaskEither<Deps, AccountException, Account>.Do(($) async {
+  TaskEither<AccountFailure, Account> getAccount(String id) {
+    /* final rte = ReaderTaskEither<Deps, AccountFailure, Account>.Do(($) async {
       final env = await $(ReaderTaskEither.asks(identity));
       final res = env.$1.getById(env.$2);
-      final te = TaskEither.fromNullable(res, () => NullableAccountException());
+      final te = TaskEither.fromNullable(res, () => NullableAccountFailure());
     }).run((account, id));
     return TaskEither(() => rte); */
     final accMayNullTE = TaskEither.tryCatch(
         () => model.Account().getById(id, preload: true),
-        (_, __) => AccountDataAccessException());
-    TaskEither<AccountException, model.Account> accTE(model.Account? acc) =>
-        TaskEither.fromNullable(acc, () => AccountNotFoundException());
-    IOEither<AccountException, Account> modelToDomainIOE(model.Account acc) =>
+        (_, __) => AccountDataAccessFailure());
+    TaskEither<AccountFailure, model.Account> accTE(model.Account? acc) =>
+        TaskEither.fromNullable(acc, () => AccountNotFoundFailure());
+    IOEither<AccountFailure, Account> modelToDomainIOE(model.Account acc) =>
         IOEither.tryCatch(() => accountMapper.toDomain(acc),
-            (_, __) => AccountDomainException());
+            (_, __) => AccountDomainFailure());
     final res = accMayNullTE
-        .flatMap(accTE as TaskEither<AccountDataAccessException, dynamic>
+        .flatMap(accTE as TaskEither<AccountDataAccessFailure, dynamic>
             Function(model.Account? r))
         .flatMap(modelToDomainIOE
-            as TaskEither<AccountDataAccessException, dynamic> Function(
+            as TaskEither<AccountDataAccessFailure, dynamic> Function(
                 dynamic r))
         .map((r) => r as Account);
     return res;
   }
 
   @override
-  TaskEither<AccountException, Unit> create(Account account) {
+  TaskEither<AccountFailure, Unit> create(Account account) {
     return TaskEither.tryCatch(
         () => model.Account.fromMap(account.toMap()).save(),
-        (error, stackTrace) => AccountCreatedException()).map((r) => unit);
+        (error, stackTrace) => AccountCreatedFailure()).map((r) => unit);
   }
 
   @override
-  TaskEither<AccountException, Unit> delete(Account account) {
+  TaskEither<AccountFailure, Unit> delete(Account account) {
     // TODO: implement delete
     throw UnimplementedError();
   }
 
   @override
-  TaskEither<AccountException, Unit> update(Account account) {
+  TaskEither<AccountFailure, Unit> update(Account account) {
     return TaskEither.tryCatch(
         () => model.Account.fromMap(account.toMap()).save(),
         (error, stackTrace) => AccountUpdatedException()).map((r) => unit);

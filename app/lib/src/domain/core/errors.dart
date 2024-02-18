@@ -1,4 +1,4 @@
-import 'package:ld_app/src/domain/value_objects/value_failures.dart';
+import 'package:ld_app/src/domain/core/value_objects/value_failures.dart';
 
 class NotAuthenticatedError extends Error {}
 

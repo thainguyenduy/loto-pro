@@ -1,14 +1,13 @@
-import 'package:event_bus/event_bus.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:ld_app/src/domain/account/events/contact_added_event.dart';
 import 'package:ld_app/src/domain/contact/contact.dart';
 import 'package:ld_app/src/domain/core/event.dart';
 import 'package:ld_app/src/domain/core/i_entity.dart';
-import 'package:ld_app/src/domain/value_objects/phone.dart';
-import 'package:ld_app/src/domain/value_objects/value_failures.dart';
+import 'package:ld_app/src/domain/core/value_objects/phone.dart';
+import 'package:ld_app/src/domain/core/value_objects/value_failures.dart';
 import 'package:ld_app/src/domain/core/value_object.dart';
 
-part 'account_exception.dart';
+part 'account_failure.dart';
 part 'account_repository.dart';
 
 class Account with DomainEvent implements IEntity {
@@ -27,7 +26,6 @@ class Account with DomainEvent implements IEntity {
       required this.contacts});
 
   @override
-  // TODO: implement failureOption
   Option<ValueFailure> get failureOption {
     return none();
   }
@@ -42,7 +40,11 @@ class Account with DomainEvent implements IEntity {
 
   factory Account.create({required String deviceId, required Phone phone}) {
     return Account(
-        id: UniqueId(), deviceId: deviceId, phone: phone, contacts: []);
+      id: UniqueId(),
+      deviceId: deviceId,
+      phone: phone,
+      contacts: [],
+    );
   }
 
   @override

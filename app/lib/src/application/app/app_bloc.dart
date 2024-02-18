@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ld_app/src/domain/accessToken.dart';
-import 'package:ld_app/src/infrastructure/auth/i_auth_facade.dart';
+import 'package:ld_app/src/domain/account/i_auth_facade.dart';
 
 part 'app_event.dart';
 part 'app_state.dart';

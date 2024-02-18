@@ -1,6 +1,6 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:ld_app/src/domain/core/errors.dart';
-import 'package:ld_app/src/domain/value_objects/value_failures.dart';
+import 'package:ld_app/src/domain/core/value_objects/value_failures.dart';
 import 'package:meta/meta.dart';
 import 'package:uuid/uuid.dart';
 

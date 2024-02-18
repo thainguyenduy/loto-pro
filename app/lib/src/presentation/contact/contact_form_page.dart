@@ -7,19 +7,19 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'widgets/upsert_contact_info_and_rate_widget.dart';
-import 'widgets/upsert_contact_settings_widget.dart';
+import 'widgets/contact_info_and_rate_tab.dart';
+import 'widgets/contact_settings_tab.dart';
 
 @RoutePage()
-class UpsertContactPage extends StatefulWidget {
+class ContactFormPage extends StatefulWidget {
   String? contactId;
-  UpsertContactPage({super.key, this.contactId});
+  ContactFormPage({super.key, this.contactId});
 
   @override
-  State<UpsertContactPage> createState() => _UpsertContactPageState();
+  State<ContactFormPage> createState() => _ContactFormPageState();
 }
 
-class _UpsertContactPageState extends State<UpsertContactPage>
+class _ContactFormPageState extends State<ContactFormPage>
     with TickerProviderStateMixin {
   late String? contactId = widget.contactId;
   late TabController tabBarController;
@@ -170,7 +170,7 @@ class _UpsertContactPageState extends State<UpsertContactPage>
                 controller: tabBarController,
                 children: const [
                   UpsertContactInfoAndRateWidget(),
-                  UpsertContactSettingsWidget(),
+                  ContactSettingsTab(),
                 ],
               ),
             ),

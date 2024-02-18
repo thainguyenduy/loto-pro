@@ -1,5 +1,5 @@
 import 'package:fpdart/fpdart.dart';
-import 'package:ld_app/src/domain/value_objects/value_failures.dart';
+import 'package:ld_app/src/domain/core/value_objects/value_failures.dart';
 import 'package:ld_app/src/domain/core/value_object.dart';
 
 class Password extends ValueObject<String> {

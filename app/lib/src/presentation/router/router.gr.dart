@@ -15,6 +15,17 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    ContactFormRoute.name: (routeData) {
+      final args = routeData.argsAs<ContactFormRouteArgs>(
+          orElse: () => const ContactFormRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ContactFormPage(
+          key: args.key,
+          contactId: args.contactId,
+        ),
+      );
+    },
     HomeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -45,18 +56,45 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const TelegramSignInScreen(),
       );
     },
-    UpsertContactRoute.name: (routeData) {
-      final args = routeData.argsAs<UpsertContactRouteArgs>(
-          orElse: () => const UpsertContactRouteArgs());
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: UpsertContactPage(
-          key: args.key,
-          contactId: args.contactId,
-        ),
-      );
-    },
   };
+}
+
+/// generated route for
+/// [ContactFormPage]
+class ContactFormRoute extends PageRouteInfo<ContactFormRouteArgs> {
+  ContactFormRoute({
+    Key? key,
+    String? contactId,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ContactFormRoute.name,
+          args: ContactFormRouteArgs(
+            key: key,
+            contactId: contactId,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'ContactFormRoute';
+
+  static const PageInfo<ContactFormRouteArgs> page =
+      PageInfo<ContactFormRouteArgs>(name);
+}
+
+class ContactFormRouteArgs {
+  const ContactFormRouteArgs({
+    this.key,
+    this.contactId,
+  });
+
+  final Key? key;
+
+  final String? contactId;
+
+  @override
+  String toString() {
+    return 'ContactFormRouteArgs{key: $key, contactId: $contactId}';
+  }
 }
 
 /// generated route for
@@ -127,42 +165,4 @@ class TelegramSignInRoute extends PageRouteInfo<void> {
   static const String name = 'TelegramSignInRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [UpsertContactPage]
-class UpsertContactRoute extends PageRouteInfo<UpsertContactRouteArgs> {
-  UpsertContactRoute({
-    Key? key,
-    String? contactId,
-    List<PageRouteInfo>? children,
-  }) : super(
-          UpsertContactRoute.name,
-          args: UpsertContactRouteArgs(
-            key: key,
-            contactId: contactId,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'UpsertContactRoute';
-
-  static const PageInfo<UpsertContactRouteArgs> page =
-      PageInfo<UpsertContactRouteArgs>(name);
-}
-
-class UpsertContactRouteArgs {
-  const UpsertContactRouteArgs({
-    this.key,
-    this.contactId,
-  });
-
-  final Key? key;
-
-  final String? contactId;
-
-  @override
-  String toString() {
-    return 'UpsertContactRouteArgs{key: $key, contactId: $contactId}';
-  }
 }

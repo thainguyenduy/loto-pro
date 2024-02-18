@@ -2,13 +2,10 @@ import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_radio_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'add-contact-info-and-rate/add_contact_info_and_rate_model.dart';
-export 'add-contact-info-and-rate/add_contact_info_and_rate_model.dart';
 
 class UpsertContactInfoAndRateWidget extends StatefulWidget {
   const UpsertContactInfoAndRateWidget({super.key});
@@ -21,7 +18,6 @@ class UpsertContactInfoAndRateWidget extends StatefulWidget {
 class _UpsertContactInfoAndRateWidgetState
     extends State<UpsertContactInfoAndRateWidget>
     with TickerProviderStateMixin {
-  late AddContactInfoAndRateModel _model;
   final animationsMap = {
     'textFieldOnPageLoadAnimation1': AnimationInfo(
       trigger: AnimationTrigger.onPageLoad,
@@ -132,7 +128,6 @@ class _UpsertContactInfoAndRateWidgetState
   @override
   void setState(VoidCallback callback) {
     super.setState(callback);
-    _model.onUpdate();
   }
 
   @override

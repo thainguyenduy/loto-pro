@@ -1,6 +1,6 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:ld_app/src/domain/core/value_object.dart';
-import 'package:ld_app/src/domain/value_objects/value_failures.dart';
+import 'package:ld_app/src/domain/core/value_objects/value_failures.dart';
 
 class Phone extends ValueObject<String> {
   @override

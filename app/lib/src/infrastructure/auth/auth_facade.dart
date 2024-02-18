@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 import 'package:ld_app/src/application/app/app.dart';
 import 'package:ld_app/src/domain/accessToken.dart';
 import 'package:ld_app/src/domain/account/account.dart';
-import 'package:ld_app/src/infrastructure/auth/i_auth_facade.dart';
+import 'package:ld_app/src/domain/account/i_auth_facade.dart';
 import 'package:ld_app/src/infrastructure/device_info.dart';
 import 'package:ld_app/src/infrastructure/exception/network_exception_handler.dart';
 

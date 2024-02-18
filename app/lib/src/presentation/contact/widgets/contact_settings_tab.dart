@@ -15,8 +15,8 @@ import 'package:provider/provider.dart';
 import 'add-contact-settings/add_contact_settings_model.dart';
 export 'add-contact-settings/add_contact_settings_model.dart';
 
-class UpsertContactSettingsWidget extends StatefulWidget {
-  const UpsertContactSettingsWidget({
+class ContactSettingsTab extends StatefulWidget {
+  const ContactSettingsTab({
     super.key,
     this.parameter1,
     this.parameter2,
@@ -28,12 +28,11 @@ class UpsertContactSettingsWidget extends StatefulWidget {
   final String? parameter3;
 
   @override
-  State<UpsertContactSettingsWidget> createState() =>
-      _UpsertContactSettingsWidgetState();
+  State<ContactSettingsTab> createState() => _ContactSettingsTabState();
 }
 
-class _UpsertContactSettingsWidgetState
-    extends State<UpsertContactSettingsWidget> with TickerProviderStateMixin {
+class _ContactSettingsTabState extends State<ContactSettingsTab>
+    with TickerProviderStateMixin {
   late AddContactSettingsModel _model;
 
   final animationsMap = {

@@ -2,7 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:ld_app/src/domain/account/account.dart';
 import 'package:ld_app/src/domain/contact/contact.dart';
 import 'package:ld_app/src/domain/core/value_object.dart';
-import 'package:ld_app/src/domain/value_objects/phone.dart';
+import 'package:ld_app/src/domain/core/value_objects/phone.dart';
 import 'package:ld_app/src/infrastructure/mapper/contact_mapper.dart';
 import 'package:ld_app/src/infrastructure/mapper/i_mapper.dart';
 
