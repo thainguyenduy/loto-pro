@@ -17,7 +17,6 @@ class AppRouter extends _$AppRouter {
         //of the replaceInRouteName property
         AutoRoute(page: HomeRoute.page, path: '/'),
         AutoRoute(page: TelegramRoute.page),
-        AutoRoute(page: UpsertContactRoute.page),
         AutoRoute(page: LoginRoute.page),
         RedirectRoute(path: '*', redirectTo: '/'),
       ];

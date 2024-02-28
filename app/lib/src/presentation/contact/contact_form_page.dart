@@ -1,7 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fpdart/fpdart.dart' as fpdart;
 import 'package:ld_app/flutter_flow/flutter_flow_animations.dart';
 import 'package:ld_app/flutter_flow/flutter_flow_widgets.dart';
+import 'package:ld_app/src/application/contact/bloc/contact_form_bloc.dart';
+import 'package:ld_app/src/domain/contact/contact.dart';
+import 'package:ld_app/src/infrastructure/injector.dart';
+import 'package:motion_toast/motion_toast.dart';
 
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -12,8 +18,9 @@ import 'widgets/contact_settings_tab.dart';
 
 @RoutePage()
 class ContactFormPage extends StatefulWidget {
-  String? contactId;
-  ContactFormPage({super.key, this.contactId});
+  final String? chatId;
+  final Contact? contact;
+  const ContactFormPage({super.key, this.chatId, this.contact});
 
   @override
   State<ContactFormPage> createState() => _ContactFormPageState();
@@ -21,7 +28,8 @@ class ContactFormPage extends StatefulWidget {
 
 class _ContactFormPageState extends State<ContactFormPage>
     with TickerProviderStateMixin {
-  late String? contactId = widget.contactId;
+  late String? chatId = widget.chatId;
+  late Contact? contact = widget.contact;
   late TabController tabBarController;
   final formKey = GlobalKey<FormState>();
   final animationsMap = {
@@ -106,7 +114,113 @@ class _ContactFormPageState extends State<ContactFormPage>
         ),
       );
     }
+    return BlocProvider(
+      create: (BuildContext context) => locator<ContactFormBloc>()
+        ..add(ContactFormInitialized(
+            chatId != null ? fpdart.left(chatId!) : fpdart.right(contact!))),
+      child: BlocConsumer<ContactFormBloc, ContactFormState>(
+        builder: ((BuildContext context, ContactFormState state) => Stack(
+              children: <Widget>[
+                ContactFormScaffold(
+                    scaffoldKey: scaffoldKey,
+                    formKey: formKey,
+                    tabBarController: tabBarController,
+                    animationsMap: animationsMap),
+                SavingInProgressOverlay(isSaving: state.isSaving)
+              ],
+            )),
+        buildWhen: (p, c) => p.isSaving != c.isSaving,
+        listener: (context, state) {
+          state.saveFailureOrSuccessOption.fold(
+            () {},
+            (either) {
+              either.fold(
+                (ContactFailure failure) {
+                  MotionToast.error(
+                          title: const Text("Thông báo"),
+                          description: Text(switch (failure) {
+                            ContactCreatedFailure() =>
+                              'Không thêm được liên hệ',
+                            ContactUpdatedFailure() =>
+                              'Không cập nhật được liên hệ',
+                            // TODO: Handle this case.
+                            ContactFailure() => 'Không xác định',
+                          }))
+                      .show(context);
+                },
+                (_) {
+                  // Can't be just a simple pop. If another route (like a Flushbar) is on top of stack, we'll need to pop even that to get to
+                  // the overview page.
+                  context.router.popUntilRouteWithName('TelegramRoute');
+                },
+              );
+            },
+          );
+        },
+        listenWhen: (p, c) =>
+            p.saveFailureOrSuccessOption != c.saveFailureOrSuccessOption,
+      ),
+    );
+    ;
+  }
+}
 
+class SavingInProgressOverlay extends StatelessWidget {
+  final bool isSaving;
+
+  const SavingInProgressOverlay({
+    Key? key,
+    required this.isSaving,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return IgnorePointer(
+      ignoring: !isSaving,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 150),
+        color: isSaving ? Colors.black.withOpacity(0.8) : Colors.transparent,
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Visibility(
+          visible: isSaving,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const CircularProgressIndicator(),
+              const SizedBox(height: 8),
+              Text(
+                'Lưu',
+                // Not within a Scaffold. We have to get the TextStyle from a theme ourselves.
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ContactFormScaffold extends StatelessWidget {
+  const ContactFormScaffold({
+    super.key,
+    required this.scaffoldKey,
+    required this.formKey,
+    required this.tabBarController,
+    required this.animationsMap,
+  });
+
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  final GlobalKey<FormState> formKey;
+  final TabController tabBarController;
+  final Map<String, AnimationInfo> animationsMap;
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: FlutterFlowTheme.of(context).primaryBackground,

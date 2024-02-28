@@ -1,6 +1,6 @@
 part of 'contact.dart';
 
-sealed class ContactFailure {}
+abstract class ContactFailure {}
 
 class ContactDataAccessFailure extends ContactFailure {}
 

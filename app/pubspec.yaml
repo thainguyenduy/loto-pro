@@ -69,6 +69,7 @@ dependencies:
   json_annotation: ^4.8.1
   json_path:
   kt_dart: ^1.1.0
+  motion_toast: ^2.8.0
   page_transition:
   path: ^1.8.3
   path_provider: ^2.1.1

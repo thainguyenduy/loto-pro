@@ -2,15 +2,16 @@ import 'package:fpdart/fpdart.dart';
 import 'package:fpdart/src/task_either.dart';
 import 'package:fpdart/src/unit.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ld_app/src/domain/contact/contact.dart';
 
 import 'package:ld_app/src/infrastructure/database/model/model.dart' as model;
 import 'package:ld_app/src/domain/account/account.dart';
-import 'package:ld_app/src/infrastructure/mapper/account_mapper.dart';
+import 'package:ld_app/src/infrastructure/mapper/contact_mapper.dart';
 
-@Singleton(as: AccountRepository)
-final class AccountRepositoryImpl implements AccountRepository {
-  final AccountMapper accountMapper;
-  AccountRepositoryImpl(this.accountMapper);
+@Singleton(as: ContactRepository)
+final class ContactRepositoryImpl implements ContactRepository {
+  final ContactMapper contactMapper;
+  ContactRepositoryImpl(this.contactMapper);
   @override
   // TODO: implement account
   TaskEither<AccountFailure, Account> getAccount(String id) {
@@ -55,6 +56,12 @@ final class AccountRepositoryImpl implements AccountRepository {
   TaskEither<AccountFailure, Unit> update(Account account) {
     return TaskEither.tryCatch(
         () => model.Account.fromMap(account.toMap()).save(),
-        (error, stackTrace) => AccountUpdatedFailure()).map((r) => unit);
+        (error, stackTrace) => AccountUpdatedException()).map((r) => unit);
+  }
+
+  @override
+  TaskEither<ContactFailure, Contact> getContact(String id) {
+    // TODO: implement getContact
+    throw UnimplementedError();
   }
 }
