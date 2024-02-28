@@ -1,38 +1,38 @@
 import 'package:fpdart/fpdart.dart';
+import 'package:ld_app/src/domain/core/event.dart';
 import 'package:ld_app/src/domain/core/i_entity.dart';
 import 'package:ld_app/src/domain/core/value_objects/phone.dart';
 import 'package:ld_app/src/domain/core/value_objects/value_failures.dart';
 import 'package:ld_app/src/domain/core/value_object.dart';
 
-class Contact implements IEntity {
-  @override
-  UniqueId id;
+part 'contact_failure.dart';
+part 'contact_repository.dart';
+
+class Contact extends IEntity with DomainEvent {
   String name;
   String contactAlias;
   String accountAlias;
   Phone phone;
-  String telegramId;
+  String? telegramId;
+  String chatId;
   Contact(
-      {required this.id,
+      {required super.id,
       required this.name,
       required this.contactAlias,
       required this.accountAlias,
       required this.phone,
-      required this.telegramId});
+      required this.chatId,
+      this.telegramId});
 
-  factory Contact.create(
-      {required String name,
-      required String contactAlias,
-      required String accountAlias,
-      required Phone phone,
-      required String telegramId}) {
+  factory Contact.fromChat({required String chatId}) {
     return Contact(
         id: UniqueId(),
-        name: name,
-        contactAlias: contactAlias,
-        accountAlias: accountAlias,
-        phone: phone,
-        telegramId: telegramId);
+        name: '',
+        contactAlias: '',
+        accountAlias: '',
+        phone: Phone(''),
+        telegramId: '',
+        chatId: chatId);
   }
 
   @override

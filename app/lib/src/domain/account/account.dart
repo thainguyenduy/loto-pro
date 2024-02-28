@@ -10,16 +10,14 @@ import 'package:ld_app/src/domain/core/value_object.dart';
 part 'account_failure.dart';
 part 'account_repository.dart';
 
-class Account with DomainEvent implements IEntity {
-  @override
-  UniqueId id;
+class Account extends IEntity with DomainEvent {
   String deviceId;
   String? telegramId;
   Phone phone;
   List<Contact> contacts;
 
   Account(
-      {required this.id,
+      {required super.id,
       required this.deviceId,
       this.telegramId,
       required this.phone,

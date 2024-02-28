@@ -2,18 +2,17 @@ part of 'contact_form_bloc.dart';
 
 @freezed
 class ContactFormState with _$ContactFormState {
-   factory ContactFormState({
-    @required Contact contact,
-    @required bool showErrorMessages,
-    @required bool isEditing,
-    @required bool isSaving,
-    @required Option<Either<ContactFailure, Unit>> saveFailureOrSuccessOption,
-  })
-  const factory ContactFormState.initial(Contact contact, bool isEditing) = ContactFormState(
-    contact: contact,
-    showErrorMessages: false,
-    isEditing: isEditing,
-    isSaving: false,
-    saveFailureOrSuccessOption: none()
-  );
+  const factory ContactFormState({
+    required Contact contact,
+    required bool showErrorMessages,
+    required bool isEditing,
+    required bool isSaving,
+    required Option<Either<ContactFailure, Unit>> saveFailureOrSuccessOption,
+  }) = _ContactFormState;
+  factory ContactFormState.create(String chatId) => ContactFormState(
+      contact: Contact.fromChat(chatId: chatId),
+      showErrorMessages: false,
+      isEditing: false,
+      isSaving: false,
+      saveFailureOrSuccessOption: none());
 }
