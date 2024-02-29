@@ -236,7 +236,7 @@ class ContactFormScaffold extends StatelessWidget {
           ),
           style: FlutterFlowTheme.of(context).headlineSmall,
         ),
-        actions: [],
+        actions: const [],
         centerTitle: false,
         elevation: 0.0,
       ),
@@ -283,7 +283,7 @@ class ContactFormScaffold extends StatelessWidget {
               child: TabBarView(
                 controller: tabBarController,
                 children: const [
-                  UpsertContactInfoAndRateWidget(),
+                  UpsertContactInfoAndRateTab(),
                   ContactSettingsTab(),
                 ],
               ),

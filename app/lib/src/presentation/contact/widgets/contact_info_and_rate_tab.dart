@@ -7,17 +7,16 @@ import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-class UpsertContactInfoAndRateWidget extends StatefulWidget {
-  const UpsertContactInfoAndRateWidget({super.key});
+class UpsertContactInfoAndRateTab extends StatefulWidget {
+  const UpsertContactInfoAndRateTab({super.key});
 
   @override
-  State<UpsertContactInfoAndRateWidget> createState() =>
-      _UpsertContactInfoAndRateWidgetState();
+  State<UpsertContactInfoAndRateTab> createState() =>
+      _UpsertContactInfoAndRateTabState();
 }
 
-class _UpsertContactInfoAndRateWidgetState
-    extends State<UpsertContactInfoAndRateWidget>
-    with TickerProviderStateMixin {
+class _UpsertContactInfoAndRateTabState
+    extends State<UpsertContactInfoAndRateTab> with TickerProviderStateMixin {
   final animationsMap = {
     'textFieldOnPageLoadAnimation1': AnimationInfo(
       trigger: AnimationTrigger.onPageLoad,
