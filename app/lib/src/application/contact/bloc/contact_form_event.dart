@@ -7,9 +7,9 @@ final class ContactFormInitialized extends ContactFormEvent {
   ContactFormInitialized(this.value);
 }
 
-final class ContactFormChanged extends ContactFormEvent {
-  final Contact contact;
-  ContactFormChanged(this.contact);
+final class ContactFormAutoParseFieldChanged extends ContactFormEvent {
+  final bool changedMode;
+  ContactFormAutoParseFieldChanged(this.changedMode);
 }
 
 final class ContactFormSaved extends ContactFormEvent {}
