@@ -230,137 +230,155 @@ class ContactFormScaffold extends StatelessWidget {
         ),
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         automaticallyImplyLeading: false,
-        title: Text(
-          FFLocalizations.of(context).getText(
-            'l8hgzapa' /* Thêm liên hệ */,
-          ),
-          style: FlutterFlowTheme.of(context).headlineSmall,
+        title: BlocBuilder<ContactFormBloc, ContactFormState>(
+          buildWhen: (previous, current) =>
+              previous.isEditing != current.isEditing,
+          builder: (context, state) {
+            return Text(
+              state.isEditing ? 'Sửa liên hệ' : 'Thêm liên hệ',
+              style: FlutterFlowTheme.of(context).headlineSmall,
+            );
+          },
         ),
         actions: const [],
         centerTitle: false,
         elevation: 0.0,
       ),
-      body: Form(
-        key: formKey,
-        autovalidateMode: AutovalidateMode.disabled,
-        child: Column(
-          children: [
-            Align(
-              alignment: const Alignment(0.0, 0),
-              child: TabBar(
-                labelColor: FlutterFlowTheme.of(context).primaryText,
-                unselectedLabelColor:
-                    FlutterFlowTheme.of(context).secondaryText,
-                labelStyle: FlutterFlowTheme.of(context).titleMedium,
-                unselectedLabelStyle: const TextStyle(),
-                indicatorColor: FlutterFlowTheme.of(context).primary,
-                padding: const EdgeInsets.all(4.0),
-                tabs: [
-                  Tab(
-                    text: FFLocalizations.of(context).getText(
-                      'isd1p2so' /* Số ĐT và giá */,
-                    ),
-                    icon: const Icon(
-                      Icons.person_add_alt,
-                    ),
-                  ),
-                  Tab(
-                    text: FFLocalizations.of(context).getText(
-                      '368j65no' /* Cấu hình riêng */,
-                    ),
-                    icon: const Icon(
-                      Icons.settings_outlined,
-                    ),
-                  ),
-                ],
-                controller: tabBarController,
-                onTap: (i) async {
-                  [() async {}, () async {}][i]();
-                },
-              ),
-            ),
-            Expanded(
-              child: TabBarView(
-                controller: tabBarController,
-                children: const [
-                  UpsertContactInfoAndRateTab(),
-                  ContactSettingsTab(),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                      padding: const EdgeInsetsDirectional.fromSTEB(
-                          0.0, 20.0, 0.0, 0.0),
-                      child: FFButtonWidget(
-                        onPressed: () async {},
+      body: BlocBuilder<ContactFormBloc, ContactFormState>(
+        buildWhen: (previous, current) =>
+            previous.showErrorMessages != current.showErrorMessages,
+        builder: (context, state) {
+          return Form(
+            key: formKey,
+            autovalidateMode: AutovalidateMode.disabled,
+            child: Column(
+              children: [
+                Align(
+                  alignment: const Alignment(0.0, 0),
+                  child: TabBar(
+                    labelColor: FlutterFlowTheme.of(context).primaryText,
+                    unselectedLabelColor:
+                        FlutterFlowTheme.of(context).secondaryText,
+                    labelStyle: FlutterFlowTheme.of(context).titleMedium,
+                    unselectedLabelStyle: const TextStyle(),
+                    indicatorColor: FlutterFlowTheme.of(context).primary,
+                    padding: const EdgeInsets.all(4.0),
+                    tabs: [
+                      Tab(
                         text: FFLocalizations.of(context).getText(
-                          'okfxijxv' /* Thêm liên hệ */,
+                          'isd1p2so' /* Số ĐT và giá */,
                         ),
-                        options: FFButtonOptions(
-                          width: 230.0,
-                          height: 50.0,
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 0.0),
-                          iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 0.0),
-                          color: FlutterFlowTheme.of(context).primary,
-                          textStyle: FlutterFlowTheme.of(context)
-                              .titleSmall
-                              .override(
-                                fontFamily: 'Lexend',
-                                color: FlutterFlowTheme.of(context).textColor,
-                              ),
-                          elevation: 3.0,
-                          borderSide: const BorderSide(
-                            color: Colors.transparent,
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(30.0),
+                        icon: const Icon(
+                          Icons.person_add_alt,
                         ),
-                      ).animateOnPageLoad(
-                          animationsMap['buttonOnPageLoadAnimation1']!)),
-                  Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(
-                        0.0, 20.0, 0.0, 0.0),
-                    child: FFButtonWidget(
-                      onPressed: () async {},
-                      text: FFLocalizations.of(context).getText(
-                        'ywv1bn35' /* Hủy */,
                       ),
-                      options: FFButtonOptions(
-                        width: 140.0,
-                        height: 50.0,
-                        padding: const EdgeInsetsDirectional.fromSTEB(
-                            0.0, 0.0, 0.0, 0.0),
-                        iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                            0.0, 0.0, 0.0, 0.0),
-                        color: FlutterFlowTheme.of(context).secondaryBackground,
-                        textStyle: FlutterFlowTheme.of(context)
-                            .titleSmall
-                            .override(
-                              fontFamily: 'Lexend',
-                              color: FlutterFlowTheme.of(context).primaryText,
-                            ),
-                        elevation: 0.0,
-                        borderSide: const BorderSide(
-                          color: Colors.transparent,
-                          width: 1.0,
+                      Tab(
+                        text: FFLocalizations.of(context).getText(
+                          '368j65no' /* Cấu hình riêng */,
                         ),
-                        borderRadius: BorderRadius.circular(30.0),
+                        icon: const Icon(
+                          Icons.settings_outlined,
+                        ),
                       ),
-                    ).animateOnPageLoad(
-                        animationsMap['buttonOnPageLoadAnimation2']!),
+                    ],
+                    controller: tabBarController,
+                    onTap: (i) async {
+                      [() async {}, () async {}][i]();
+                    },
                   ),
-                ],
-              ),
+                ),
+                Expanded(
+                  child: TabBarView(
+                    controller: tabBarController,
+                    children: const [
+                      UpsertContactInfoAndRateTab(),
+                      ContactSettingsTab(),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              0.0, 20.0, 0.0, 0.0),
+                          child: BlocBuilder<ContactFormBloc, ContactFormState>(
+                            builder: (context, state) {
+                              return FFButtonWidget(
+                                onPressed: () async {},
+                                text: state.isSaving
+                                    ? 'Sửa liên hệ'
+                                    : 'Thêm liên hệ',
+                                options: FFButtonOptions(
+                                  width: 230.0,
+                                  height: 50.0,
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 0.0, 0.0),
+                                  iconPadding:
+                                      const EdgeInsetsDirectional.fromSTEB(
+                                          0.0, 0.0, 0.0, 0.0),
+                                  color: FlutterFlowTheme.of(context).primary,
+                                  textStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .override(
+                                        fontFamily: 'Lexend',
+                                        color: FlutterFlowTheme.of(context)
+                                            .textColor,
+                                      ),
+                                  elevation: 3.0,
+                                  borderSide: const BorderSide(
+                                    color: Colors.transparent,
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(30.0),
+                                ),
+                              );
+                            },
+                          ).animateOnPageLoad(
+                              animationsMap['buttonOnPageLoadAnimation1']!)),
+                      Padding(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
+                            0.0, 20.0, 0.0, 0.0),
+                        child: FFButtonWidget(
+                          onPressed: () async {},
+                          text: FFLocalizations.of(context).getText(
+                            'ywv1bn35' /* Hủy */,
+                          ),
+                          options: FFButtonOptions(
+                            width: 140.0,
+                            height: 50.0,
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 0.0, 0.0),
+                            iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 0.0, 0.0),
+                            color: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                            textStyle: FlutterFlowTheme.of(context)
+                                .titleSmall
+                                .override(
+                                  fontFamily: 'Lexend',
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                ),
+                            elevation: 0.0,
+                            borderSide: const BorderSide(
+                              color: Colors.transparent,
+                              width: 1.0,
+                            ),
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                        ).animateOnPageLoad(
+                            animationsMap['buttonOnPageLoadAnimation2']!),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

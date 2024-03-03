@@ -15,106 +15,10 @@ import 'package:provider/provider.dart';
 import 'add-contact-settings/add_contact_settings_model.dart';
 export 'add-contact-settings/add_contact_settings_model.dart';
 
-class ContactSettingsTab extends StatefulWidget {
+class ContactSettingsTab extends StatelessWidget {
   const ContactSettingsTab({
     super.key,
-    this.parameter1,
-    this.parameter2,
-    this.parameter3,
   });
-
-  final String? parameter1;
-  final String? parameter2;
-  final String? parameter3;
-
-  @override
-  State<ContactSettingsTab> createState() => _ContactSettingsTabState();
-}
-
-class _ContactSettingsTabState extends State<ContactSettingsTab>
-    with TickerProviderStateMixin {
-  late AddContactSettingsModel _model;
-
-  final animationsMap = {
-    'buttonOnPageLoadAnimation1': AnimationInfo(
-      trigger: AnimationTrigger.onPageLoad,
-      effects: [
-        FadeEffect(
-          curve: Curves.bounceOut,
-          delay: 400.ms,
-          duration: 600.ms,
-          begin: 0.0,
-          end: 1.0,
-        ),
-        MoveEffect(
-          curve: Curves.bounceOut,
-          delay: 400.ms,
-          duration: 600.ms,
-          begin: const Offset(0.0, 40.0),
-          end: const Offset(0.0, 0.0),
-        ),
-        ScaleEffect(
-          curve: Curves.bounceOut,
-          delay: 400.ms,
-          duration: 600.ms,
-          begin: const Offset(1.0, 0.0),
-          end: const Offset(1.0, 1.0),
-        ),
-      ],
-    ),
-    'buttonOnPageLoadAnimation2': AnimationInfo(
-      trigger: AnimationTrigger.onPageLoad,
-      effects: [
-        FadeEffect(
-          curve: Curves.bounceOut,
-          delay: 400.ms,
-          duration: 600.ms,
-          begin: 0.0,
-          end: 1.0,
-        ),
-        MoveEffect(
-          curve: Curves.bounceOut,
-          delay: 400.ms,
-          duration: 600.ms,
-          begin: const Offset(0.0, 40.0),
-          end: const Offset(0.0, 0.0),
-        ),
-        ScaleEffect(
-          curve: Curves.bounceOut,
-          delay: 400.ms,
-          duration: 600.ms,
-          begin: const Offset(1.0, 0.0),
-          end: const Offset(1.0, 1.0),
-        ),
-      ],
-    ),
-  };
-
-  @override
-  void setState(VoidCallback callback) {
-    super.setState(callback);
-    _model.onUpdate();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _model = createModel(context, () => AddContactSettingsModel());
-
-    setupAnimations(
-      animationsMap.values.where((anim) =>
-          anim.trigger == AnimationTrigger.onActionTrigger ||
-          !anim.applyInitialState),
-      this,
-    );
-  }
-
-  @override
-  void dispose() {
-    _model.maybeDispose();
-
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {

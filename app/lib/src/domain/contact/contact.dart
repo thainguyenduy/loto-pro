@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:fpdart/fpdart.dart';
 import 'package:ld_app/src/domain/core/event.dart';
 import 'package:ld_app/src/domain/core/i_entity.dart';
@@ -12,6 +14,7 @@ class Contact extends IEntity with DomainEvent {
   String name;
   String contactAlias;
   String accountAlias;
+  Bool autoParseMode;
   Phone phone;
   String? telegramId;
   String chatId;
@@ -22,6 +25,7 @@ class Contact extends IEntity with DomainEvent {
       required this.accountAlias,
       required this.phone,
       required this.chatId,
+      required this.autoParseMode,
       this.telegramId});
 
   factory Contact.fromChat({required String chatId}) {

@@ -18,7 +18,7 @@ class ContactMapper implements IMapper<Contact, model.Contact> {
     return Contact(
         id: UniqueId.fromUniqueString(data.id!),
         telegramId: data.telegramId,
-        phone: Phone(data.phone),
+        phone: Phone(data.phone!),
         name: data.name!);
   }
 }
