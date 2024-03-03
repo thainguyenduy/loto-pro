@@ -13,7 +13,7 @@ class ContactFormBloc extends Bloc<ContactFormEvent, ContactFormState> {
   final ContactRepository contactRepository;
   ContactFormBloc(this.contactRepository) : super(ContactFormState.create('')) {
     on<ContactFormInitialized>(_onContactFormInitialized);
-    on<ContactFormChanged>(_onContactFormChanged);
+    on<ContactFormAutoParseChanged>(_onContactFormAutoParseChanged);
     on<ContactFormSaved>(_onContactFormSaved);
   }
 
@@ -25,10 +25,11 @@ class ContactFormBloc extends Bloc<ContactFormEvent, ContactFormState> {
         saveFailureOrSuccessOption: const None()));
   }
 
-  void _onContactFormChanged(
-      ContactFormChanged event, Emitter<ContactFormState> emit) {
+  void _onContactFormAutoParseChanged(
+      ContactFormAutoParseChanged event, Emitter<ContactFormState> emit) {
     emit(state.copyWith(
-        contact: event.contact, saveFailureOrSuccessOption: const None()));
+        contact: state.contact.copyWith(autoParse: event.autoParse),
+        saveFailureOrSuccessOption: const None()));
   }
 
   void _onContactFormSaved(

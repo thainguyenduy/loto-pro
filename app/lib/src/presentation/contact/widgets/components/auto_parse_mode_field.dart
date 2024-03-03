@@ -14,11 +14,13 @@ class AutoParseModeField extends HookWidget {
     // TODO: implement build
     return BlocBuilder<ContactFormBloc, ContactFormState>(
       buildWhen: (previous, current) =>
-          previous.contact.autoParseMode != current.contact.autoParseMode,
+          previous.contact.autoParse != current.contact.autoParse,
       builder: (context, state) {
         return SwitchListTile.adaptive(
           value: true,
-          onChanged: (newValue) => context.read<ContactFormBloc>().add(Contact),
+          onChanged: (newValue) => context
+              .read<ContactFormBloc>()
+              .add(ContactFormAutoParseChanged(newValue)),
           title: Text(
             FFLocalizations.of(context).getText(
               '0sm6ek1x' /* Phân tích tin đi, đến */,

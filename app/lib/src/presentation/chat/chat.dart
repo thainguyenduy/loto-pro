@@ -95,7 +95,7 @@ class _ChatScreenState extends State<ChatScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              AutoRouter.of(context).push(UpsertContactRoute());
+              AutoRouter.of(context).push(ContactFormRoute());
             },
             tooltip: "Add this contact",
             icon: const Icon(Icons.person_add),

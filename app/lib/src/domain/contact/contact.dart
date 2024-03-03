@@ -12,31 +12,30 @@ part 'contact_repository.dart';
 
 class Contact extends IEntity with DomainEvent {
   String name;
-  String contactAlias;
-  String accountAlias;
-  Bool autoParseMode;
   Phone phone;
-  String? telegramId;
   String chatId;
+  bool autoParse;
+  String? contactAlias;
+  String? accountAlias;
+  String? telegramId;
   Contact(
       {required super.id,
       required this.name,
-      required this.contactAlias,
-      required this.accountAlias,
       required this.phone,
       required this.chatId,
-      required this.autoParseMode,
+      required this.autoParse,
+      this.contactAlias,
+      this.accountAlias,
       this.telegramId});
 
   factory Contact.fromChat({required String chatId}) {
     return Contact(
-        id: UniqueId(),
-        name: '',
-        contactAlias: '',
-        accountAlias: '',
-        phone: Phone(''),
-        telegramId: '',
-        chatId: chatId);
+      id: UniqueId(),
+      name: '',
+      phone: Phone(''),
+      chatId: chatId,
+      autoParse: false,
+    );
   }
 
   @override
@@ -49,10 +48,14 @@ class Contact extends IEntity with DomainEvent {
     final map = <String, dynamic>{};
     map['id'] = id.getOrCrash();
     map['name'] = name;
+    map['phone'] = phone.getOrCrash();
+    map['chatId'] = chatId;
+    map['autoParse'] = autoParse;
     map['contactAlias'] = contactAlias;
     map['accoutAlias'] = accountAlias;
-    map['phone'] = phone.getOrCrash();
     map['telegramId'] = telegramId;
     return map;
   }
+
+  copyWith({required bool autoParse}) {}
 }
