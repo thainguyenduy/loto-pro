@@ -22,7 +22,8 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: ContactFormPage(
           key: args.key,
-          contactId: args.contactId,
+          chatId: args.chatId,
+          contact: args.contact,
         ),
       );
     },
@@ -64,13 +65,15 @@ abstract class _$AppRouter extends RootStackRouter {
 class ContactFormRoute extends PageRouteInfo<ContactFormRouteArgs> {
   ContactFormRoute({
     Key? key,
-    String? contactId,
+    String? chatId,
+    Contact? contact,
     List<PageRouteInfo>? children,
   }) : super(
           ContactFormRoute.name,
           args: ContactFormRouteArgs(
             key: key,
-            contactId: contactId,
+            chatId: chatId,
+            contact: contact,
           ),
           initialChildren: children,
         );
@@ -84,16 +87,19 @@ class ContactFormRoute extends PageRouteInfo<ContactFormRouteArgs> {
 class ContactFormRouteArgs {
   const ContactFormRouteArgs({
     this.key,
-    this.contactId,
+    this.chatId,
+    this.contact,
   });
 
   final Key? key;
 
-  final String? contactId;
+  final String? chatId;
+
+  final Contact? contact;
 
   @override
   String toString() {
-    return 'ContactFormRouteArgs{key: $key, contactId: $contactId}';
+    return 'ContactFormRouteArgs{key: $key, chatId: $chatId, contact: $contact}';
   }
 }
 

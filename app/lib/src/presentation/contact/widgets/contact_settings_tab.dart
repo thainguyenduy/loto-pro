@@ -1,3 +1,6 @@
+import 'package:ld_app/src/presentation/contact/widgets/components/auto_parse_mode_field.dart';
+import 'package:ld_app/src/presentation/contact/widgets/components/reply_mode_field.dart';
+
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -28,9 +31,10 @@ class ContactSettingsTab extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 5.0),
-              child: ,
+            const AutoParseModeField(),
+            const Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 5.0),
+              child: ReplyModeField(),
             ),
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 5.0),

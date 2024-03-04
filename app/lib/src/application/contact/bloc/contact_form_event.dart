@@ -12,4 +12,9 @@ final class ContactFormAutoParseChanged extends ContactFormEvent {
   ContactFormAutoParseChanged(this.autoParse);
 }
 
+final class ContactFormReplyModeChanged extends ContactFormEvent {
+  final num replyMode;
+  ContactFormReplyModeChanged(this.replyMode);
+}
+
 final class ContactFormSaved extends ContactFormEvent {}

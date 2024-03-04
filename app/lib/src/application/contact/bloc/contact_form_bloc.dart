@@ -3,6 +3,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ld_app/src/domain/contact/contact.dart';
+import 'package:ld_app/src/domain/contact/contact_values.dart';
 
 part 'contact_form_event.dart';
 part 'contact_form_state.dart';
@@ -14,6 +15,7 @@ class ContactFormBloc extends Bloc<ContactFormEvent, ContactFormState> {
   ContactFormBloc(this.contactRepository) : super(ContactFormState.create('')) {
     on<ContactFormInitialized>(_onContactFormInitialized);
     on<ContactFormAutoParseChanged>(_onContactFormAutoParseChanged);
+    on<ContactFormReplyModeChanged>(_onContactFormReplyModeChanged);
     on<ContactFormSaved>(_onContactFormSaved);
   }
 
@@ -29,6 +31,13 @@ class ContactFormBloc extends Bloc<ContactFormEvent, ContactFormState> {
       ContactFormAutoParseChanged event, Emitter<ContactFormState> emit) {
     emit(state.copyWith(
         contact: state.contact.copyWith(autoParse: event.autoParse),
+        saveFailureOrSuccessOption: const None()));
+  }
+
+  void _onContactFormReplyModeChanged(
+      ContactFormReplyModeChanged event, Emitter<ContactFormState> emit) {
+    emit(state.copyWith(
+        contact: state.contact.copyWith(replyMode: ReplyMode(event.replyMode)),
         saveFailureOrSuccessOption: const None()));
   }
 
