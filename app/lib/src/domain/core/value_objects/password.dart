@@ -2,7 +2,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:ld_app/src/domain/core/value_objects/value_failures.dart';
 import 'package:ld_app/src/domain/core/value_object.dart';
 
-class Password extends ValueObject<String> {
+class Password extends ValueObject<String, ValueFailure<String>> {
   @override
   final Either<ValueFailure<String>, String> value;
 

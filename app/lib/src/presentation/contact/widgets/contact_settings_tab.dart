@@ -28,77 +28,9 @@ class ContactSettingsTab extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            SwitchListTile.adaptive(
-              value: _model.switchListTileValue1 ??= true,
-              onChanged: (newValue) async {
-                setState(() => _model.switchListTileValue1 = newValue!);
-              },
-              title: Text(
-                FFLocalizations.of(context).getText(
-                  '0sm6ek1x' /* Phân tích tin đi, đến */,
-                ),
-                textAlign: TextAlign.start,
-                style: FlutterFlowTheme.of(context).bodyMedium,
-              ),
-              subtitle: Text(
-                FFLocalizations.of(context).getText(
-                  'w79u6jgx' /* Tự động phân tích */,
-                ),
-                style: FlutterFlowTheme.of(context).labelSmall,
-              ),
-              tileColor: FlutterFlowTheme.of(context).secondaryBackground,
-              activeColor: FlutterFlowTheme.of(context).primary,
-              activeTrackColor: FlutterFlowTheme.of(context).accent1,
-              dense: false,
-              controlAffinity: ListTileControlAffinity.trailing,
-              contentPadding:
-                  const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-            ),
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 5.0),
-              child: FlutterFlowDropDown<String>(
-                controller: _model.dropDownValueController1 ??=
-                    FormFieldController<String>(null),
-                options: [
-                  FFLocalizations.of(context).getText(
-                    '0h907zlv' /* Không trả lời */,
-                  ),
-                  FFLocalizations.of(context).getText(
-                    'sv59ofep' /* Đếm tin đã xử lý thành công */,
-                  ),
-                  FFLocalizations.of(context).getText(
-                    '4t5c053r' /* Trích dẫn tin sau khi xử lý */,
-                  ),
-                  FFLocalizations.of(context).getText(
-                    'ahlbqhso' /* Trích dẫn nội dung nhận được */,
-                  )
-                ],
-                onChanged: (val) => setState(() => _model.dropDownValue1 = val),
-                height: 50.0,
-                textStyle: FlutterFlowTheme.of(context).bodyMedium,
-                hintText: FFLocalizations.of(context).getText(
-                  'm5j9wm6l' /* Trả lời tin nhắn */,
-                ),
-                icon: Icon(
-                  Icons.keyboard_arrow_down_rounded,
-                  color: FlutterFlowTheme.of(context).secondaryText,
-                  size: 24.0,
-                ),
-                fillColor: FlutterFlowTheme.of(context).secondaryBackground,
-                elevation: 2.0,
-                borderColor: FlutterFlowTheme.of(context).alternate,
-                borderWidth: 2.0,
-                borderRadius: 8.0,
-                margin:
-                    const EdgeInsetsDirectional.fromSTEB(16.0, 4.0, 16.0, 4.0),
-                hidesUnderline: true,
-                isOverButton: true,
-                isSearchable: false,
-                isMultiSelect: false,
-              ),
+              child: ,
             ),
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 5.0),

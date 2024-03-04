@@ -1,17 +1,18 @@
 import 'package:fpdart/fpdart.dart';
-import 'package:ld_app/src/domain/core/errors.dart';
-import 'package:ld_app/src/domain/core/value_objects/value_failures.dart';
 import 'package:meta/meta.dart';
 import 'package:uuid/uuid.dart';
+
+import 'package:ld_app/src/domain/core/errors.dart';
+import 'package:ld_app/src/domain/core/value_objects/value_failures.dart';
 
 abstract class IValidatable {
   bool isValid();
 }
 
 @immutable
-abstract class ValueObject<T> implements IValidatable {
+abstract class ValueObject<T, K extends ValueFailure> implements IValidatable {
   const ValueObject();
-  Either<ValueFailure<T>, T> get value;
+  Either<K, T> get value;
 
   /// Throws [UnexpectedValueError] containing the [ValueFailure]
   T getOrCrash() {
@@ -37,7 +38,7 @@ abstract class ValueObject<T> implements IValidatable {
   @override
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
-    return o is ValueObject<T> && o.value == value;
+    return o is ValueObject<T, K> && o.value == value;
   }
 
   @override
@@ -47,7 +48,7 @@ abstract class ValueObject<T> implements IValidatable {
   String toString() => 'Value($value)';
 }
 
-class UniqueId extends ValueObject<String> {
+class UniqueId extends ValueObject {
   @override
   final Either<ValueFailure<String>, String> value;
 
