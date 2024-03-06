@@ -12,56 +12,43 @@ import 'package:ld_app/src/infrastructure/mapper/contact_mapper.dart';
 final class ContactRepositoryImpl implements ContactRepository {
   final ContactMapper contactMapper;
   ContactRepositoryImpl(this.contactMapper);
-  @override
-  // TODO: implement account
-  TaskEither<AccountFailure, Account> getAccount(String id) {
-    /* final rte = ReaderTaskEither<Deps, AccountFailure, Account>.Do(($) async {
-      final env = await $(ReaderTaskEither.asks(identity));
-      final res = env.$1.getById(env.$2);
-      final te = TaskEither.fromNullable(res, () => NullableAccountFailure());
-    }).run((account, id));
-    return TaskEither(() => rte); */
-    final accMayNullTE = TaskEither.tryCatch(
-        () => model.Account().getById(id, preload: true),
-        (_, __) => AccountDataAccessFailure());
-    TaskEither<AccountFailure, model.Account> accTE(model.Account? acc) =>
-        TaskEither.fromNullable(acc, () => AccountNotFoundFailure());
-    IOEither<AccountFailure, Account> modelToDomainIOE(model.Account acc) =>
-        IOEither.tryCatch(() => accountMapper.toDomain(acc),
-            (_, __) => AccountDomainFailure());
-    final res = accMayNullTE
-        .flatMap(accTE as TaskEither<AccountDataAccessFailure, dynamic>
-            Function(model.Account? r))
-        .flatMap(modelToDomainIOE
-            as TaskEither<AccountDataAccessFailure, dynamic> Function(
-                dynamic r))
-        .map((r) => r as Account);
-    return res;
-  }
 
   @override
-  TaskEither<AccountFailure, Unit> create(Account account) {
+  TaskEither<ContactFailure, Unit> create(Contact contact) {
     return TaskEither.tryCatch(
-        () => model.Account.fromMap(account.toMap()).save(),
-        (error, stackTrace) => AccountCreatedFailure()).map((r) => unit);
+        () => model.Contact.fromMap(contact.toJson()).save(),
+        (error, stackTrace) => ContactCreatedFailure()).map((r) => unit);
   }
 
   @override
-  TaskEither<AccountFailure, Unit> delete(Account account) {
+  TaskEither<ContactFailure, Unit> delete(Contact contact) {
     // TODO: implement delete
     throw UnimplementedError();
   }
 
   @override
-  TaskEither<AccountFailure, Unit> update(Account account) {
+  TaskEither<ContactFailure, Unit> update(Contact contact) {
     return TaskEither.tryCatch(
-        () => model.Account.fromMap(account.toMap()).save(),
-        (error, stackTrace) => AccountUpdatedException()).map((r) => unit);
+        () => model.Contact.fromMap(contact.toJson()).save(),
+        (error, stackTrace) => ContactUpdatedFailure()).map((r) => unit);
   }
 
   @override
   TaskEither<ContactFailure, Contact> getContact(String id) {
-    // TODO: implement getContact
-    throw UnimplementedError();
+    final conMayNullTE = TaskEither.tryCatch(() => model.Contact().getById(id),
+        (_, __) => ContactDataAccessFailure());
+    TaskEither<ContactFailure, model.Contact> conTE(model.Contact? acc) =>
+        TaskEither.fromNullable(acc, () => ContactNotFoundFailure());
+    IOEither<ContactFailure, Contact> modelToDomainIOE(model.Contact acc) =>
+        IOEither.tryCatch(() => contactMapper.toDomain(acc),
+            (_, __) => ContactDomainFailure());
+    final res = conMayNullTE
+        .flatMap(conTE as TaskEither<ContactDataAccessFailure, dynamic>
+            Function(model.Contact? r))
+        .flatMap(modelToDomainIOE
+            as TaskEither<ContactDataAccessFailure, dynamic> Function(
+                dynamic r))
+        .map((r) => r as Contact);
+    return res;
   }
 }

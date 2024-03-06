@@ -6,7 +6,7 @@ import 'package:ld_app/flutter_flow/flutter_flow_theme.dart';
 import 'package:ld_app/flutter_flow/form_field_controller.dart';
 import 'package:ld_app/flutter_flow/internationalization.dart';
 import 'package:ld_app/src/application/contact/bloc/contact_form_bloc.dart';
-import 'package:ld_app/src/domain/contact/contact.dart';
+import 'package:ld_app/src/domain/contact/contact_values.dart';
 
 class ReplyModeField extends StatelessWidget {
   const ReplyModeField({super.key});
@@ -15,25 +15,11 @@ class ReplyModeField extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ContactFormBloc, ContactFormState>(
       builder: (context, state) {
-        var controller =
-            FormFieldController<num>(state.contact.replyMode.getOrCrash());
-        return FlutterFlowDropDown<num>(
+        var controller = FormFieldController<int>(state.contact.replyMode.code);
+        return FlutterFlowDropDown<int>(
           controller: controller,
-          options: ReplyModes.values.map((e) => e.index).toList(),
-          optionLabels: [
-            FFLocalizations.of(context).getText(
-              '0h907zlv' /* Không trả lời */,
-            ),
-            FFLocalizations.of(context).getText(
-              'sv59ofep' /* Đếm tin đã xử lý thành công */,
-            ),
-            FFLocalizations.of(context).getText(
-              '4t5c053r' /* Trích dẫn tin sau khi xử lý */,
-            ),
-            FFLocalizations.of(context).getText(
-              'ahlbqhso' /* Trích dẫn nội dung nhận được */,
-            )
-          ],
+          options: ReplyMode.values.map((e) => e.code).toList(),
+          optionLabels: ReplyMode.values.map((e) => e.label).toList(),
           onChanged: (val) => context
               .read<ContactFormBloc>()
               .add(ContactFormReplyModeChanged(val!)),

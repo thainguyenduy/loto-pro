@@ -41,7 +41,7 @@ final class AccountRepositoryImpl implements AccountRepository {
   @override
   TaskEither<AccountFailure, Unit> create(Account account) {
     return TaskEither.tryCatch(
-        () => model.Account.fromMap(account.toMap()).save(),
+        () => model.Account.fromMap(account.toJson()).save(),
         (error, stackTrace) => AccountCreatedFailure()).map((r) => unit);
   }
 
@@ -54,7 +54,7 @@ final class AccountRepositoryImpl implements AccountRepository {
   @override
   TaskEither<AccountFailure, Unit> update(Account account) {
     return TaskEither.tryCatch(
-        () => model.Account.fromMap(account.toMap()).save(),
+        () => model.Account.fromMap(account.toJson()).save(),
         (error, stackTrace) => AccountUpdatedFailure()).map((r) => unit);
   }
 }

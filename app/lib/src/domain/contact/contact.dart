@@ -20,8 +20,8 @@ class Contact extends IEntity {
   final Phone phone;
   final String chatId;
   final bool autoParse;
-  ReplyMode replyMode;
-  DebtReminderMode debtReminderMode;
+  final ReplyMode replyMode;
+  final DebtReminderMode debtReminderMode;
   final String? contactAlias;
   final String? accountAlias;
   final String? telegramId;

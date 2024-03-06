@@ -4,9 +4,9 @@ import 'package:injectable/injectable.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ld_app/src/domain/contact/contact.dart';
 import 'package:ld_app/src/domain/contact/contact_values.dart';
-import 'package:ld_app/src/domain/core/value_object.dart';
 import 'package:ld_app/src/domain/core/value_objects/phone.dart';
 import 'package:ld_app/src/domain/core/value_objects/unique_id.dart';
+import 'package:ld_app/src/infrastructure/injector.dart';
 
 part 'contact_form_event.dart';
 part 'contact_form_state.dart';
@@ -14,25 +14,14 @@ part 'contact_form_bloc.freezed.dart';
 
 @injectable
 class ContactFormBloc extends Bloc<ContactFormEvent, ContactFormState> {
-  final ContactRepository contactRepository;
-  ContactFormBloc(this.contactRepository) : super(ContactFormState.initial()) {
-    on<ContactFormInitialized>(_onContactFormInitialized);
+  final ContactRepository contactRepository = locator<ContactRepository>();
+  ContactFormBloc(Either<String, Contact> initial)
+      : super(ContactFormState.initial(initial)) {
     on<ContactFormAutoParseChanged>(_onContactFormAutoParseChanged);
     on<ContactFormReplyModeChanged>(_onContactFormReplyModeChanged);
     on<ContactFormDebtReminderModeChanged>(
         _onContactFormDebtReminderModeChanged);
     on<ContactFormSaved>(_onContactFormSaved);
-  }
-
-  void _onContactFormInitialized(
-      ContactFormInitialized event, Emitter<ContactFormState> emit) {
-    Contact contact = event.value
-        .match((String chatId) => Contact.fromChat(chatId: chatId), identity);
-    emit(ContactFormState.fromContact(contact));
-    /* emit(state.copyWith(
-        contact:
-            event.value.getOrElse((chatId) => Contact.fromChat(chatId: chatId)),
-        saveFailureOrSuccessOption: const None())); */
   }
 
   void _onContactFormAutoParseChanged(
