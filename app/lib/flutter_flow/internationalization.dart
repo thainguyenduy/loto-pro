@@ -2782,7 +2782,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'es': '',
     },
     'mykbxw20': {
-      'en': 'Báo kèm nợ củ chi tiết',
+      'en': 'Báo kèm nợ cũ chi tiết',
       'ar': '',
       'de': '',
       'es': '',

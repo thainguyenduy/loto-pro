@@ -36,6 +36,15 @@ class TableContact extends SqfEntityTableBase {
       SqfEntityFieldBase('telegramId', DbType.text, isNotNull: true),
       SqfEntityFieldBase('name', DbType.text, isNotNull: true),
       SqfEntityFieldBase('phone', DbType.text, isNotNull: true),
+      SqfEntityFieldBase('chatId', DbType.text, isNotNull: true),
+      SqfEntityFieldBase('autoParse', DbType.bool,
+          defaultValue: false, isNotNull: true),
+      SqfEntityFieldBase('accountAlias', DbType.text),
+      SqfEntityFieldBase('contactAlias', DbType.text),
+      SqfEntityFieldBase('replyMode', DbType.integer,
+          defaultValue: 0, isNotNull: true),
+      SqfEntityFieldBase('debtReminderMode', DbType.integer,
+          defaultValue: 0, isNotNull: true),
       SqfEntityFieldRelationshipBase(
           TableAccount.getInstance, DeleteRule.NO_ACTION,
           relationType: RelationType.ONE_TO_MANY, fieldName: 'accountId'),
@@ -134,17 +143,45 @@ class Contact extends TableBase {
       this.telegramId,
       this.name,
       this.phone,
+      this.chatId,
+      this.autoParse,
+      this.accountAlias,
+      this.contactAlias,
+      this.replyMode,
+      this.debtReminderMode,
       this.accountId,
       this.dateCreated}) {
     _setDefaultValues();
     softDeleteActivated = false;
   }
-  Contact.withFields(this.id, this.telegramId, this.name, this.phone,
-      this.accountId, this.dateCreated) {
+  Contact.withFields(
+      this.id,
+      this.telegramId,
+      this.name,
+      this.phone,
+      this.chatId,
+      this.autoParse,
+      this.accountAlias,
+      this.contactAlias,
+      this.replyMode,
+      this.debtReminderMode,
+      this.accountId,
+      this.dateCreated) {
     _setDefaultValues();
   }
-  Contact.withId(this.id, this.telegramId, this.name, this.phone,
-      this.accountId, this.dateCreated) {
+  Contact.withId(
+      this.id,
+      this.telegramId,
+      this.name,
+      this.phone,
+      this.chatId,
+      this.autoParse,
+      this.accountAlias,
+      this.contactAlias,
+      this.replyMode,
+      this.debtReminderMode,
+      this.accountId,
+      this.dateCreated) {
     _setDefaultValues();
   }
   // fromMap v2.0
@@ -161,6 +198,25 @@ class Contact extends TableBase {
     }
     if (o['phone'] != null) {
       phone = o['phone'].toString();
+    }
+    if (o['chatId'] != null) {
+      chatId = o['chatId'].toString();
+    }
+    if (o['autoParse'] != null) {
+      autoParse = o['autoParse'].toString() == '1' ||
+          o['autoParse'].toString() == 'true';
+    }
+    if (o['accountAlias'] != null) {
+      accountAlias = o['accountAlias'].toString();
+    }
+    if (o['contactAlias'] != null) {
+      contactAlias = o['contactAlias'].toString();
+    }
+    if (o['replyMode'] != null) {
+      replyMode = int.tryParse(o['replyMode'].toString());
+    }
+    if (o['debtReminderMode'] != null) {
+      debtReminderMode = int.tryParse(o['debtReminderMode'].toString());
     }
     accountId = o['accountId'].toString();
 
@@ -184,6 +240,12 @@ class Contact extends TableBase {
   String? telegramId;
   String? name;
   String? phone;
+  String? chatId;
+  bool? autoParse;
+  String? accountAlias;
+  String? contactAlias;
+  int? replyMode;
+  int? debtReminderMode;
   String? accountId;
   DateTime? dateCreated;
   bool? isSaved;
@@ -225,6 +287,26 @@ class Contact extends TableBase {
     if (phone != null || !forView) {
       map['phone'] = phone;
     }
+    if (chatId != null || !forView) {
+      map['chatId'] = chatId;
+    }
+    if (autoParse != null) {
+      map['autoParse'] = forQuery ? (autoParse! ? 1 : 0) : autoParse;
+    } else if (autoParse != null || !forView) {
+      map['autoParse'] = null;
+    }
+    if (accountAlias != null || !forView) {
+      map['accountAlias'] = accountAlias;
+    }
+    if (contactAlias != null || !forView) {
+      map['contactAlias'] = contactAlias;
+    }
+    if (replyMode != null || !forView) {
+      map['replyMode'] = replyMode;
+    }
+    if (debtReminderMode != null || !forView) {
+      map['debtReminderMode'] = debtReminderMode;
+    }
     if (accountId != null) {
       map['accountId'] = forView
           ? plAccount == null
@@ -262,6 +344,26 @@ class Contact extends TableBase {
     }
     if (phone != null || !forView) {
       map['phone'] = phone;
+    }
+    if (chatId != null || !forView) {
+      map['chatId'] = chatId;
+    }
+    if (autoParse != null) {
+      map['autoParse'] = forQuery ? (autoParse! ? 1 : 0) : autoParse;
+    } else if (autoParse != null || !forView) {
+      map['autoParse'] = null;
+    }
+    if (accountAlias != null || !forView) {
+      map['accountAlias'] = accountAlias;
+    }
+    if (contactAlias != null || !forView) {
+      map['contactAlias'] = contactAlias;
+    }
+    if (replyMode != null || !forView) {
+      map['replyMode'] = replyMode;
+    }
+    if (debtReminderMode != null || !forView) {
+      map['debtReminderMode'] = debtReminderMode;
     }
     if (accountId != null) {
       map['accountId'] = forView
@@ -304,6 +406,12 @@ class Contact extends TableBase {
       telegramId,
       name,
       phone,
+      chatId,
+      autoParse,
+      accountAlias,
+      contactAlias,
+      replyMode,
+      debtReminderMode,
       accountId,
       dateCreated != null ? dateCreated!.millisecondsSinceEpoch : null
     ];
@@ -316,6 +424,12 @@ class Contact extends TableBase {
       telegramId,
       name,
       phone,
+      chatId,
+      autoParse,
+      accountAlias,
+      contactAlias,
+      replyMode,
+      debtReminderMode,
       accountId,
       dateCreated != null ? dateCreated!.millisecondsSinceEpoch : null
     ];
@@ -427,7 +541,7 @@ class Contact extends TableBase {
     final result = BoolResult(success: false);
     try {
       await _mnContact.rawInsert(
-          'INSERT ${isSaved! ? 'OR REPLACE' : ''} INTO contact (id, telegramId, name, phone, accountId, dateCreated)  VALUES (?,?,?,?,?,?)',
+          'INSERT ${isSaved! ? 'OR REPLACE' : ''} INTO contact (id, telegramId, name, phone, chatId, autoParse, accountAlias, contactAlias, replyMode, debtReminderMode, accountId, dateCreated)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
           toArgsWithIds(),
           ignoreBatch);
       result.success = true;
@@ -465,12 +579,18 @@ class Contact extends TableBase {
   Future<int?> upsert({bool ignoreBatch = true}) async {
     try {
       final result = await _mnContact.rawInsert(
-          'INSERT OR REPLACE INTO contact (id, telegramId, name, phone, accountId, dateCreated)  VALUES (?,?,?,?,?,?)',
+          'INSERT OR REPLACE INTO contact (id, telegramId, name, phone, chatId, autoParse, accountAlias, contactAlias, replyMode, debtReminderMode, accountId, dateCreated)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
           [
             id,
             telegramId,
             name,
             phone,
+            chatId,
+            autoParse,
+            accountAlias,
+            contactAlias,
+            replyMode,
+            debtReminderMode,
             accountId,
             dateCreated != null ? dateCreated!.millisecondsSinceEpoch : null
           ],
@@ -533,6 +653,9 @@ class Contact extends TableBase {
 
   void _setDefaultValues() {
     isSaved = false;
+    autoParse = autoParse ?? false;
+    replyMode = replyMode ?? 0;
+    debtReminderMode = debtReminderMode ?? 0;
     dateCreated = dateCreated ?? DateTime.now();
   }
 
@@ -758,6 +881,39 @@ class ContactFilterBuilder extends ConjunctionBase {
   ContactField? _phone;
   ContactField get phone {
     return _phone = _setField(_phone, 'phone', DbType.text);
+  }
+
+  ContactField? _chatId;
+  ContactField get chatId {
+    return _chatId = _setField(_chatId, 'chatId', DbType.text);
+  }
+
+  ContactField? _autoParse;
+  ContactField get autoParse {
+    return _autoParse = _setField(_autoParse, 'autoParse', DbType.bool);
+  }
+
+  ContactField? _accountAlias;
+  ContactField get accountAlias {
+    return _accountAlias =
+        _setField(_accountAlias, 'accountAlias', DbType.text);
+  }
+
+  ContactField? _contactAlias;
+  ContactField get contactAlias {
+    return _contactAlias =
+        _setField(_contactAlias, 'contactAlias', DbType.text);
+  }
+
+  ContactField? _replyMode;
+  ContactField get replyMode {
+    return _replyMode = _setField(_replyMode, 'replyMode', DbType.integer);
+  }
+
+  ContactField? _debtReminderMode;
+  ContactField get debtReminderMode {
+    return _debtReminderMode =
+        _setField(_debtReminderMode, 'debtReminderMode', DbType.integer);
   }
 
   ContactField? _accountId;
@@ -1021,6 +1177,43 @@ class ContactFields {
   static TableField get phone {
     return _fPhone =
         _fPhone ?? SqlSyntax.setField(_fPhone, 'phone', DbType.text);
+  }
+
+  static TableField? _fChatId;
+  static TableField get chatId {
+    return _fChatId =
+        _fChatId ?? SqlSyntax.setField(_fChatId, 'chatId', DbType.text);
+  }
+
+  static TableField? _fAutoParse;
+  static TableField get autoParse {
+    return _fAutoParse = _fAutoParse ??
+        SqlSyntax.setField(_fAutoParse, 'autoParse', DbType.bool);
+  }
+
+  static TableField? _fAccountAlias;
+  static TableField get accountAlias {
+    return _fAccountAlias = _fAccountAlias ??
+        SqlSyntax.setField(_fAccountAlias, 'accountAlias', DbType.text);
+  }
+
+  static TableField? _fContactAlias;
+  static TableField get contactAlias {
+    return _fContactAlias = _fContactAlias ??
+        SqlSyntax.setField(_fContactAlias, 'contactAlias', DbType.text);
+  }
+
+  static TableField? _fReplyMode;
+  static TableField get replyMode {
+    return _fReplyMode = _fReplyMode ??
+        SqlSyntax.setField(_fReplyMode, 'replyMode', DbType.integer);
+  }
+
+  static TableField? _fDebtReminderMode;
+  static TableField get debtReminderMode {
+    return _fDebtReminderMode = _fDebtReminderMode ??
+        SqlSyntax.setField(
+            _fDebtReminderMode, 'debtReminderMode', DbType.integer);
   }
 
   static TableField? _fAccountId;

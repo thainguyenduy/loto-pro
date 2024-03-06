@@ -8,25 +8,26 @@ import 'package:ld_app/flutter_flow/internationalization.dart';
 import 'package:ld_app/src/application/contact/bloc/contact_form_bloc.dart';
 import 'package:ld_app/src/domain/contact/contact_values.dart';
 
-class ReplyModeField extends StatelessWidget {
-  const ReplyModeField({super.key});
+class DebtReminderModeField extends StatelessWidget {
+  const DebtReminderModeField({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ContactFormBloc, ContactFormState>(
       builder: (context, state) {
-        var controller = FormFieldController<int>(state.contact.replyMode.code);
+        var controller =
+            FormFieldController<int>(state.contact.debtReminderMode.code);
         return FlutterFlowDropDown<int>(
           controller: controller,
-          options: ReplyMode.values.map((e) => e.code).toList(),
-          optionLabels: ReplyMode.values.map((e) => e.label).toList(),
+          options: DebtReminderMode.values.map((e) => e.code).toList(),
+          optionLabels: DebtReminderMode.values.map((e) => e.label).toList(),
           onChanged: (val) => context
               .read<ContactFormBloc>()
-              .add(ContactFormReplyModeChanged(val!)),
+              .add(ContactFormDebtReminderModeChanged(val!)),
           height: 50.0,
           textStyle: FlutterFlowTheme.of(context).bodyMedium,
           hintText: FFLocalizations.of(context).getText(
-            'm5j9wm6l' /* Trả lời tin nhắn */,
+            'mykbxw20' /* Báo kèm nợ cũ chi tiết */,
           ),
           icon: Icon(
             Icons.keyboard_arrow_down_rounded,

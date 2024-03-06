@@ -1,4 +1,5 @@
 import 'package:ld_app/src/presentation/contact/widgets/components/auto_parse_mode_field.dart';
+import 'package:ld_app/src/presentation/contact/widgets/components/debt_reminder_mode_field.dart';
 import 'package:ld_app/src/presentation/contact/widgets/components/reply_mode_field.dart';
 
 import '/flutter_flow/flutter_flow_animations.dart';
@@ -36,39 +37,9 @@ class ContactSettingsTab extends StatelessWidget {
               padding: EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 5.0),
               child: ReplyModeField(),
             ),
-            Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 5.0),
-              child: FlutterFlowDropDown<String>(
-                controller: _model.dropDownValueController2 ??=
-                    FormFieldController<String>(null),
-                options: [
-                  FFLocalizations.of(context).getText(
-                    'mykbxw20' /* Báo kèm nợ củ chi tiết */,
-                  )
-                ],
-                onChanged: (val) => setState(() => _model.dropDownValue2 = val),
-                height: 50.0,
-                textStyle: FlutterFlowTheme.of(context).bodyMedium,
-                hintText: FFLocalizations.of(context).getText(
-                  'ppl0kb88' /* Kiểu báo công nợ */,
-                ),
-                icon: Icon(
-                  Icons.keyboard_arrow_down_rounded,
-                  color: FlutterFlowTheme.of(context).secondaryText,
-                  size: 24.0,
-                ),
-                fillColor: FlutterFlowTheme.of(context).secondaryBackground,
-                elevation: 2.0,
-                borderColor: FlutterFlowTheme.of(context).alternate,
-                borderWidth: 2.0,
-                borderRadius: 8.0,
-                margin:
-                    const EdgeInsetsDirectional.fromSTEB(16.0, 4.0, 16.0, 4.0),
-                hidesUnderline: true,
-                isOverButton: true,
-                isSearchable: false,
-                isMultiSelect: false,
-              ),
+            const Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 5.0),
+              child: DebtReminderModeField(),
             ),
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 5.0),
