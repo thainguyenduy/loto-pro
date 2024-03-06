@@ -4,6 +4,9 @@ import 'package:injectable/injectable.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ld_app/src/domain/contact/contact.dart';
 import 'package:ld_app/src/domain/contact/contact_values.dart';
+import 'package:ld_app/src/domain/core/value_object.dart';
+import 'package:ld_app/src/domain/core/value_objects/phone.dart';
+import 'package:ld_app/src/domain/core/value_objects/unique_id.dart';
 
 part 'contact_form_event.dart';
 part 'contact_form_state.dart';
@@ -12,32 +15,44 @@ part 'contact_form_bloc.freezed.dart';
 @injectable
 class ContactFormBloc extends Bloc<ContactFormEvent, ContactFormState> {
   final ContactRepository contactRepository;
-  ContactFormBloc(this.contactRepository) : super(ContactFormState.create('')) {
+  ContactFormBloc(this.contactRepository) : super(ContactFormState.initial()) {
     on<ContactFormInitialized>(_onContactFormInitialized);
     on<ContactFormAutoParseChanged>(_onContactFormAutoParseChanged);
     on<ContactFormReplyModeChanged>(_onContactFormReplyModeChanged);
+    on<ContactFormDebtReminderModeChanged>(
+        _onContactFormDebtReminderModeChanged);
     on<ContactFormSaved>(_onContactFormSaved);
   }
 
   void _onContactFormInitialized(
       ContactFormInitialized event, Emitter<ContactFormState> emit) {
-    emit(state.copyWith(
+    Contact contact = event.value
+        .match((String chatId) => Contact.fromChat(chatId: chatId), identity);
+    emit(ContactFormState.fromContact(contact));
+    /* emit(state.copyWith(
         contact:
             event.value.getOrElse((chatId) => Contact.fromChat(chatId: chatId)),
-        saveFailureOrSuccessOption: const None()));
+        saveFailureOrSuccessOption: const None())); */
   }
 
   void _onContactFormAutoParseChanged(
       ContactFormAutoParseChanged event, Emitter<ContactFormState> emit) {
     emit(state.copyWith(
-        contact: state.contact.copyWith(autoParse: event.autoParse),
-        saveFailureOrSuccessOption: const None()));
+        autoParse: event.autoParse, saveFailureOrSuccessOption: const None()));
   }
 
   void _onContactFormReplyModeChanged(
       ContactFormReplyModeChanged event, Emitter<ContactFormState> emit) {
     emit(state.copyWith(
-        contact: state.contact.copyWith(replyMode: ReplyMode(event.replyMode)),
+        replyMode: ReplyMode.fromKey(event.replyMode),
+        saveFailureOrSuccessOption: const None()));
+  }
+
+  void _onContactFormDebtReminderModeChanged(
+      ContactFormDebtReminderModeChanged event,
+      Emitter<ContactFormState> emit) {
+    emit(state.copyWith(
+        debtReminderMode: DebtReminderMode.fromKey(event.debtReminderMode),
         saveFailureOrSuccessOption: const None()));
   }
 

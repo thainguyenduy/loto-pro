@@ -1,44 +1,27 @@
 import 'dart:ffi';
 
 import 'package:fpdart/fpdart.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:ld_app/src/domain/contact/contact_values.dart';
 import 'package:ld_app/src/domain/core/event.dart';
 import 'package:ld_app/src/domain/core/i_entity.dart';
 import 'package:ld_app/src/domain/core/value_objects/phone.dart';
+import 'package:ld_app/src/domain/core/value_objects/unique_id.dart';
 import 'package:ld_app/src/domain/core/value_objects/value_failures.dart';
-import 'package:ld_app/src/domain/core/value_object.dart';
 
 part 'contact_failure.dart';
 part 'contact_repository.dart';
+part 'contact.g.dart';
 
-enum ReplyModes {
-  khongTraLoi,
-  demTinNhanDaXuLyThanhCong,
-  trichDanTinSauKhiXuLy,
-  trichDanNoiDungNhanDuoc
-}
-
-extension ReplyModesExtension on ReplyModes {
-  num get value {
-    switch (this) {
-      case ReplyModes.khongTraLoi:
-        return 0;
-      case ReplyModes.demTinNhanDaXuLyThanhCong:
-        return 1;
-      case ReplyModes.trichDanTinSauKhiXuLy:
-        return 2;
-      case ReplyModes.trichDanNoiDungNhanDuoc:
-        return 3;
-    }
-  }
-}
-
-class Contact extends IEntity with DomainEvent {
+@JsonSerializable()
+class Contact extends IEntity {
   final String name;
+  @PhoneConverter()
   final Phone phone;
   final String chatId;
   final bool autoParse;
   ReplyMode replyMode;
+  DebtReminderMode debtReminderMode;
   final String? contactAlias;
   final String? accountAlias;
   final String? telegramId;
@@ -49,19 +32,20 @@ class Contact extends IEntity with DomainEvent {
       required this.chatId,
       required this.autoParse,
       required this.replyMode,
+      required this.debtReminderMode,
       this.contactAlias,
       this.accountAlias,
       this.telegramId});
 
   factory Contact.fromChat({required String chatId}) {
     return Contact(
-      id: UniqueId(),
-      name: '',
-      phone: Phone(''),
-      chatId: chatId,
-      autoParse: false,
-      replyMode: ReplyMode(0),
-    );
+        id: UniqueId(),
+        name: '',
+        phone: Phone(''),
+        chatId: chatId,
+        autoParse: false,
+        replyMode: ReplyMode.khongTraLoi,
+        debtReminderMode: DebtReminderMode.baoKemNoCuChiTiet);
   }
 
   @override
@@ -69,20 +53,7 @@ class Contact extends IEntity with DomainEvent {
     return none();
   }
 
-  @override
-  Map<String, dynamic> toMap() {
-    final map = <String, dynamic>{};
-    map['id'] = id.getOrCrash();
-    map['name'] = name;
-    map['phone'] = phone.getOrCrash();
-    map['chatId'] = chatId;
-    map['autoParse'] = autoParse;
-    map['replyMode'] = replyMode.getOrCrash();
-    map['contactAlias'] = contactAlias;
-    map['accoutAlias'] = accountAlias;
-    map['telegramId'] = telegramId;
-    return map;
-  }
-
-  copyWith({required bool autoParse}) {}
+  factory Contact.fromJson(Map<String, dynamic> json) =>
+      _$ContactFromJson(json);
+  Map<String, dynamic> toJson() => _$ContactToJson(this);
 }

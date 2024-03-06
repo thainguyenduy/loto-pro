@@ -1,4 +1,5 @@
 import 'package:fpdart/fpdart.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:ld_app/src/domain/core/value_objects/value_failures.dart';
 import 'package:ld_app/src/domain/core/value_object.dart';
 
@@ -21,4 +22,14 @@ class Password extends ValueObject<String, ValueFailure<String>> {
       return left(ShortPassword(input));
     }
   }
+}
+
+class PasswordConverter implements JsonConverter<Password, String> {
+  const PasswordConverter();
+
+  @override
+  Password fromJson(String password) => Password(password);
+
+  @override
+  String toJson(Password password) => password.getOrCrash();
 }

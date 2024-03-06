@@ -16,7 +16,16 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ContactFormState {
-  Contact get contact => throw _privateConstructorUsedError;
+  UniqueId get id => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  Phone get phone => throw _privateConstructorUsedError;
+  String get chatId => throw _privateConstructorUsedError;
+  bool get autoParse => throw _privateConstructorUsedError;
+  ReplyMode get replyMode => throw _privateConstructorUsedError;
+  DebtReminderMode get debtReminderMode => throw _privateConstructorUsedError;
+  String? get contactAlias => throw _privateConstructorUsedError;
+  String? get accountAlias => throw _privateConstructorUsedError;
+  String? get telegramId => throw _privateConstructorUsedError;
   bool get showErrorMessages => throw _privateConstructorUsedError;
   bool get isEditing => throw _privateConstructorUsedError;
   bool get isSaving => throw _privateConstructorUsedError;
@@ -35,7 +44,16 @@ abstract class $ContactFormStateCopyWith<$Res> {
       _$ContactFormStateCopyWithImpl<$Res, ContactFormState>;
   @useResult
   $Res call(
-      {Contact contact,
+      {UniqueId id,
+      String name,
+      Phone phone,
+      String chatId,
+      bool autoParse,
+      ReplyMode replyMode,
+      DebtReminderMode debtReminderMode,
+      String? contactAlias,
+      String? accountAlias,
+      String? telegramId,
       bool showErrorMessages,
       bool isEditing,
       bool isSaving,
@@ -55,17 +73,62 @@ class _$ContactFormStateCopyWithImpl<$Res, $Val extends ContactFormState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? contact = null,
+    Object? id = null,
+    Object? name = null,
+    Object? phone = null,
+    Object? chatId = null,
+    Object? autoParse = null,
+    Object? replyMode = null,
+    Object? debtReminderMode = null,
+    Object? contactAlias = freezed,
+    Object? accountAlias = freezed,
+    Object? telegramId = freezed,
     Object? showErrorMessages = null,
     Object? isEditing = null,
     Object? isSaving = null,
     Object? saveFailureOrSuccessOption = null,
   }) {
     return _then(_value.copyWith(
-      contact: null == contact
-          ? _value.contact
-          : contact // ignore: cast_nullable_to_non_nullable
-              as Contact,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as UniqueId,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      phone: null == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as Phone,
+      chatId: null == chatId
+          ? _value.chatId
+          : chatId // ignore: cast_nullable_to_non_nullable
+              as String,
+      autoParse: null == autoParse
+          ? _value.autoParse
+          : autoParse // ignore: cast_nullable_to_non_nullable
+              as bool,
+      replyMode: null == replyMode
+          ? _value.replyMode
+          : replyMode // ignore: cast_nullable_to_non_nullable
+              as ReplyMode,
+      debtReminderMode: null == debtReminderMode
+          ? _value.debtReminderMode
+          : debtReminderMode // ignore: cast_nullable_to_non_nullable
+              as DebtReminderMode,
+      contactAlias: freezed == contactAlias
+          ? _value.contactAlias
+          : contactAlias // ignore: cast_nullable_to_non_nullable
+              as String?,
+      accountAlias: freezed == accountAlias
+          ? _value.accountAlias
+          : accountAlias // ignore: cast_nullable_to_non_nullable
+              as String?,
+      telegramId: freezed == telegramId
+          ? _value.telegramId
+          : telegramId // ignore: cast_nullable_to_non_nullable
+              as String?,
       showErrorMessages: null == showErrorMessages
           ? _value.showErrorMessages
           : showErrorMessages // ignore: cast_nullable_to_non_nullable
@@ -95,7 +158,16 @@ abstract class _$$ContactFormStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {Contact contact,
+      {UniqueId id,
+      String name,
+      Phone phone,
+      String chatId,
+      bool autoParse,
+      ReplyMode replyMode,
+      DebtReminderMode debtReminderMode,
+      String? contactAlias,
+      String? accountAlias,
+      String? telegramId,
       bool showErrorMessages,
       bool isEditing,
       bool isSaving,
@@ -113,17 +185,62 @@ class __$$ContactFormStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? contact = null,
+    Object? id = null,
+    Object? name = null,
+    Object? phone = null,
+    Object? chatId = null,
+    Object? autoParse = null,
+    Object? replyMode = null,
+    Object? debtReminderMode = null,
+    Object? contactAlias = freezed,
+    Object? accountAlias = freezed,
+    Object? telegramId = freezed,
     Object? showErrorMessages = null,
     Object? isEditing = null,
     Object? isSaving = null,
     Object? saveFailureOrSuccessOption = null,
   }) {
     return _then(_$ContactFormStateImpl(
-      contact: null == contact
-          ? _value.contact
-          : contact // ignore: cast_nullable_to_non_nullable
-              as Contact,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as UniqueId,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      phone: null == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as Phone,
+      chatId: null == chatId
+          ? _value.chatId
+          : chatId // ignore: cast_nullable_to_non_nullable
+              as String,
+      autoParse: null == autoParse
+          ? _value.autoParse
+          : autoParse // ignore: cast_nullable_to_non_nullable
+              as bool,
+      replyMode: null == replyMode
+          ? _value.replyMode
+          : replyMode // ignore: cast_nullable_to_non_nullable
+              as ReplyMode,
+      debtReminderMode: null == debtReminderMode
+          ? _value.debtReminderMode
+          : debtReminderMode // ignore: cast_nullable_to_non_nullable
+              as DebtReminderMode,
+      contactAlias: freezed == contactAlias
+          ? _value.contactAlias
+          : contactAlias // ignore: cast_nullable_to_non_nullable
+              as String?,
+      accountAlias: freezed == accountAlias
+          ? _value.accountAlias
+          : accountAlias // ignore: cast_nullable_to_non_nullable
+              as String?,
+      telegramId: freezed == telegramId
+          ? _value.telegramId
+          : telegramId // ignore: cast_nullable_to_non_nullable
+              as String?,
       showErrorMessages: null == showErrorMessages
           ? _value.showErrorMessages
           : showErrorMessages // ignore: cast_nullable_to_non_nullable
@@ -146,16 +263,44 @@ class __$$ContactFormStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ContactFormStateImpl implements _ContactFormState {
+class _$ContactFormStateImpl extends _ContactFormState {
   const _$ContactFormStateImpl(
-      {required this.contact,
+      {required this.id,
+      required this.name,
+      required this.phone,
+      required this.chatId,
+      required this.autoParse,
+      required this.replyMode,
+      required this.debtReminderMode,
+      this.contactAlias,
+      this.accountAlias,
+      this.telegramId,
       required this.showErrorMessages,
       required this.isEditing,
       required this.isSaving,
-      required this.saveFailureOrSuccessOption});
+      required this.saveFailureOrSuccessOption})
+      : super._();
 
   @override
-  final Contact contact;
+  final UniqueId id;
+  @override
+  final String name;
+  @override
+  final Phone phone;
+  @override
+  final String chatId;
+  @override
+  final bool autoParse;
+  @override
+  final ReplyMode replyMode;
+  @override
+  final DebtReminderMode debtReminderMode;
+  @override
+  final String? contactAlias;
+  @override
+  final String? accountAlias;
+  @override
+  final String? telegramId;
   @override
   final bool showErrorMessages;
   @override
@@ -167,7 +312,7 @@ class _$ContactFormStateImpl implements _ContactFormState {
 
   @override
   String toString() {
-    return 'ContactFormState(contact: $contact, showErrorMessages: $showErrorMessages, isEditing: $isEditing, isSaving: $isSaving, saveFailureOrSuccessOption: $saveFailureOrSuccessOption)';
+    return 'ContactFormState(id: $id, name: $name, phone: $phone, chatId: $chatId, autoParse: $autoParse, replyMode: $replyMode, debtReminderMode: $debtReminderMode, contactAlias: $contactAlias, accountAlias: $accountAlias, telegramId: $telegramId, showErrorMessages: $showErrorMessages, isEditing: $isEditing, isSaving: $isSaving, saveFailureOrSuccessOption: $saveFailureOrSuccessOption)';
   }
 
   @override
@@ -175,7 +320,22 @@ class _$ContactFormStateImpl implements _ContactFormState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ContactFormStateImpl &&
-            (identical(other.contact, contact) || other.contact == contact) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.phone, phone) || other.phone == phone) &&
+            (identical(other.chatId, chatId) || other.chatId == chatId) &&
+            (identical(other.autoParse, autoParse) ||
+                other.autoParse == autoParse) &&
+            (identical(other.replyMode, replyMode) ||
+                other.replyMode == replyMode) &&
+            (identical(other.debtReminderMode, debtReminderMode) ||
+                other.debtReminderMode == debtReminderMode) &&
+            (identical(other.contactAlias, contactAlias) ||
+                other.contactAlias == contactAlias) &&
+            (identical(other.accountAlias, accountAlias) ||
+                other.accountAlias == accountAlias) &&
+            (identical(other.telegramId, telegramId) ||
+                other.telegramId == telegramId) &&
             (identical(other.showErrorMessages, showErrorMessages) ||
                 other.showErrorMessages == showErrorMessages) &&
             (identical(other.isEditing, isEditing) ||
@@ -189,8 +349,22 @@ class _$ContactFormStateImpl implements _ContactFormState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, contact, showErrorMessages,
-      isEditing, isSaving, saveFailureOrSuccessOption);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      name,
+      phone,
+      chatId,
+      autoParse,
+      replyMode,
+      debtReminderMode,
+      contactAlias,
+      accountAlias,
+      telegramId,
+      showErrorMessages,
+      isEditing,
+      isSaving,
+      saveFailureOrSuccessOption);
 
   @JsonKey(ignore: true)
   @override
@@ -200,17 +374,45 @@ class _$ContactFormStateImpl implements _ContactFormState {
           this, _$identity);
 }
 
-abstract class _ContactFormState implements ContactFormState {
+abstract class _ContactFormState extends ContactFormState {
   const factory _ContactFormState(
-      {required final Contact contact,
+      {required final UniqueId id,
+      required final String name,
+      required final Phone phone,
+      required final String chatId,
+      required final bool autoParse,
+      required final ReplyMode replyMode,
+      required final DebtReminderMode debtReminderMode,
+      final String? contactAlias,
+      final String? accountAlias,
+      final String? telegramId,
       required final bool showErrorMessages,
       required final bool isEditing,
       required final bool isSaving,
       required final Option<Either<ContactFailure, Unit>>
           saveFailureOrSuccessOption}) = _$ContactFormStateImpl;
+  const _ContactFormState._() : super._();
 
   @override
-  Contact get contact;
+  UniqueId get id;
+  @override
+  String get name;
+  @override
+  Phone get phone;
+  @override
+  String get chatId;
+  @override
+  bool get autoParse;
+  @override
+  ReplyMode get replyMode;
+  @override
+  DebtReminderMode get debtReminderMode;
+  @override
+  String? get contactAlias;
+  @override
+  String? get accountAlias;
+  @override
+  String? get telegramId;
   @override
   bool get showErrorMessages;
   @override

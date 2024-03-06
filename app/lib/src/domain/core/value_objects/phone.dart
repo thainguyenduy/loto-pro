@@ -1,4 +1,5 @@
 import 'package:fpdart/fpdart.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:ld_app/src/domain/core/value_object.dart';
 import 'package:ld_app/src/domain/core/value_objects/value_failures.dart';
 
@@ -13,4 +14,14 @@ class Phone extends ValueObject<String, ValueFailure<String>> {
     final RegExp regex = RegExp(r'(84|0[3|5|7|8|9])+([0-9]{8})\b');
     return regex.hasMatch(input) ? right(input) : left(InvalidPhone(input));
   }
+}
+
+class PhoneConverter implements JsonConverter<Phone, String> {
+  const PhoneConverter();
+
+  @override
+  Phone fromJson(String phone) => Phone(phone);
+
+  @override
+  String toJson(Phone phone) => phone.getOrCrash();
 }

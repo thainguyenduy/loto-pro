@@ -1,18 +1,22 @@
 import 'package:fpdart/fpdart.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:ld_app/src/domain/account/events/contact_added_event.dart';
 import 'package:ld_app/src/domain/contact/contact.dart';
 import 'package:ld_app/src/domain/core/event.dart';
 import 'package:ld_app/src/domain/core/i_entity.dart';
 import 'package:ld_app/src/domain/core/value_objects/phone.dart';
+import 'package:ld_app/src/domain/core/value_objects/unique_id.dart';
 import 'package:ld_app/src/domain/core/value_objects/value_failures.dart';
-import 'package:ld_app/src/domain/core/value_object.dart';
 
 part 'account_failure.dart';
 part 'account_repository.dart';
+part 'account.g.dart';
 
-class Account extends IEntity with DomainEvent {
+@JsonSerializable()
+class Account extends IEntity {
   String deviceId;
   String? telegramId;
+  @PhoneConverter()
   Phone phone;
   List<Contact> contacts;
 
@@ -45,16 +49,7 @@ class Account extends IEntity with DomainEvent {
     );
   }
 
-  @override
-  Map<String, dynamic> toMap() {
-    final map = <String, dynamic>{};
-    map['id'] = id.getOrCrash();
-    map['deviceId'] = deviceId;
-    if (telegramId != null) map['telegramId'] = telegramId;
-    map['phone'] = phone.getOrCrash();
-    if (contacts.isNotEmpty) {
-      map['contacts'] = contacts.map((contact) => contact.toMap());
-    }
-    return map;
-  }
+  factory Account.fromJson(Map<String, dynamic> json) =>
+      _$AccountFromJson(json);
+  Map<String, dynamic> toJson() => _$AccountToJson(this);
 }

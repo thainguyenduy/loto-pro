@@ -13,8 +13,13 @@ final class ContactFormAutoParseChanged extends ContactFormEvent {
 }
 
 final class ContactFormReplyModeChanged extends ContactFormEvent {
-  final num replyMode;
+  final int replyMode;
   ContactFormReplyModeChanged(this.replyMode);
+}
+
+final class ContactFormDebtReminderModeChanged extends ContactFormEvent {
+  final int debtReminderMode;
+  ContactFormDebtReminderModeChanged(this.debtReminderMode);
 }
 
 final class ContactFormSaved extends ContactFormEvent {}
