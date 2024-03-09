@@ -8,13 +8,19 @@ part of 'contact.dart';
 
 Contact _$ContactFromJson(Map<String, dynamic> json) => Contact(
       id: const UniqueIdConverter().fromJson(json['id'] as String),
-      name: json['name'] as String,
-      phone: const PhoneConverter().fromJson(json['phone'] as String),
       chatId: json['chatId'] as String,
-      autoParse: json['autoParse'] as bool,
-      replyMode: $enumDecode(_$ReplyModeEnumMap, json['replyMode']),
-      debtReminderMode:
-          $enumDecode(_$DebtReminderModeEnumMap, json['debtReminderMode']),
+      phone: const PhoneConverter().fromJson(json['phone'] as String),
+      name: json['name'] as String? ?? '',
+      autoParse: json['autoParse'] as bool? ?? true,
+      replyMode: $enumDecodeNullable(_$ReplyModeEnumMap, json['replyMode']) ??
+          ReplyMode.khongTraLoi,
+      debtReminderMode: $enumDecodeNullable(
+              _$DebtReminderModeEnumMap, json['debtReminderMode']) ??
+          DebtReminderMode.baoKemNoCuChiTiet,
+      loCurrencyUnitIsThousandVND:
+          json['loCurrencyUnitIsThousandVND'] as bool? ?? true,
+      deCurrencyUnitIsThousandVND:
+          json['deCurrencyUnitIsThousandVND'] as bool? ?? true,
       contactAlias: json['contactAlias'] as String?,
       accountAlias: json['accountAlias'] as String?,
       telegramId: json['telegramId'] as String?,
@@ -28,6 +34,8 @@ Map<String, dynamic> _$ContactToJson(Contact instance) => <String, dynamic>{
       'autoParse': instance.autoParse,
       'replyMode': _$ReplyModeEnumMap[instance.replyMode]!,
       'debtReminderMode': _$DebtReminderModeEnumMap[instance.debtReminderMode]!,
+      'loCurrencyUnitIsThousandVND': instance.loCurrencyUnitIsThousandVND,
+      'deCurrencyUnitIsThousandVND': instance.deCurrencyUnitIsThousandVND,
       'contactAlias': instance.contactAlias,
       'accountAlias': instance.accountAlias,
       'telegramId': instance.telegramId,

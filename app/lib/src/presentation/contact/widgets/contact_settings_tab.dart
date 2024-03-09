@@ -1,5 +1,7 @@
 import 'package:ld_app/src/presentation/contact/widgets/components/auto_parse_mode_field.dart';
+import 'package:ld_app/src/presentation/contact/widgets/components/de_currency_unit_mode_field.dart';
 import 'package:ld_app/src/presentation/contact/widgets/components/debt_reminder_mode_field.dart';
+import 'package:ld_app/src/presentation/contact/widgets/components/lo_currency_unit_mode_field.dart';
 import 'package:ld_app/src/presentation/contact/widgets/components/reply_mode_field.dart';
 
 import '/flutter_flow/flutter_flow_animations.dart';
@@ -11,13 +13,9 @@ import '/flutter_flow/form_field_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'add-contact-settings/add_contact_settings_model.dart';
-export 'add-contact-settings/add_contact_settings_model.dart';
 
 class ContactSettingsTab extends StatelessWidget {
   const ContactSettingsTab({
@@ -41,17 +39,16 @@ class ContactSettingsTab extends StatelessWidget {
               padding: EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 5.0),
               child: DebtReminderModeField(),
             ),
-            Padding(
+            /* Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 5.0),
               child: FlutterFlowDropDown<String>(
-                controller: _model.dropDownValueController3 ??=
-                    FormFieldController<String>(null),
+                controller: FormFieldController<String>(null),
                 options: [
                   FFLocalizations.of(context).getText(
                     'el0icnkl' /* Hệ số = 1 (1 ăn 70) */,
                   )
                 ],
-                onChanged: (val) => setState(() => _model.dropDownValue3 = val),
+                onChanged: (val) => {},
                 height: 50.0,
                 textStyle: FlutterFlowTheme.of(context).bodyMedium,
                 hintText: FFLocalizations.of(context).getText(
@@ -74,70 +71,9 @@ class ContactSettingsTab extends StatelessWidget {
                 isSearchable: false,
                 isMultiSelect: false,
               ),
-            ),
-            SwitchListTile.adaptive(
-              value: _model.switchListTileValue2 ??= true,
-              onChanged: (newValue) async {
-                setState(() => _model.switchListTileValue2 = newValue!);
-              },
-              title: Text(
-                FFLocalizations.of(context).getText(
-                  'y0b9iynm' /* Chấp nhận đơn vị lô là nghìn */,
-                ),
-                textAlign: TextAlign.start,
-                style: FlutterFlowTheme.of(context).bodyMedium,
-              ),
-              subtitle: Text(
-                FFLocalizations.of(context).getText(
-                  'oo4p7rrf' /* Chấp nhận */,
-                ),
-                style: FlutterFlowTheme.of(context).labelSmall,
-              ),
-              tileColor: FlutterFlowTheme.of(context).secondaryBackground,
-              activeColor: FlutterFlowTheme.of(context).primary,
-              activeTrackColor: FlutterFlowTheme.of(context).accent1,
-              dense: false,
-              controlAffinity: ListTileControlAffinity.trailing,
-              contentPadding:
-                  const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 5.0),
-              child: FlutterFlowDropDown<String>(
-                controller: _model.dropDownValueController4 ??=
-                    FormFieldController<String>(null),
-                options: [
-                  FFLocalizations.of(context).getText(
-                    'js58mgmu' /* Chỉ chấp nhận đề tính bằng ngh... */,
-                  )
-                ],
-                onChanged: (val) => setState(() => _model.dropDownValue4 = val),
-                height: 50.0,
-                textStyle: FlutterFlowTheme.of(context).bodyMedium,
-                hintText: FFLocalizations.of(context).getText(
-                  '85m88tkv' /* Đơn vị tính đề */,
-                ),
-                icon: Icon(
-                  Icons.keyboard_arrow_down_rounded,
-                  color: FlutterFlowTheme.of(context).secondaryText,
-                  size: 24.0,
-                ),
-                fillColor: FlutterFlowTheme.of(context).secondaryBackground,
-                elevation: 2.0,
-                borderColor: FlutterFlowTheme.of(context).alternate,
-                borderWidth: 2.0,
-                borderRadius: 8.0,
-                margin:
-                    const EdgeInsetsDirectional.fromSTEB(16.0, 4.0, 16.0, 4.0),
-                hidesUnderline: true,
-                isOverButton: true,
-                isSearchable: false,
-                isMultiSelect: false,
-              ),
-            ),
+            ) ,*/
+            const LoCurrencyUnitIsThousandVNDField(),
+            const DeCurrencyUnitIsThousandVNDField(),
             SwitchListTile.adaptive(
               value: _model.switchListTileValue3 ??= true,
               onChanged: (newValue) async {

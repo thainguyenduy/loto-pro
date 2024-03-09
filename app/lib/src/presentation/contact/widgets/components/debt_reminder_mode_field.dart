@@ -14,6 +14,7 @@ class DebtReminderModeField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ContactFormBloc, ContactFormState>(
+      buildWhen: (previous, current) => previous.contact.debtReminderMode.code != current.contact.debtReminderMode.code,
       builder: (context, state) {
         var controller =
             FormFieldController<int>(state.contact.debtReminderMode.code);

@@ -14,6 +14,8 @@ class ReplyModeField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ContactFormBloc, ContactFormState>(
+      buildWhen: (previous, current) =>
+          previous.contact.replyMode.code != current.contact.replyMode.code,
       builder: (context, state) {
         var controller = FormFieldController<int>(state.contact.replyMode.code);
         return FlutterFlowDropDown<int>(

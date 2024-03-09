@@ -17,4 +17,18 @@ final class ContactFormDebtReminderModeChanged extends ContactFormEvent {
   ContactFormDebtReminderModeChanged(this.debtReminderMode);
 }
 
+final class ContactFormLoCurrencyUnitIsThousandVNDChanged
+    extends ContactFormEvent {
+  final bool loCurrencyUnitIsThousandVND;
+  ContactFormLoCurrencyUnitIsThousandVNDChanged(
+      this.loCurrencyUnitIsThousandVND);
+}
+
+final class ContactFormDeCurrencyUnitIsThousandVNDChanged
+    extends ContactFormEvent {
+  final bool deCurrencyUnitIsThousandVND;
+  ContactFormDeCurrencyUnitIsThousandVNDChanged(
+      this.deCurrencyUnitIsThousandVND);
+}
+
 final class ContactFormSaved extends ContactFormEvent {}

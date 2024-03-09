@@ -49,13 +49,13 @@ extension GetItInjectableX on _i1.GetIt {
     );
     final appModule = _$AppModule();
     gh.lazySingleton<_i3.AndroidId>(() => appModule.androidId);
-    gh.singleton<_i4.AppRouter>(appModule.appRouter);
+    gh.singleton<_i4.AppRouter>(() => appModule.appRouter);
     gh.lazySingleton<_i5.Client>(() => appModule.client);
     gh.factory<_i6.ContactFormBloc>(
         () => _i6.ContactFormBloc(gh<_i7.Either<String, _i8.Contact>>()));
-    gh.singleton<_i9.ContactMapper>(_i9.ContactMapper());
+    gh.singleton<_i9.ContactMapper>(() => _i9.ContactMapper());
     gh.singleton<_i8.ContactRepository>(
-        _i10.ContactRepositoryImpl(gh<_i9.ContactMapper>()));
+        () => _i10.ContactRepositoryImpl(gh<_i9.ContactMapper>()));
     gh.lazySingleton<_i11.DeviceInfoPlugin>(() => appModule.deviceInfo);
     gh.lazySingleton<_i12.EventBus>(() => appModule.eventBus);
     await gh.factoryAsync<_i13.NotificationService>(
@@ -73,24 +73,24 @@ extension GetItInjectableX on _i1.GetIt {
     gh.lazySingleton<_i15.TelegramService>(
         () => appModule.getService(gh<_i5.Client>()));
     gh.singleton<_i16.AccountMapper>(
-        _i16.AccountMapper(gh<_i9.ContactMapper>()));
+        () => _i16.AccountMapper(gh<_i9.ContactMapper>()));
     gh.singleton<_i17.AccountRepository>(
-        _i18.AccountRepositoryImpl(gh<_i16.AccountMapper>()));
+        () => _i18.AccountRepositoryImpl(gh<_i16.AccountMapper>()));
     gh.lazySingleton<_i19.DeviceInfo>(() => _i19.DeviceInfo(
           gh<_i11.DeviceInfoPlugin>(),
           gh<_i3.AndroidId>(),
         ));
     gh.lazySingleton<_i20.Dio>(
         () => appModule.dio(gh<String>(instanceName: 'BaseUrl')));
-    gh.singleton<_i21.IAuthFacade>(_i22.AuthFacade(
-      gh<_i20.Dio>(),
-      gh<_i19.DeviceInfo>(),
-    ));
+    gh.singleton<_i21.IAuthFacade>(() => _i22.AuthFacade(
+          gh<_i20.Dio>(),
+          gh<_i19.DeviceInfo>(),
+        ));
     gh.factory<_i23.LoginBloc>(
         () => _i23.LoginBloc(authFacade: gh<_i21.IAuthFacade>()));
     gh.singleton<_i24.TelegramAuthenticationBloc>(
-        _i24.TelegramAuthenticationBloc(gh<_i15.TelegramService>()));
-    gh.singleton<_i25.AppBloc>(_i25.AppBloc(gh<_i21.IAuthFacade>()));
+        () => _i24.TelegramAuthenticationBloc(gh<_i15.TelegramService>()));
+    gh.singleton<_i25.AppBloc>(() => _i25.AppBloc(gh<_i21.IAuthFacade>()));
     return this;
   }
 }
