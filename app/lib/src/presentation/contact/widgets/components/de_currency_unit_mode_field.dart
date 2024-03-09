@@ -11,11 +11,11 @@ class DeCurrencyUnitIsThousandVNDField extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ContactFormBloc, ContactFormState>(
       buildWhen: (previous, current) =>
-          previous.contact.deCurrencyUnitIsThousandVND !=
-          current.contact.deCurrencyUnitIsThousandVND,
+          previous.contact.isDeCurrencyUnitAsThousandVND !=
+          current.contact.isDeCurrencyUnitAsThousandVND,
       builder: (context, state) {
         return SwitchListTile.adaptive(
-          value: state.contact.deCurrencyUnitIsThousandVND,
+          value: state.contact.isDeCurrencyUnitAsThousandVND,
           onChanged: (newValue) async {
             context
                 .read<ContactFormBloc>()

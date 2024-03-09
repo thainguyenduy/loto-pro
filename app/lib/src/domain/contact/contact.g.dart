@@ -11,16 +11,17 @@ Contact _$ContactFromJson(Map<String, dynamic> json) => Contact(
       chatId: json['chatId'] as String,
       phone: const PhoneConverter().fromJson(json['phone'] as String),
       name: json['name'] as String? ?? '',
-      autoParse: json['autoParse'] as bool? ?? true,
+      isAutoParse: json['isAutoParse'] as bool? ?? true,
       replyMode: $enumDecodeNullable(_$ReplyModeEnumMap, json['replyMode']) ??
           ReplyMode.khongTraLoi,
       debtReminderMode: $enumDecodeNullable(
               _$DebtReminderModeEnumMap, json['debtReminderMode']) ??
           DebtReminderMode.baoKemNoCuChiTiet,
-      loCurrencyUnitIsThousandVND:
-          json['loCurrencyUnitIsThousandVND'] as bool? ?? true,
-      deCurrencyUnitIsThousandVND:
-          json['deCurrencyUnitIsThousandVND'] as bool? ?? true,
+      isLoCurrencyUnitAsThousandVND:
+          json['isLoCurrencyUnitAsThousandVND'] as bool? ?? true,
+      isDeCurrencyUnitAsThousandVND:
+          json['isDeCurrencyUnitAsThousandVND'] as bool? ?? true,
+      isRejectedOvertimeBet: json['isRejectedOvertimeBet'] as bool? ?? true,
       contactAlias: json['contactAlias'] as String?,
       accountAlias: json['accountAlias'] as String?,
       telegramId: json['telegramId'] as String?,
@@ -31,11 +32,12 @@ Map<String, dynamic> _$ContactToJson(Contact instance) => <String, dynamic>{
       'name': instance.name,
       'phone': const PhoneConverter().toJson(instance.phone),
       'chatId': instance.chatId,
-      'autoParse': instance.autoParse,
+      'isAutoParse': instance.isAutoParse,
       'replyMode': _$ReplyModeEnumMap[instance.replyMode]!,
       'debtReminderMode': _$DebtReminderModeEnumMap[instance.debtReminderMode]!,
-      'loCurrencyUnitIsThousandVND': instance.loCurrencyUnitIsThousandVND,
-      'deCurrencyUnitIsThousandVND': instance.deCurrencyUnitIsThousandVND,
+      'isLoCurrencyUnitAsThousandVND': instance.isLoCurrencyUnitAsThousandVND,
+      'isDeCurrencyUnitAsThousandVND': instance.isDeCurrencyUnitAsThousandVND,
+      'isRejectedOvertimeBet': instance.isRejectedOvertimeBet,
       'contactAlias': instance.contactAlias,
       'accountAlias': instance.accountAlias,
       'telegramId': instance.telegramId,
