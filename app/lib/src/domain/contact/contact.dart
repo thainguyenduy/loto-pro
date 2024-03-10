@@ -16,12 +16,12 @@ class Contact extends IEntity {
   @PhoneConverter()
   final Phone phone;
   final String chatId;
-  final bool isAutoParse;
+  final bool autoParse;
   final ReplyMode replyMode;
   final DebtReminderMode debtReminderMode;
-  final bool isLoCurrencyUnitAsThousandVND;
-  final bool isDeCurrencyUnitAsThousandVND;
-  final bool isRejectedOvertimeBet;
+  final bool loCurrencyUnitAsThousandVND;
+  final bool deCurrencyUnitAsThousandVND;
+  final bool rejectedOvertimeBet;
   final String? contactAlias;
   final String? accountAlias;
   final String? telegramId;
@@ -30,12 +30,12 @@ class Contact extends IEntity {
       required this.chatId,
       required this.phone,
       this.name = '',
-      this.isAutoParse = true,
+      this.autoParse = true,
       this.replyMode = ReplyMode.khongTraLoi,
       this.debtReminderMode = DebtReminderMode.baoKemNoCuChiTiet,
-      this.isLoCurrencyUnitAsThousandVND = true,
-      this.isDeCurrencyUnitAsThousandVND = true,
-      this.isRejectedOvertimeBet = true,
+      this.loCurrencyUnitAsThousandVND = true,
+      this.deCurrencyUnitAsThousandVND = true,
+      this.rejectedOvertimeBet = true,
       this.contactAlias,
       this.accountAlias,
       this.telegramId});

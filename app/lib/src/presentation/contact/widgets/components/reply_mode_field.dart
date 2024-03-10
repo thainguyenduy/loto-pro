@@ -24,7 +24,7 @@ class ReplyModeField extends StatelessWidget {
           optionLabels: ReplyMode.values.map((e) => e.label).toList(),
           onChanged: (val) => context
               .read<ContactFormBloc>()
-              .add(ContactFormReplyModeChanged(val!)),
+              .add(ContactFormReplyModeChanged(ReplyMode.fromKey(val!))),
           height: 50.0,
           textStyle: FlutterFlowTheme.of(context).bodyMedium,
           hintText: FFLocalizations.of(context).getText(

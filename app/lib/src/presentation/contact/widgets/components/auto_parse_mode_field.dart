@@ -13,7 +13,7 @@ class AutoParseModeField extends HookWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ContactFormBloc, ContactFormState>(
       buildWhen: (previous, current) =>
-          previous.contact.isAutoParse != current.contact.isAutoParse,
+          previous.contact.autoParse != current.contact.autoParse,
       builder: (context, state) {
         return SwitchListTile.adaptive(
           value: true,

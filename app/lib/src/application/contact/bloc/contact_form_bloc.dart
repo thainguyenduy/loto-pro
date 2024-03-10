@@ -17,11 +17,26 @@ class ContactFormBloc extends Bloc<ContactFormEvent, ContactFormState> {
   final ContactRepository contactRepository = locator<ContactRepository>();
   ContactFormBloc(Either<String, Contact> initial)
       : super(ContactFormState.initial(initial)) {
+    on<ContactFormNameChanged>(_onContactFormNameChanged);
+    on<ContactFormPhoneChanged>(_onContactFormPhoneChanged);
     on<ContactFormAutoParseChanged>(_onContactFormAutoParseChanged);
     on<ContactFormReplyModeChanged>(_onContactFormReplyModeChanged);
     on<ContactFormDebtReminderModeChanged>(
         _onContactFormDebtReminderModeChanged);
+    on<ContactFormContactAliasChanged>(_onContactFormContactAliasChanged);
+    on<ContactFormAccountAliasChanged>(_onContactFormAccountAliasChanged);
     on<ContactFormSaved>(_onContactFormSaved);
+  }
+
+  void _onContactFormNameChanged(
+      ContactFormNameChanged event, Emitter<ContactFormState> emit) {}
+
+  void _onContactFormPhoneChanged(
+      ContactFormPhoneChanged event, Emitter<ContactFormState> emit) async {
+    emit(state.copyWith(
+      phone: event.phone,
+      saveFailureOrSuccessOption: const None(),
+    ));
   }
 
   void _onContactFormAutoParseChanged(
@@ -33,15 +48,28 @@ class ContactFormBloc extends Bloc<ContactFormEvent, ContactFormState> {
   void _onContactFormReplyModeChanged(
       ContactFormReplyModeChanged event, Emitter<ContactFormState> emit) {
     emit(state.copyWith(
-        replyMode: ReplyMode.fromKey(event.replyMode),
-        saveFailureOrSuccessOption: const None()));
+        replyMode: event.replyMode, saveFailureOrSuccessOption: const None()));
   }
 
   void _onContactFormDebtReminderModeChanged(
       ContactFormDebtReminderModeChanged event,
       Emitter<ContactFormState> emit) {
     emit(state.copyWith(
-        debtReminderMode: DebtReminderMode.fromKey(event.debtReminderMode),
+        debtReminderMode: event.debtReminderMode,
+        saveFailureOrSuccessOption: const None()));
+  }
+
+  void _onContactFormContactAliasChanged(
+      ContactFormContactAliasChanged event, Emitter<ContactFormState> emit) {
+    emit(state.copyWith(
+        contactAlias: event.contactAlias,
+        saveFailureOrSuccessOption: const None()));
+  }
+
+  void _onContactFormAccountAliasChanged(
+      ContactFormAccountAliasChanged event, Emitter<ContactFormState> emit) {
+    emit(state.copyWith(
+        contactAlias: event.accountAlias,
         saveFailureOrSuccessOption: const None()));
   }
 
@@ -53,7 +81,6 @@ class ContactFormBloc extends Bloc<ContactFormEvent, ContactFormState> {
       saveFailureOrSuccessOption: const None(),
     ));
 
-    //TODO check state.isEditing
     failureOrSuccess = state.isEditing
         ? await contactRepository.update(state.contact).run()
         : await contactRepository.create(state.contact).run();

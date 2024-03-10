@@ -14,7 +14,9 @@ class DebtReminderModeField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ContactFormBloc, ContactFormState>(
-      buildWhen: (previous, current) => previous.contact.debtReminderMode.code != current.contact.debtReminderMode.code,
+      buildWhen: (previous, current) =>
+          previous.contact.debtReminderMode.code !=
+          current.contact.debtReminderMode.code,
       builder: (context, state) {
         var controller =
             FormFieldController<int>(state.contact.debtReminderMode.code);
@@ -22,9 +24,9 @@ class DebtReminderModeField extends StatelessWidget {
           controller: controller,
           options: DebtReminderMode.values.map((e) => e.code).toList(),
           optionLabels: DebtReminderMode.values.map((e) => e.label).toList(),
-          onChanged: (val) => context
-              .read<ContactFormBloc>()
-              .add(ContactFormDebtReminderModeChanged(val!)),
+          onChanged: (val) => context.read<ContactFormBloc>().add(
+              ContactFormDebtReminderModeChanged(
+                  DebtReminderMode.fromKey(val!))),
           height: 50.0,
           textStyle: FlutterFlowTheme.of(context).bodyMedium,
           hintText: FFLocalizations.of(context).getText(

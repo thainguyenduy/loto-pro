@@ -21,7 +21,7 @@ class ContactMapper implements IMapper<Contact, model.Contact> {
         name: data.name!,
         phone: Phone(data.phone!),
         chatId: data.chatId!,
-        isAutoParse: true,
+        autoParse: true,
         replyMode: ReplyMode.fromKey(data.replyMode!),
         debtReminderMode: DebtReminderMode.fromKey(data.debtReminderMode!),
         telegramId: data.telegramId,
