@@ -1,5 +1,7 @@
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ld_app/flutter_flow/flutter_flow_animations.dart';
 import 'package:ld_app/flutter_flow/flutter_flow_theme.dart';
 import 'package:ld_app/flutter_flow/internationalization.dart';
 import 'package:ld_app/src/application/contact/bloc/contact_form_bloc.dart';
@@ -11,27 +13,36 @@ class ContactNameField extends StatefulWidget {
   State<ContactNameField> createState() => _ContactNameFieldState();
 }
 
-class _ContactNameFieldState extends State<ContactNameField> {
-  TextEditingController _controller;
+class _ContactNameFieldState extends State<ContactNameField>
+    with TickerProviderStateMixin {
+  late TextEditingController _controller;
+  final _animation = AnimationInfo.formField();
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController();
+    createAnimation(_animation, this);
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ContactFormBloc, ContactFormState>(
-      listenWhen: (previous, current) => ,
+      listenWhen: (previous, current) =>
+          previous.isEditing != current.isEditing,
+      listener: (context, state) {
+        _controller.text = state.contact.name;
+      },
       builder: (context, state) {
         return TextFormField(
-          controller: _model.contactNameController,
+          controller: _controller,
           focusNode: FocusNode(),
-          onChanged: (_) => EasyDebounce.debounce(
-            '_model.contactNameController',
+          onChanged: (name) => EasyDebounce.debounce(
+            '_ContactForm_name',
             const Duration(milliseconds: 2000),
-            () => setState(() {}),
+            () => context
+                .read<ContactFormBloc>()
+                .add(ContactFormNameChanged(name)),
           ),
           obscureText: false,
           decoration: InputDecoration(
@@ -72,11 +83,10 @@ class _ContactNameFieldState extends State<ContactNameField> {
             fillColor: FlutterFlowTheme.of(context).secondaryBackground,
             contentPadding:
                 const EdgeInsetsDirectional.fromSTEB(20.0, 24.0, 20.0, 24.0),
-            suffixIcon: _model.contactNameController!.text.isNotEmpty
+            suffixIcon: _controller.text.isNotEmpty
                 ? InkWell(
                     onTap: () async {
-                      _model.contactNameController?.clear();
-                      setState(() {});
+                      _controller.clear();
                     },
                     child: const Icon(
                       Icons.clear,
@@ -87,9 +97,13 @@ class _ContactNameFieldState extends State<ContactNameField> {
                 : null,
           ),
           style: FlutterFlowTheme.of(context).bodyMedium,
-          validator: _model.contactNameControllerValidator.asValidator(context),
+          validator: (_) => context
+                  .select((ContactFormBloc bloc) => bloc.state.contact.name)
+                  .isEmpty
+              ? 'Không được để trống'
+              : null,
         );
       },
-    );
+    ).animateOnPageLoad(_animation);
   }
 }
