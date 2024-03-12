@@ -1,4 +1,5 @@
-import 'package:flutter_hooks/flutter_hooks.dart';
+
+import 'package:flutter_animate/flutter_animate.dart';
 
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_radio_button.dart';
@@ -7,11 +8,9 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 
 class UpsertContactInfoAndRateTab extends StatelessWidget {
-  const UpsertContactInfoAndRateTab({super.key});
-
+  UpsertContactInfoAndRateTab({super.key});
  
   @override
   Widget build(BuildContext context) {
@@ -24,7 +23,7 @@ class UpsertContactInfoAndRateTab extends StatelessWidget {
                 const EdgeInsetsDirectional.fromSTEB(20.0, 20.0, 20.0, 0.0),
             child: TextFormField(
               controller: _model.contactNameController,
-              focusNode: _model.contactNameFocusNode,
+              focusNode: FocusNode(),
               onChanged: (_) => EasyDebounce.debounce(
                 '_model.contactNameController',
                 const Duration(milliseconds: 2000),
