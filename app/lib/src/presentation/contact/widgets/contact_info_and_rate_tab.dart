@@ -1,5 +1,7 @@
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:ld_app/src/presentation/contact/widgets/components/contact_name_field.dart';
+import 'package:ld_app/src/presentation/contact/widgets/components/account_alias_field.dart';
+import 'package:ld_app/src/presentation/contact/widgets/components/contact_alias_field.dart';
+import 'package:ld_app/src/presentation/contact/widgets/components/name_field.dart';
 
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_radio_button.dart';
@@ -20,154 +22,14 @@ class UpsertContactInfoAndRateTab extends StatelessWidget {
         children: [
           const Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20.0, 20.0, 20.0, 0.0),
-            child: ContactNameField(),
+            child: NameField(),
           ),
-          Padding(
-            padding:
-                const EdgeInsetsDirectional.fromSTEB(20.0, 20.0, 20.0, 0.0),
-            child: TextFormField(
-              controller: _model.contactAliasController,
-              focusNode: _model.contactAliasFocusNode,
-              onChanged: (_) => EasyDebounce.debounce(
-                '_model.contactAliasController',
-                const Duration(milliseconds: 2000),
-                () => setState(() {}),
-              ),
-              obscureText: false,
-              decoration: InputDecoration(
-                labelText: FFLocalizations.of(context).getText(
-                  'welfl6wy' /* Bạn gọi người này là */,
-                ),
-                labelStyle: FlutterFlowTheme.of(context).bodySmall,
-                hintText: FFLocalizations.of(context).getText(
-                  'thwyhcbq' /* Ví dụ: Anh */,
-                ),
-                hintStyle: FlutterFlowTheme.of(context).bodySmall,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Color(0x00000000),
-                    width: 1.0,
-                  ),
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Color(0x00000000),
-                    width: 1.0,
-                  ),
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                errorBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Color(0x00000000),
-                    width: 1.0,
-                  ),
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                focusedErrorBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Color(0x00000000),
-                    width: 1.0,
-                  ),
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                filled: true,
-                fillColor: FlutterFlowTheme.of(context).secondaryBackground,
-                contentPadding: const EdgeInsetsDirectional.fromSTEB(
-                    20.0, 24.0, 20.0, 24.0),
-                suffixIcon: _model.contactAliasController!.text.isNotEmpty
-                    ? InkWell(
-                        onTap: () async {
-                          _model.contactAliasController?.clear();
-                          setState(() {});
-                        },
-                        child: const Icon(
-                          Icons.clear,
-                          color: Color(0xFF757575),
-                          size: 22.0,
-                        ),
-                      )
-                    : null,
-              ),
-              style: FlutterFlowTheme.of(context).bodyMedium,
-              keyboardType: TextInputType.number,
-              validator:
-                  _model.contactAliasControllerValidator.asValidator(context),
-            ).animateOnPageLoad(
-                animationsMap['textFieldOnPageLoadAnimation2']!),
-          ),
-          Padding(
-            padding:
-                const EdgeInsetsDirectional.fromSTEB(20.0, 20.0, 20.0, 0.0),
-            child: TextFormField(
-              controller: _model.yourAliasController,
-              focusNode: _model.yourAliasFocusNode,
-              onChanged: (_) => EasyDebounce.debounce(
-                '_model.yourAliasController',
-                const Duration(milliseconds: 2000),
-                () => setState(() {}),
-              ),
-              obscureText: false,
-              decoration: InputDecoration(
-                labelText: FFLocalizations.of(context).getText(
-                  '0swgbk4w' /* Người này gòi bạn là */,
-                ),
-                labelStyle: FlutterFlowTheme.of(context).bodySmall,
-                hintText: FFLocalizations.of(context).getText(
-                  'jp2rykbw' /* Ví dụ: Em */,
-                ),
-                hintStyle: FlutterFlowTheme.of(context).bodySmall,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Color(0x00000000),
-                    width: 1.0,
-                  ),
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Color(0x00000000),
-                    width: 1.0,
-                  ),
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                errorBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Color(0x00000000),
-                    width: 1.0,
-                  ),
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                focusedErrorBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Color(0x00000000),
-                    width: 1.0,
-                  ),
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                filled: true,
-                fillColor: FlutterFlowTheme.of(context).secondaryBackground,
-                contentPadding: const EdgeInsetsDirectional.fromSTEB(
-                    20.0, 24.0, 20.0, 24.0),
-                suffixIcon: _model.yourAliasController!.text.isNotEmpty
-                    ? InkWell(
-                        onTap: () async {
-                          _model.yourAliasController?.clear();
-                          setState(() {});
-                        },
-                        child: const Icon(
-                          Icons.clear,
-                          color: Color(0xFF757575),
-                          size: 22.0,
-                        ),
-                      )
-                    : null,
-              ),
-              style: FlutterFlowTheme.of(context).bodyMedium,
-              validator:
-                  _model.yourAliasControllerValidator.asValidator(context),
-            ).animateOnPageLoad(
-                animationsMap['textFieldOnPageLoadAnimation3']!),
+          const Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(20.0, 20.0, 20.0, 0.0),
+              child: ContactAliasField()),
+          const Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(20.0, 20.0, 20.0, 0.0),
+            child: AccountAliasField(),
           ),
           Padding(
             padding:

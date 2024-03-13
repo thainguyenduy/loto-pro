@@ -5,15 +5,17 @@ import 'package:ld_app/flutter_flow/flutter_flow_animations.dart';
 import 'package:ld_app/flutter_flow/flutter_flow_theme.dart';
 import 'package:ld_app/flutter_flow/internationalization.dart';
 import 'package:ld_app/src/application/contact/bloc/contact_form_bloc.dart';
+import 'package:ld_app/src/domain/core/value_objects/phone.dart';
+import 'package:ld_app/src/domain/core/value_objects/value_failures.dart';
 
-class ContactNameField extends StatefulWidget {
-  const ContactNameField({super.key});
+class AccountAliasField extends StatefulWidget {
+  const AccountAliasField({super.key});
 
   @override
-  State<ContactNameField> createState() => _ContactNameFieldState();
+  State<AccountAliasField> createState() => _AccountAliasFieldState();
 }
 
-class _ContactNameFieldState extends State<ContactNameField>
+class _AccountAliasFieldState extends State<AccountAliasField>
     with TickerProviderStateMixin {
   late TextEditingController _controller;
   final _animation = AnimationInfo.formField();
@@ -31,23 +33,23 @@ class _ContactNameFieldState extends State<ContactNameField>
       listenWhen: (previous, current) =>
           previous.isEditing != current.isEditing,
       listener: (context, state) {
-        _controller.text = state.contact.name;
+        _controller.text = state.contact.phone.getOrCrash();
       },
       builder: (context, state) {
         return TextFormField(
           controller: _controller,
           focusNode: FocusNode(),
-          onChanged: (name) => EasyDebounce.debounce(
-            '_ContactForm_name',
+          onChanged: (phone) => EasyDebounce.debounce(
+            '_ContactForm_phone',
             const Duration(milliseconds: 2000),
             () => context
                 .read<ContactFormBloc>()
-                .add(ContactFormNameChanged(name)),
+                .add(ContactFormPhoneChanged(Phone(phone))),
           ),
           obscureText: false,
           decoration: InputDecoration(
             labelText: FFLocalizations.of(context).getText(
-              'q85cu9ud' /* Tên khách hàng */,
+              '47j57kwz' /* Số điện thoại */,
             ),
             labelStyle: FlutterFlowTheme.of(context).bodySmall,
             hintStyle: FlutterFlowTheme.of(context).bodySmall,
@@ -87,6 +89,9 @@ class _ContactNameFieldState extends State<ContactNameField>
                 ? InkWell(
                     onTap: () async {
                       _controller.clear();
+                      context
+                          .read<ContactFormBloc>()
+                          .add(ContactFormPhoneChanged(Phone('')));
                     },
                     child: const Icon(
                       Icons.clear,
@@ -97,11 +102,17 @@ class _ContactNameFieldState extends State<ContactNameField>
                 : null,
           ),
           style: FlutterFlowTheme.of(context).bodyMedium,
-          validator: (_) => context
-                  .select((ContactFormBloc bloc) => bloc.state.contact.name)
-                  .isEmpty
-              ? 'Không được để trống'
-              : null,
+          keyboardType: TextInputType.phone,
+          validator: context
+              .select((ContactFormBloc bloc) => bloc.state.contact.phone)
+              .value
+              .fold(
+                  (l) => switch (l) {
+                        InvalidPhone() => 'Số điện thoại không đúng',
+                        ShortPassword() => null,
+                        ValueEnteredNotMatch() => null,
+                      },
+                  (r) => null),
         );
       },
     ).animateOnPageLoad(_animation);
