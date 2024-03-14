@@ -8,15 +8,14 @@ import 'package:ld_app/src/application/contact/bloc/contact_form_bloc.dart';
 import 'package:ld_app/src/domain/core/value_objects/phone.dart';
 import 'package:ld_app/src/domain/core/value_objects/value_failures.dart';
 
-class AccountAliasField extends StatefulWidget {
-  const AccountAliasField({super.key});
+class PhoneField extends StatefulWidget {
+  const PhoneField({super.key});
 
   @override
-  State<AccountAliasField> createState() => _AccountAliasFieldState();
+  State<PhoneField> createState() => _PhoneFieldState();
 }
 
-class _AccountAliasFieldState extends State<AccountAliasField>
-    with TickerProviderStateMixin {
+class _PhoneFieldState extends State<PhoneField> with TickerProviderStateMixin {
   late TextEditingController _controller;
   final _animation = AnimationInfo.formField();
 
@@ -106,13 +105,8 @@ class _AccountAliasFieldState extends State<AccountAliasField>
           validator: context
               .select((ContactFormBloc bloc) => bloc.state.contact.phone)
               .value
-              .fold(
-                  (l) => switch (l) {
-                        InvalidPhone() => 'Số điện thoại không đúng',
-                        ShortPassword() => null,
-                        ValueEnteredNotMatch() => null,
-                      },
-                  (r) => null),
+              .fold((l) => (l) => 'Số điện thoại không đúng',
+                  (r) => null), //TODO need refactor using sealed class
         );
       },
     ).animateOnPageLoad(_animation);

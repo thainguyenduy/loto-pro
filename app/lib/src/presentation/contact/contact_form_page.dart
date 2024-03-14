@@ -115,9 +115,8 @@ class _ContactFormPageState extends State<ContactFormPage>
       );
     }
     return BlocProvider(
-      create: (BuildContext context) => locator<ContactFormBloc>()
-        ..add(ContactFormInitialized(
-            chatId != null ? fpdart.left(chatId!) : fpdart.right(contact!))),
+      create: (BuildContext context) => ContactFormBloc(
+          chatId != null ? fpdart.left(chatId!) : fpdart.right(contact!)),
       child: BlocConsumer<ContactFormBloc, ContactFormState>(
         builder: ((BuildContext context, ContactFormState state) => Stack(
               children: <Widget>[

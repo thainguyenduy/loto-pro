@@ -4,7 +4,6 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:ld_app/src/domain/core/value_objects/unique_id.dart';
 import 'package:ld_app/src/domain/core/value_objects/value_failures.dart';
 import 'package:ld_app/src/infrastructure/injector.dart';
-part 'i_entity.g.dart';
 
 abstract class IEntity {
   IEntity({required this.id});

@@ -2,6 +2,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:ld_app/src/presentation/contact/widgets/components/account_alias_field.dart';
 import 'package:ld_app/src/presentation/contact/widgets/components/contact_alias_field.dart';
 import 'package:ld_app/src/presentation/contact/widgets/components/name_field.dart';
+import 'package:ld_app/src/presentation/contact/widgets/components/phone_field.dart';
 
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_radio_button.dart';
@@ -31,76 +32,9 @@ class UpsertContactInfoAndRateTab extends StatelessWidget {
             padding: EdgeInsetsDirectional.fromSTEB(20.0, 20.0, 20.0, 0.0),
             child: AccountAliasField(),
           ),
-          Padding(
-            padding:
-                const EdgeInsetsDirectional.fromSTEB(20.0, 20.0, 20.0, 0.0),
-            child: TextFormField(
-              controller: _model.contactPhoneController,
-              focusNode: _model.contactPhoneFocusNode,
-              onChanged: (_) => EasyDebounce.debounce(
-                '_model.contactPhoneController',
-                const Duration(milliseconds: 2000),
-                () => setState(() {}),
-              ),
-              obscureText: false,
-              decoration: InputDecoration(
-                labelText: FFLocalizations.of(context).getText(
-                  '47j57kwz' /* Số điện thoại */,
-                ),
-                labelStyle: FlutterFlowTheme.of(context).bodySmall,
-                hintStyle: FlutterFlowTheme.of(context).bodySmall,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Color(0x00000000),
-                    width: 1.0,
-                  ),
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Color(0x00000000),
-                    width: 1.0,
-                  ),
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                errorBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Color(0x00000000),
-                    width: 1.0,
-                  ),
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                focusedErrorBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Color(0x00000000),
-                    width: 1.0,
-                  ),
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                filled: true,
-                fillColor: FlutterFlowTheme.of(context).secondaryBackground,
-                contentPadding: const EdgeInsetsDirectional.fromSTEB(
-                    20.0, 24.0, 20.0, 24.0),
-                suffixIcon: _model.contactPhoneController!.text.isNotEmpty
-                    ? InkWell(
-                        onTap: () async {
-                          _model.contactPhoneController?.clear();
-                          setState(() {});
-                        },
-                        child: const Icon(
-                          Icons.clear,
-                          color: Color(0xFF757575),
-                          size: 22.0,
-                        ),
-                      )
-                    : null,
-              ),
-              style: FlutterFlowTheme.of(context).bodyMedium,
-              keyboardType: TextInputType.phone,
-              validator:
-                  _model.contactPhoneControllerValidator.asValidator(context),
-            ).animateOnPageLoad(
-                animationsMap['textFieldOnPageLoadAnimation4']!),
+          const Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(20.0, 20.0, 20.0, 0.0),
+            child: PhoneField(),
           ),
           Padding(
             padding:
@@ -147,9 +81,8 @@ class UpsertContactInfoAndRateTab extends StatelessWidget {
                             'gmm9b1kp' /* Vừa đại lý vừa công ty */,
                           )
                         ].toList(),
-                        onChanged: (val) => setState(() {}),
-                        controller: _model.radioButtonValueController ??=
-                            FormFieldController<String>(null),
+                        onChanged: null,
+                        controller: FormFieldController<String>(null),
                         optionHeight: 32.0,
                         textStyle: FlutterFlowTheme.of(context).labelMedium,
                         selectedTextStyle:
@@ -261,8 +194,8 @@ class UpsertContactInfoAndRateTab extends StatelessWidget {
                                   padding: const EdgeInsetsDirectional.fromSTEB(
                                       8.0, 0.0, 8.0, 0.0),
                                   child: TextFormField(
-                                    controller: _model.textController5,
-                                    focusNode: _model.textFieldFocusNode1,
+                                    controller: null,
+                                    focusNode: null,
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       labelStyle: FlutterFlowTheme.of(context)
@@ -310,8 +243,7 @@ class UpsertContactInfoAndRateTab extends StatelessWidget {
                                         FlutterFlowTheme.of(context).bodySmall,
                                     textAlign: TextAlign.center,
                                     keyboardType: TextInputType.number,
-                                    validator: _model.textController5Validator
-                                        .asValidator(context),
+                                    validator: null.asValidator(context),
                                   ),
                                 ),
                                 Align(
@@ -340,8 +272,8 @@ class UpsertContactInfoAndRateTab extends StatelessWidget {
                                   padding: const EdgeInsetsDirectional.fromSTEB(
                                       8.0, 0.0, 8.0, 0.0),
                                   child: TextFormField(
-                                    controller: _model.textController6,
-                                    focusNode: _model.textFieldFocusNode2,
+                                    controller: null,
+                                    focusNode: null,
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       labelStyle: FlutterFlowTheme.of(context)
@@ -389,8 +321,7 @@ class UpsertContactInfoAndRateTab extends StatelessWidget {
                                         FlutterFlowTheme.of(context).bodySmall,
                                     textAlign: TextAlign.center,
                                     keyboardType: TextInputType.number,
-                                    validator: _model.textController6Validator
-                                        .asValidator(context),
+                                    validator: null.asValidator(context),
                                   ),
                                 ),
                                 Align(
@@ -438,8 +369,8 @@ class UpsertContactInfoAndRateTab extends StatelessWidget {
                                   padding: const EdgeInsetsDirectional.fromSTEB(
                                       8.0, 0.0, 8.0, 0.0),
                                   child: TextFormField(
-                                    controller: _model.textController7,
-                                    focusNode: _model.textFieldFocusNode3,
+                                    controller: null,
+                                    focusNode: null,
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       labelStyle: FlutterFlowTheme.of(context)
@@ -487,8 +418,7 @@ class UpsertContactInfoAndRateTab extends StatelessWidget {
                                         FlutterFlowTheme.of(context).bodySmall,
                                     textAlign: TextAlign.center,
                                     keyboardType: TextInputType.number,
-                                    validator: _model.textController7Validator
-                                        .asValidator(context),
+                                    validator: null.asValidator(context),
                                   ),
                                 ),
                                 Align(
@@ -517,8 +447,8 @@ class UpsertContactInfoAndRateTab extends StatelessWidget {
                                   padding: const EdgeInsetsDirectional.fromSTEB(
                                       8.0, 0.0, 8.0, 0.0),
                                   child: TextFormField(
-                                    controller: _model.textController8,
-                                    focusNode: _model.textFieldFocusNode4,
+                                    controller: null,
+                                    focusNode: null,
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       labelStyle: FlutterFlowTheme.of(context)
@@ -566,8 +496,7 @@ class UpsertContactInfoAndRateTab extends StatelessWidget {
                                         FlutterFlowTheme.of(context).bodySmall,
                                     textAlign: TextAlign.center,
                                     keyboardType: TextInputType.number,
-                                    validator: _model.textController8Validator
-                                        .asValidator(context),
+                                    validator: null.asValidator(context),
                                   ),
                                 ),
                                 Align(
@@ -615,8 +544,8 @@ class UpsertContactInfoAndRateTab extends StatelessWidget {
                                   padding: const EdgeInsetsDirectional.fromSTEB(
                                       8.0, 0.0, 8.0, 0.0),
                                   child: TextFormField(
-                                    controller: _model.textController9,
-                                    focusNode: _model.textFieldFocusNode5,
+                                    controller: null,
+                                    focusNode: null,
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       labelStyle: FlutterFlowTheme.of(context)
@@ -664,8 +593,7 @@ class UpsertContactInfoAndRateTab extends StatelessWidget {
                                         FlutterFlowTheme.of(context).bodySmall,
                                     textAlign: TextAlign.center,
                                     keyboardType: TextInputType.number,
-                                    validator: _model.textController9Validator
-                                        .asValidator(context),
+                                    validator: null.asValidator(context),
                                   ),
                                 ),
                                 Align(
@@ -694,8 +622,8 @@ class UpsertContactInfoAndRateTab extends StatelessWidget {
                                   padding: const EdgeInsetsDirectional.fromSTEB(
                                       8.0, 0.0, 8.0, 0.0),
                                   child: TextFormField(
-                                    controller: _model.textController10,
-                                    focusNode: _model.textFieldFocusNode6,
+                                    controller: null,
+                                    focusNode: null,
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       labelStyle: FlutterFlowTheme.of(context)
@@ -743,8 +671,7 @@ class UpsertContactInfoAndRateTab extends StatelessWidget {
                                         FlutterFlowTheme.of(context).bodySmall,
                                     textAlign: TextAlign.center,
                                     keyboardType: TextInputType.number,
-                                    validator: _model.textController10Validator
-                                        .asValidator(context),
+                                    validator: null.asValidator(context),
                                   ),
                                 ),
                                 Align(
@@ -792,8 +719,8 @@ class UpsertContactInfoAndRateTab extends StatelessWidget {
                                   padding: const EdgeInsetsDirectional.fromSTEB(
                                       8.0, 0.0, 8.0, 0.0),
                                   child: TextFormField(
-                                    controller: _model.textController11,
-                                    focusNode: _model.textFieldFocusNode7,
+                                    controller: null,
+                                    focusNode: null,
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       labelStyle: FlutterFlowTheme.of(context)
@@ -841,8 +768,7 @@ class UpsertContactInfoAndRateTab extends StatelessWidget {
                                         FlutterFlowTheme.of(context).bodySmall,
                                     textAlign: TextAlign.center,
                                     keyboardType: TextInputType.number,
-                                    validator: _model.textController11Validator
-                                        .asValidator(context),
+                                    validator: null.asValidator(context),
                                   ),
                                 ),
                                 Align(
@@ -871,8 +797,8 @@ class UpsertContactInfoAndRateTab extends StatelessWidget {
                                   padding: const EdgeInsetsDirectional.fromSTEB(
                                       8.0, 0.0, 8.0, 0.0),
                                   child: TextFormField(
-                                    controller: _model.textController12,
-                                    focusNode: _model.textFieldFocusNode8,
+                                    controller: null,
+                                    focusNode: null,
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       labelStyle: FlutterFlowTheme.of(context)
@@ -920,8 +846,7 @@ class UpsertContactInfoAndRateTab extends StatelessWidget {
                                         FlutterFlowTheme.of(context).bodySmall,
                                     textAlign: TextAlign.center,
                                     keyboardType: TextInputType.number,
-                                    validator: _model.textController12Validator
-                                        .asValidator(context),
+                                    validator: null.asValidator(context),
                                   ),
                                 ),
                                 Align(
@@ -973,8 +898,8 @@ class UpsertContactInfoAndRateTab extends StatelessWidget {
                                         const EdgeInsetsDirectional.fromSTEB(
                                             8.0, 0.0, 8.0, 0.0),
                                     child: TextFormField(
-                                      controller: _model.textController13,
-                                      focusNode: _model.textFieldFocusNode9,
+                                      controller: null,
+                                      focusNode: null,
                                       obscureText: false,
                                       decoration: InputDecoration(
                                         labelStyle: FlutterFlowTheme.of(context)
@@ -1023,9 +948,7 @@ class UpsertContactInfoAndRateTab extends StatelessWidget {
                                           .bodySmall,
                                       textAlign: TextAlign.center,
                                       keyboardType: TextInputType.number,
-                                      validator: _model
-                                          .textController13Validator
-                                          .asValidator(context),
+                                      validator: null.asValidator(context),
                                     ),
                                   ),
                                   Align(
