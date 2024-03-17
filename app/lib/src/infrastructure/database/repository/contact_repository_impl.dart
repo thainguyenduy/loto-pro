@@ -5,10 +5,9 @@ import 'package:injectable/injectable.dart';
 import 'package:ld_app/src/domain/contact/contact.dart';
 
 import 'package:ld_app/src/infrastructure/database/model/model.dart' as model;
-import 'package:ld_app/src/domain/account/account.dart';
 import 'package:ld_app/src/infrastructure/mapper/contact_mapper.dart';
 
-@Singleton(as: ContactRepository)
+@LazySingleton(as: ContactRepository)
 final class ContactRepositoryImpl implements ContactRepository {
   final ContactMapper contactMapper;
   ContactRepositoryImpl(this.contactMapper);

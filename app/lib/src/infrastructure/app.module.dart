@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:android_id/android_id.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
@@ -25,7 +23,7 @@ abstract class AppModule {
       connectTimeout: const Duration(seconds: 3),
       receiveTimeout: const Duration(seconds: 3)));
 
-  @singleton
+  @lazySingleton
   AppRouter get appRouter => AppRouter();
 
   @preResolve

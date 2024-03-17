@@ -6,7 +6,6 @@ import 'package:ld_app/flutter_flow/flutter_flow_theme.dart';
 import 'package:ld_app/flutter_flow/internationalization.dart';
 import 'package:ld_app/src/application/contact/bloc/contact_form_bloc.dart';
 import 'package:ld_app/src/domain/core/value_objects/phone.dart';
-import 'package:ld_app/src/domain/core/value_objects/value_failures.dart';
 
 class PhoneField extends StatefulWidget {
   const PhoneField({super.key});

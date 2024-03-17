@@ -7,7 +7,7 @@ import 'package:ld_app/src/infrastructure/database/model/model.dart' as model;
 import 'package:ld_app/src/domain/account/account.dart';
 import 'package:ld_app/src/infrastructure/mapper/account_mapper.dart';
 
-@Singleton(as: AccountRepository)
+@LazySingleton(as: AccountRepository)
 final class AccountRepositoryImpl implements AccountRepository {
   final AccountMapper accountMapper;
   AccountRepositoryImpl(this.accountMapper);

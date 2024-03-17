@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:injectable/injectable.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ld_app/src/domain/contact/contact.dart';
 import 'package:ld_app/src/domain/contact/contact_values.dart';
@@ -12,7 +11,6 @@ part 'contact_form_event.dart';
 part 'contact_form_state.dart';
 part 'contact_form_bloc.freezed.dart';
 
-@injectable
 class ContactFormBloc extends Bloc<ContactFormEvent, ContactFormState> {
   final ContactRepository contactRepository = locator<ContactRepository>();
   ContactFormBloc(Either<String, Contact> initial)

@@ -10,7 +10,7 @@ import 'package:ld_app/src/domain/account/i_auth_facade.dart';
 import 'package:ld_app/src/infrastructure/device_info.dart';
 import 'package:ld_app/src/infrastructure/exception/network_exception_handler.dart';
 
-@Singleton(as: IAuthFacade)
+@LazySingleton(as: IAuthFacade)
 class AuthFacade implements IAuthFacade {
   Dio dio;
   DeviceInfo deviceInfo;

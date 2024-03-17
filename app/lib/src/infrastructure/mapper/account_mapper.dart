@@ -1,7 +1,6 @@
 import 'package:injectable/injectable.dart';
 import 'package:ld_app/src/domain/account/account.dart';
 import 'package:ld_app/src/domain/contact/contact.dart';
-import 'package:ld_app/src/domain/core/value_object.dart';
 import 'package:ld_app/src/domain/core/value_objects/phone.dart';
 import 'package:ld_app/src/domain/core/value_objects/unique_id.dart';
 import 'package:ld_app/src/infrastructure/mapper/contact_mapper.dart';
@@ -9,7 +8,7 @@ import 'package:ld_app/src/infrastructure/mapper/i_mapper.dart';
 
 import '../database/model/model.dart' as model;
 
-@singleton
+@lazySingleton
 class AccountMapper implements IMapper<Account, model.Account> {
   final ContactMapper contactMapper;
   AccountMapper(this.contactMapper);
