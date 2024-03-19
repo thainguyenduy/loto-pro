@@ -1,5 +1,6 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:kt_dart/collection.dart';
 import 'package:ld_app/src/domain/contact/contact_values.dart';
 import 'package:ld_app/src/domain/core/i_entity.dart';
 import 'package:ld_app/src/domain/core/value_objects/phone.dart';
