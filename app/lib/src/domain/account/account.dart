@@ -2,7 +2,6 @@ import 'package:fpdart/fpdart.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:ld_app/src/domain/account/events/contact_added_event.dart';
 import 'package:ld_app/src/domain/contact/contact.dart';
-import 'package:ld_app/src/domain/core/event.dart';
 import 'package:ld_app/src/domain/core/i_entity.dart';
 import 'package:ld_app/src/domain/core/value_objects/phone.dart';
 import 'package:ld_app/src/domain/core/value_objects/unique_id.dart';

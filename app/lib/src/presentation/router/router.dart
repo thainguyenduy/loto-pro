@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ld_app/src/application/app/app.dart';
+import 'package:ld_app/src/domain/contact/contact.dart';
 import 'package:ld_app/src/presentation/home/home_page.dart';
 import 'package:ld_app/src/presentation/login/login_page.dart';
 import 'package:ld_app/src/presentation/contact/contact_form_page.dart';

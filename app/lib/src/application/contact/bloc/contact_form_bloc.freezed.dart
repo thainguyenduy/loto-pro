@@ -12,7 +12,7 @@ part of 'contact_form_bloc.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ContactFormState {
@@ -23,6 +23,9 @@ mixin _$ContactFormState {
   bool get autoParse => throw _privateConstructorUsedError;
   ReplyMode get replyMode => throw _privateConstructorUsedError;
   DebtReminderMode get debtReminderMode => throw _privateConstructorUsedError;
+  bool get loCurrencyUnitAsThousandVND => throw _privateConstructorUsedError;
+  bool get deCurrencyUnitAsThousandVND => throw _privateConstructorUsedError;
+  bool get rejectedOvertimeBet => throw _privateConstructorUsedError;
   String? get contactAlias => throw _privateConstructorUsedError;
   String? get accountAlias => throw _privateConstructorUsedError;
   String? get telegramId => throw _privateConstructorUsedError;
@@ -51,6 +54,9 @@ abstract class $ContactFormStateCopyWith<$Res> {
       bool autoParse,
       ReplyMode replyMode,
       DebtReminderMode debtReminderMode,
+      bool loCurrencyUnitAsThousandVND,
+      bool deCurrencyUnitAsThousandVND,
+      bool rejectedOvertimeBet,
       String? contactAlias,
       String? accountAlias,
       String? telegramId,
@@ -80,6 +86,9 @@ class _$ContactFormStateCopyWithImpl<$Res, $Val extends ContactFormState>
     Object? autoParse = null,
     Object? replyMode = null,
     Object? debtReminderMode = null,
+    Object? loCurrencyUnitAsThousandVND = null,
+    Object? deCurrencyUnitAsThousandVND = null,
+    Object? rejectedOvertimeBet = null,
     Object? contactAlias = freezed,
     Object? accountAlias = freezed,
     Object? telegramId = freezed,
@@ -117,6 +126,18 @@ class _$ContactFormStateCopyWithImpl<$Res, $Val extends ContactFormState>
           ? _value.debtReminderMode
           : debtReminderMode // ignore: cast_nullable_to_non_nullable
               as DebtReminderMode,
+      loCurrencyUnitAsThousandVND: null == loCurrencyUnitAsThousandVND
+          ? _value.loCurrencyUnitAsThousandVND
+          : loCurrencyUnitAsThousandVND // ignore: cast_nullable_to_non_nullable
+              as bool,
+      deCurrencyUnitAsThousandVND: null == deCurrencyUnitAsThousandVND
+          ? _value.deCurrencyUnitAsThousandVND
+          : deCurrencyUnitAsThousandVND // ignore: cast_nullable_to_non_nullable
+              as bool,
+      rejectedOvertimeBet: null == rejectedOvertimeBet
+          ? _value.rejectedOvertimeBet
+          : rejectedOvertimeBet // ignore: cast_nullable_to_non_nullable
+              as bool,
       contactAlias: freezed == contactAlias
           ? _value.contactAlias
           : contactAlias // ignore: cast_nullable_to_non_nullable
@@ -165,6 +186,9 @@ abstract class _$$ContactFormStateImplCopyWith<$Res>
       bool autoParse,
       ReplyMode replyMode,
       DebtReminderMode debtReminderMode,
+      bool loCurrencyUnitAsThousandVND,
+      bool deCurrencyUnitAsThousandVND,
+      bool rejectedOvertimeBet,
       String? contactAlias,
       String? accountAlias,
       String? telegramId,
@@ -192,6 +216,9 @@ class __$$ContactFormStateImplCopyWithImpl<$Res>
     Object? autoParse = null,
     Object? replyMode = null,
     Object? debtReminderMode = null,
+    Object? loCurrencyUnitAsThousandVND = null,
+    Object? deCurrencyUnitAsThousandVND = null,
+    Object? rejectedOvertimeBet = null,
     Object? contactAlias = freezed,
     Object? accountAlias = freezed,
     Object? telegramId = freezed,
@@ -229,6 +256,18 @@ class __$$ContactFormStateImplCopyWithImpl<$Res>
           ? _value.debtReminderMode
           : debtReminderMode // ignore: cast_nullable_to_non_nullable
               as DebtReminderMode,
+      loCurrencyUnitAsThousandVND: null == loCurrencyUnitAsThousandVND
+          ? _value.loCurrencyUnitAsThousandVND
+          : loCurrencyUnitAsThousandVND // ignore: cast_nullable_to_non_nullable
+              as bool,
+      deCurrencyUnitAsThousandVND: null == deCurrencyUnitAsThousandVND
+          ? _value.deCurrencyUnitAsThousandVND
+          : deCurrencyUnitAsThousandVND // ignore: cast_nullable_to_non_nullable
+              as bool,
+      rejectedOvertimeBet: null == rejectedOvertimeBet
+          ? _value.rejectedOvertimeBet
+          : rejectedOvertimeBet // ignore: cast_nullable_to_non_nullable
+              as bool,
       contactAlias: freezed == contactAlias
           ? _value.contactAlias
           : contactAlias // ignore: cast_nullable_to_non_nullable
@@ -272,6 +311,9 @@ class _$ContactFormStateImpl extends _ContactFormState {
       required this.autoParse,
       required this.replyMode,
       required this.debtReminderMode,
+      required this.loCurrencyUnitAsThousandVND,
+      required this.deCurrencyUnitAsThousandVND,
+      required this.rejectedOvertimeBet,
       this.contactAlias,
       this.accountAlias,
       this.telegramId,
@@ -296,6 +338,12 @@ class _$ContactFormStateImpl extends _ContactFormState {
   @override
   final DebtReminderMode debtReminderMode;
   @override
+  final bool loCurrencyUnitAsThousandVND;
+  @override
+  final bool deCurrencyUnitAsThousandVND;
+  @override
+  final bool rejectedOvertimeBet;
+  @override
   final String? contactAlias;
   @override
   final String? accountAlias;
@@ -312,7 +360,7 @@ class _$ContactFormStateImpl extends _ContactFormState {
 
   @override
   String toString() {
-    return 'ContactFormState(id: $id, name: $name, phone: $phone, chatId: $chatId, autoParse: $autoParse, replyMode: $replyMode, debtReminderMode: $debtReminderMode, contactAlias: $contactAlias, accountAlias: $accountAlias, telegramId: $telegramId, showErrorMessages: $showErrorMessages, isEditing: $isEditing, isSaving: $isSaving, saveFailureOrSuccessOption: $saveFailureOrSuccessOption)';
+    return 'ContactFormState(id: $id, name: $name, phone: $phone, chatId: $chatId, autoParse: $autoParse, replyMode: $replyMode, debtReminderMode: $debtReminderMode, loCurrencyUnitAsThousandVND: $loCurrencyUnitAsThousandVND, deCurrencyUnitAsThousandVND: $deCurrencyUnitAsThousandVND, rejectedOvertimeBet: $rejectedOvertimeBet, contactAlias: $contactAlias, accountAlias: $accountAlias, telegramId: $telegramId, showErrorMessages: $showErrorMessages, isEditing: $isEditing, isSaving: $isSaving, saveFailureOrSuccessOption: $saveFailureOrSuccessOption)';
   }
 
   @override
@@ -330,6 +378,16 @@ class _$ContactFormStateImpl extends _ContactFormState {
                 other.replyMode == replyMode) &&
             (identical(other.debtReminderMode, debtReminderMode) ||
                 other.debtReminderMode == debtReminderMode) &&
+            (identical(other.loCurrencyUnitAsThousandVND,
+                    loCurrencyUnitAsThousandVND) ||
+                other.loCurrencyUnitAsThousandVND ==
+                    loCurrencyUnitAsThousandVND) &&
+            (identical(other.deCurrencyUnitAsThousandVND,
+                    deCurrencyUnitAsThousandVND) ||
+                other.deCurrencyUnitAsThousandVND ==
+                    deCurrencyUnitAsThousandVND) &&
+            (identical(other.rejectedOvertimeBet, rejectedOvertimeBet) ||
+                other.rejectedOvertimeBet == rejectedOvertimeBet) &&
             (identical(other.contactAlias, contactAlias) ||
                 other.contactAlias == contactAlias) &&
             (identical(other.accountAlias, accountAlias) ||
@@ -358,6 +416,9 @@ class _$ContactFormStateImpl extends _ContactFormState {
       autoParse,
       replyMode,
       debtReminderMode,
+      loCurrencyUnitAsThousandVND,
+      deCurrencyUnitAsThousandVND,
+      rejectedOvertimeBet,
       contactAlias,
       accountAlias,
       telegramId,
@@ -383,6 +444,9 @@ abstract class _ContactFormState extends ContactFormState {
       required final bool autoParse,
       required final ReplyMode replyMode,
       required final DebtReminderMode debtReminderMode,
+      required final bool loCurrencyUnitAsThousandVND,
+      required final bool deCurrencyUnitAsThousandVND,
+      required final bool rejectedOvertimeBet,
       final String? contactAlias,
       final String? accountAlias,
       final String? telegramId,
@@ -407,6 +471,12 @@ abstract class _ContactFormState extends ContactFormState {
   ReplyMode get replyMode;
   @override
   DebtReminderMode get debtReminderMode;
+  @override
+  bool get loCurrencyUnitAsThousandVND;
+  @override
+  bool get deCurrencyUnitAsThousandVND;
+  @override
+  bool get rejectedOvertimeBet;
   @override
   String? get contactAlias;
   @override

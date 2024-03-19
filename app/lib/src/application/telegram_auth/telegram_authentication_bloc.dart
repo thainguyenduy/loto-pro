@@ -12,7 +12,7 @@ part 'telegram_authentication_event.dart';
 part 'telegram_authentication_state.dart';
 part 'telegram_authentication_bloc.freezed.dart';
 
-@singleton
+@lazySingleton
 class TelegramAuthenticationBloc
     extends Bloc<TelegramAuthenticationEvent, TelegramAuthState> {
   TelegramAuthenticationBloc(this.service) : super(const TelegramAuthState()) {

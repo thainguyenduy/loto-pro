@@ -9,7 +9,7 @@ import 'package:ld_app/src/domain/account/i_auth_facade.dart';
 part 'app_event.dart';
 part 'app_state.dart';
 
-@singleton
+@lazySingleton
 class AppBloc extends Bloc<AppEvent, AppState> {
   final IAuthFacade authFacade;
 

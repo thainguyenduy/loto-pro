@@ -1,18 +1,15 @@
 import 'package:fpdart/fpdart.dart';
-import 'package:fpdart/src/task_either.dart';
-import 'package:fpdart/src/unit.dart';
 import 'package:injectable/injectable.dart';
 
 import 'package:ld_app/src/infrastructure/database/model/model.dart' as model;
 import 'package:ld_app/src/domain/account/account.dart';
 import 'package:ld_app/src/infrastructure/mapper/account_mapper.dart';
 
-@Singleton(as: AccountRepository)
+@LazySingleton(as: AccountRepository)
 final class AccountRepositoryImpl implements AccountRepository {
   final AccountMapper accountMapper;
   AccountRepositoryImpl(this.accountMapper);
   @override
-  // TODO: implement account
   TaskEither<AccountFailure, Account> getAccount(String id) {
     /* final rte = ReaderTaskEither<Deps, AccountFailure, Account>.Do(($) async {
       final env = await $(ReaderTaskEither.asks(identity));

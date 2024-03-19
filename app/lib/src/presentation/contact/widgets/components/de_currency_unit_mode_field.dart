@@ -1,35 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:ld_app/flutter_flow/flutter_flow_theme.dart';
 import 'package:ld_app/flutter_flow/internationalization.dart';
 import 'package:ld_app/src/application/contact/bloc/contact_form_bloc.dart';
 
-class AutoParseModeField extends HookWidget {
-  const AutoParseModeField({super.key});
+class DeCurrencyUnitIsThousandVNDField extends StatelessWidget {
+  const DeCurrencyUnitIsThousandVNDField({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ContactFormBloc, ContactFormState>(
       buildWhen: (previous, current) =>
-          previous.contact.autoParse != current.contact.autoParse,
+          previous.contact.deCurrencyUnitAsThousandVND !=
+          current.contact.deCurrencyUnitAsThousandVND,
       builder: (context, state) {
         return SwitchListTile.adaptive(
-          value: true,
-          onChanged: (newValue) => context
-              .read<ContactFormBloc>()
-              .add(ContactFormAutoParseChanged(newValue)),
+          value: state.contact.deCurrencyUnitAsThousandVND,
+          onChanged: (newValue) async {
+            context
+                .read<ContactFormBloc>()
+                .add(ContactFormLoCurrencyUnitIsThousandVNDChanged(newValue));
+          },
           title: Text(
             FFLocalizations.of(context).getText(
-              '0sm6ek1x' /* Phân tích tin đi, đến */,
+              'y0b9iynm' /* Chấp nhận đơn vị lô là nghìn */,
             ),
             textAlign: TextAlign.start,
             style: FlutterFlowTheme.of(context).bodyMedium,
           ),
           subtitle: Text(
             FFLocalizations.of(context).getText(
-              'w79u6jgx' /* Tự động phân tích */,
+              'oo4p7rrf' /* Chấp nhận */,
             ),
             style: FlutterFlowTheme.of(context).labelSmall,
           ),

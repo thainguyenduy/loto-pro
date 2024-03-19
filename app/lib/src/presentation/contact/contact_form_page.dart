@@ -6,7 +6,6 @@ import 'package:ld_app/flutter_flow/flutter_flow_animations.dart';
 import 'package:ld_app/flutter_flow/flutter_flow_widgets.dart';
 import 'package:ld_app/src/application/contact/bloc/contact_form_bloc.dart';
 import 'package:ld_app/src/domain/contact/contact.dart';
-import 'package:ld_app/src/infrastructure/injector.dart';
 import 'package:motion_toast/motion_toast.dart';
 
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -115,9 +114,8 @@ class _ContactFormPageState extends State<ContactFormPage>
       );
     }
     return BlocProvider(
-      create: (BuildContext context) => locator<ContactFormBloc>()
-        ..add(ContactFormInitialized(
-            chatId != null ? fpdart.left(chatId!) : fpdart.right(contact!))),
+      create: (BuildContext context) => ContactFormBloc(
+          chatId != null ? fpdart.left(chatId!) : fpdart.right(contact!)),
       child: BlocConsumer<ContactFormBloc, ContactFormState>(
         builder: ((BuildContext context, ContactFormState state) => Stack(
               children: <Widget>[
@@ -161,7 +159,6 @@ class _ContactFormPageState extends State<ContactFormPage>
             p.saveFailureOrSuccessOption != c.saveFailureOrSuccessOption,
       ),
     );
-    ;
   }
 }
 

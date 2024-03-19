@@ -14,6 +14,33 @@ class AnimationInfo {
     this.reverse = false,
     this.applyInitialState = true,
   });
+  AnimationInfo.formField()
+      : this(
+          trigger: AnimationTrigger.onPageLoad,
+          effects: [
+            FadeEffect(
+              curve: Curves.easeInOut,
+              delay: 100.ms,
+              duration: 600.ms,
+              begin: 0.0,
+              end: 1.0,
+            ),
+            MoveEffect(
+              curve: Curves.easeInOut,
+              delay: 100.ms,
+              duration: 600.ms,
+              begin: const Offset(0.0, 20.0),
+              end: const Offset(0.0, 0.0),
+            ),
+            ScaleEffect(
+              curve: Curves.easeInOut,
+              delay: 100.ms,
+              duration: 600.ms,
+              begin: const Offset(1.0, 0.0),
+              end: const Offset(1.0, 1.0),
+            ),
+          ],
+        );
   final AnimationTrigger trigger;
   final List<Effect<dynamic>> effects;
   final bool applyInitialState;

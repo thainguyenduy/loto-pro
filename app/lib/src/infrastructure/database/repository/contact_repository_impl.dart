@@ -1,14 +1,12 @@
 import 'package:fpdart/fpdart.dart';
-import 'package:fpdart/src/task_either.dart';
-import 'package:fpdart/src/unit.dart';
 import 'package:injectable/injectable.dart';
+import 'package:kt_dart/collection.dart';
 import 'package:ld_app/src/domain/contact/contact.dart';
 
 import 'package:ld_app/src/infrastructure/database/model/model.dart' as model;
-import 'package:ld_app/src/domain/account/account.dart';
 import 'package:ld_app/src/infrastructure/mapper/contact_mapper.dart';
 
-@Singleton(as: ContactRepository)
+@LazySingleton(as: ContactRepository)
 final class ContactRepositoryImpl implements ContactRepository {
   final ContactMapper contactMapper;
   ContactRepositoryImpl(this.contactMapper);
@@ -50,5 +48,11 @@ final class ContactRepositoryImpl implements ContactRepository {
                 dynamic r))
         .map((r) => r as Contact);
     return res;
+  }
+  
+  @override
+  TaskEither<ContactFailure, KtList<Contact>> getContactsByAccountId(String accountId) {
+    // TODO: implement getContactsByAccountId
+    throw UnimplementedError();
   }
 }

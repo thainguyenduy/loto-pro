@@ -7,7 +7,7 @@ import 'package:ld_app/src/infrastructure/mapper/i_mapper.dart';
 
 import '../database/model/model.dart' as model;
 
-@singleton
+@lazySingleton
 class ContactMapper implements IMapper<Contact, model.Contact> {
   @override
   model.Contact toDatasource(Contact domain) {
