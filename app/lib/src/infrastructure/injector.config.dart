@@ -14,10 +14,6 @@ import 'package:dio/dio.dart' as _i18;
 import 'package:event_bus/event_bus.dart' as _i10;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
-import 'package:ld_app/src/application/app/app_bloc.dart' as _i23;
-import 'package:ld_app/src/application/login/login_bloc.dart' as _i21;
-import 'package:ld_app/src/application/telegram_auth/telegram_authentication_bloc.dart'
-    as _i22;
 import 'package:ld_app/src/domain/account/account.dart' as _i15;
 import 'package:ld_app/src/domain/account/i_auth_facade.dart' as _i19;
 import 'package:ld_app/src/domain/contact/contact.dart' as _i7;
@@ -33,7 +29,11 @@ import 'package:ld_app/src/infrastructure/mapper/contact_mapper.dart' as _i6;
 import 'package:ld_app/src/infrastructure/notification.service.dart' as _i11;
 import 'package:ld_app/src/infrastructure/service/telegram_service.dart'
     as _i13;
+import 'package:ld_app/src/presentation/app/bloc/app_bloc.dart' as _i23;
+import 'package:ld_app/src/presentation/login/bloc/login_bloc.dart' as _i21;
 import 'package:ld_app/src/presentation/router/router.dart' as _i4;
+import 'package:ld_app/src/presentation/telegram/bloc/telegram_authentication_bloc.dart'
+    as _i22;
 import 'package:shared_preferences/shared_preferences.dart' as _i12;
 import 'package:tdlib/td_client.dart' as _i5;
 

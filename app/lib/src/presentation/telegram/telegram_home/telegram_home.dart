@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:ld_app/src/application/telegram_auth/telegram_authentication.dart';
 import 'package:ld_app/src/domain/chat.dart';
 import 'package:ld_app/src/domain/message.dart';
 import 'package:ld_app/src/infrastructure/injector.dart';
 import 'package:ld_app/src/infrastructure/service/telegram_service.dart';
+import 'package:ld_app/src/presentation/telegram/bloc/telegram_authentication_bloc.dart';
 import 'package:tdlib/td_api.dart' as td;
 
 import '../widgets/menu.dart';

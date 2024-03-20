@@ -39,16 +39,16 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const LoginPage(),
       );
     },
+    MenuRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const MenuPage(),
+      );
+    },
     TelegramHomeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const TelegramHomeScreen(),
-      );
-    },
-    TelegramRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const MenuPage(),
       );
     },
     TelegramSignInRoute.name: (routeData) {
@@ -132,6 +132,20 @@ class LoginRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [MenuPage]
+class MenuRoute extends PageRouteInfo<void> {
+  const MenuRoute({List<PageRouteInfo>? children})
+      : super(
+          MenuRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'MenuRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [TelegramHomeScreen]
 class TelegramHomeRoute extends PageRouteInfo<void> {
   const TelegramHomeRoute({List<PageRouteInfo>? children})
@@ -141,20 +155,6 @@ class TelegramHomeRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'TelegramHomeRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [MenuPage]
-class TelegramRoute extends PageRouteInfo<void> {
-  const TelegramRoute({List<PageRouteInfo>? children})
-      : super(
-          TelegramRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'TelegramRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

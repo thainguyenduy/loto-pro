@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart' as fpdart;
 import 'package:ld_app/flutter_flow/flutter_flow_animations.dart';
 import 'package:ld_app/flutter_flow/flutter_flow_widgets.dart';
-import 'package:ld_app/src/application/contact/bloc/contact_form_bloc.dart';
+import 'package:ld_app/src/presentation/contact/bloc/contact_form_bloc.dart';
 import 'package:ld_app/src/domain/contact/contact.dart';
 import 'package:motion_toast/motion_toast.dart';
 

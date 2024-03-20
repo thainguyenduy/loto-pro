@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ld_app/src/application/telegram_auth/telegram_authentication.dart';
+import 'package:ld_app/src/presentation/telegram/bloc/telegram_authentication_bloc.dart';
 
 @RoutePage()
 class TelegramSignInScreen extends StatefulWidget {

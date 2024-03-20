@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ld_app/src/domain/account/i_auth_facade.dart';
-import 'package:ld_app/src/presentation/login/fields/models.dart';
+import 'package:ld_app/src/presentation/login/widgets/models.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';

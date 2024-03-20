@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:ld_app/flutter_flow/flutter_flow_theme.dart';
 import 'package:ld_app/flutter_flow/internationalization.dart';
-import 'package:ld_app/src/application/contact/bloc/contact_form_bloc.dart';
+import 'package:ld_app/src/presentation/contact/bloc/contact_form_bloc.dart';
 
 class AutoParseModeField extends HookWidget {
   const AutoParseModeField({super.key});

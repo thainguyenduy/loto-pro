@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:ld_app/src/application/login/login.dart';
+import 'package:ld_app/src/presentation/login/bloc/login.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({super.key});

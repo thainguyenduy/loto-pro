@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ld_app/src/application/app/app.dart';
-import 'package:ld_app/src/application/telegram_auth/telegram_authentication.dart';
+import 'package:ld_app/src/presentation/app/bloc/app.dart';
 import 'package:ld_app/src/infrastructure/injector.dart';
 import 'package:ld_app/src/presentation/splash/splash_page.dart';
+import 'package:ld_app/src/presentation/telegram/bloc/telegram_authentication_bloc.dart';
 import 'package:ld_app/src/presentation/telegram/telegram_home/telegram_home.dart';
 import 'package:ld_app/src/presentation/telegram/telegram_sign_in/telegram_sign_in.dart';
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ld_app/flutter_flow/flutter_flow_theme.dart';
 import 'package:ld_app/flutter_flow/internationalization.dart';
-import 'package:ld_app/src/application/app/app.dart';
+import 'package:ld_app/src/presentation/app/bloc/app.dart';
 import 'package:ld_app/src/infrastructure/injector.dart';
 import 'package:ld_app/src/presentation/router/router.dart';
 
