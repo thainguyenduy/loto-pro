@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:ld_app/src/domain/chat.dart';
 
-import '../components/chat_info_title.dart';
-import '../components/utils.dart';
+import 'direct_chat_info_header.dart';
+import 'utils.dart';
 
-class ChatInfoScreen extends StatefulWidget {
+class DirectChatInfo extends StatefulWidget {
   final Chat chat;
 
-  const ChatInfoScreen({
+  const DirectChatInfo({
     super.key,
     required this.chat,
   });
 
   @override
-  State<ChatInfoScreen> createState() => _ChatInfoScreenState();
+  State<DirectChatInfo> createState() => _DirectChatInfoState();
 }
 
-class _ChatInfoScreenState extends State<ChatInfoScreen> {
+class _DirectChatInfoState extends State<DirectChatInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: ChatInfoHeader(
+        title: DirectChatInfoHeader(
           chat: widget.chat,
           interactive: false,
         ),
@@ -38,7 +38,8 @@ class _ChatInfoScreenState extends State<ChatInfoScreen> {
                     final messenger = ScaffoldMessenger.of(context);
                     messenger.clearSnackBars();
                     messenger.showSnackBar(SnackBar(
-                      content: Text("Clicked on ${currentMember.name} (${currentMember.id})"),
+                      content: Text(
+                          "Clicked on ${currentMember.name} (${currentMember.id})"),
                       duration: const Duration(seconds: 1),
                     ));
                   },

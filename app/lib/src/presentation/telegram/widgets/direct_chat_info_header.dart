@@ -3,14 +3,14 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:ld_app/src/domain/chat.dart';
 
-import '../chat/chat_info.dart';
+import 'direct_chat_info.dart';
 import 'utils.dart';
 
-class ChatInfoHeader extends StatelessWidget {
+class DirectChatInfoHeader extends StatelessWidget {
   final Chat chat;
   final bool interactive;
 
-  const ChatInfoHeader({
+  const DirectChatInfoHeader({
     super.key,
     required this.chat,
     required this.interactive,
@@ -23,7 +23,9 @@ class ChatInfoHeader extends StatelessWidget {
     return InkWell(
       onTap: interactive
           ? () => Navigator.push(
-              context, MaterialPageRoute(builder: (context) => ChatInfoScreen(chat: chat)))
+              context,
+              MaterialPageRoute(
+                  builder: (context) => DirectChatInfo(chat: chat)))
           : null,
       child: Row(
         children: [

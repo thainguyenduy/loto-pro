@@ -9,9 +9,9 @@ import 'package:ld_app/src/infrastructure/injector.dart';
 import 'package:ld_app/src/infrastructure/service/telegram_service.dart';
 import 'package:tdlib/td_api.dart' as td;
 
-import '../../settings/menu.dart';
-import '../../components/chat_list.dart';
-import '../../components/search_chat_field.dart';
+import '../widgets/menu.dart';
+import '../widgets/chat_list.dart';
+import '../widgets/search_chat_field.dart';
 
 @RoutePage()
 class TelegramHomeScreen extends StatefulWidget {
@@ -27,7 +27,7 @@ class _TelegramHomeScreenState extends State<TelegramHomeScreen> {
   final _displayChats = <Chat>[];
   final _searchController = TextEditingController();
   late StreamSubscription<td.TdObject> _eventsSubscription;
-  List<Chat> _chats = [];
+  final List<Chat> _chats = [];
 
   void _write() {
     setState(() {

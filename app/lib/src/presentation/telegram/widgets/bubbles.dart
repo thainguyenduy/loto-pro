@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ld_app/src/domain/message.dart';
-import 'package:ld_app/src/presentation/components/utils.dart';
+import 'package:ld_app/src/presentation/telegram/widgets/utils.dart';
 
 enum ChatMessageStatus {
   sending,

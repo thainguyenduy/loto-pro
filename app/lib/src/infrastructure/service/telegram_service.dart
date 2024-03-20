@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ld_app/src/domain/chat.dart';
 import 'package:ld_app/src/domain/message.dart';
-import 'package:ld_app/src/presentation/components/utils.dart';
+import 'package:ld_app/src/presentation/telegram/widgets/utils.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:tdlib/td_api.dart' as td;
 import 'package:tdlib/td_client.dart';

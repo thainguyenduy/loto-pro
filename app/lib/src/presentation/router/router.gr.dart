@@ -48,7 +48,7 @@ abstract class _$AppRouter extends RootStackRouter {
     TelegramRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const TelegramPage(),
+        child: const MenuPage(),
       );
     },
     TelegramSignInRoute.name: (routeData) {
@@ -146,7 +146,7 @@ class TelegramHomeRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [TelegramPage]
+/// [MenuPage]
 class TelegramRoute extends PageRouteInfo<void> {
   const TelegramRoute({List<PageRouteInfo>? children})
       : super(

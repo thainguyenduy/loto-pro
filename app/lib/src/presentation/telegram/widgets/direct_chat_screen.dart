@@ -7,23 +7,23 @@ import 'package:ld_app/src/domain/chat.dart';
 import 'package:ld_app/src/domain/message.dart';
 import 'package:ld_app/src/infrastructure/injector.dart';
 import 'package:ld_app/src/infrastructure/service/telegram_service.dart';
-import 'package:ld_app/src/presentation/components/utils.dart';
+import 'package:ld_app/src/presentation/telegram/widgets/utils.dart';
 import 'package:ld_app/src/presentation/router/router.dart';
 import 'package:tdlib/td_api.dart' as td;
 
-import '../../domain/user.dart';
-import '../components/bubbles.dart';
-import '../components/chat_info_title.dart';
+import '../../../domain/user.dart';
+import 'bubbles.dart';
+import 'direct_chat_info_header.dart';
 
-class ChatScreen extends StatefulWidget {
+class DirectChatScreen extends StatefulWidget {
   final Chat chat;
 
-  const ChatScreen({super.key, required this.chat});
+  const DirectChatScreen({super.key, required this.chat});
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
+  State<DirectChatScreen> createState() => _DirectChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _DirectChatScreenState extends State<DirectChatScreen> {
   User? me;
   late final Chat chat = widget.chat;
   List<Message> messages = [];
@@ -88,7 +88,7 @@ class _ChatScreenState extends State<ChatScreen> {
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: ChatInfoHeader(
+        title: DirectChatInfoHeader(
           chat: chat,
           interactive: true,
         ),

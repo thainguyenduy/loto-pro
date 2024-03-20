@@ -6,7 +6,7 @@ import 'package:ld_app/src/presentation/home/home_page.dart';
 import 'package:ld_app/src/presentation/login/login_page.dart';
 import 'package:ld_app/src/presentation/contact/contact_form_page.dart';
 import 'package:ld_app/src/presentation/telegram/telegram_home/telegram_home.dart';
-import 'package:ld_app/src/presentation/telegram/telegram_page.dart';
+import 'package:ld_app/src/presentation/components/menu.dart';
 import 'package:ld_app/src/presentation/telegram/telegram_sign_in/telegram_sign_in.dart';
 part 'router.gr.dart';
 
@@ -29,7 +29,7 @@ List<Page<dynamic>> onGenerateAppViewPages(
 ) {
   switch (state) {
     case AppStatus.authenticated:
-      return [const MaterialPage(child: TelegramPage())];
+      return [const MaterialPage(child: MenuPage())];
     case AppStatus.unauthenticated:
       return [const MaterialPage(child: LoginPage())];
   }

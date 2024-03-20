@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../components/settings_tiles.dart';
+import 'settings_tiles.dart';
 
 class ThemeSettingsScreen extends StatefulWidget {
   const ThemeSettingsScreen({super.key});

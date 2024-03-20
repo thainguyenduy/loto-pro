@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import './theme.dart';
-import '../components/settings_tiles.dart';
+import 'theme.dart';
+import 'settings_tiles.dart';
 
 class SettingsHomeScreen extends StatelessWidget {
   const SettingsHomeScreen({super.key});

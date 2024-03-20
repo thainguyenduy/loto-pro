@@ -9,8 +9,8 @@ import 'package:ld_app/src/presentation/telegram/telegram_home/telegram_home.dar
 import 'package:ld_app/src/presentation/telegram/telegram_sign_in/telegram_sign_in.dart';
 
 @RoutePage()
-class TelegramPage extends StatelessWidget {
-  const TelegramPage({super.key});
+class MenuPage extends StatelessWidget {
+  const MenuPage({super.key});
 
   @override
   Widget build(BuildContext context) {

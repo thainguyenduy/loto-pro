@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:ld_app/src/presentation/components/utils.dart';
+import 'package:ld_app/src/presentation/telegram/widgets/utils.dart';
 import 'package:tdlib/td_api.dart' as td;
 
 import './message.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ld_app/src/domain/chat.dart';
 
-import '../chat/chat.dart';
+import 'direct_chat_screen.dart';
 import 'utils.dart';
 
 class ChatList extends StatelessWidget {
@@ -53,7 +53,7 @@ class ChatListTile extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ChatScreen(chat: chat),
+            builder: (context) => DirectChatScreen(chat: chat),
           ),
         );
       },
