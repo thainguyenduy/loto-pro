@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3'
 
 services:
   api:
@@ -6,6 +6,8 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     restart: always
+    depends_on:
+      - db
     ports:
       - 3000:5000
       - 9229:9229
@@ -14,34 +16,31 @@ services:
     volumes:
       - ./src:/app/src:ro
       - ./libs:/app/libs:ro
-    depends_on:
+    links:
       - db
-    # command: bash -c 'while !</dev/tcp/db/3306; do sleep 1; done; npm start:debug'
-    networks:
-      - app-tier
-    extra_hosts:
-      - 'host.docker.internal:172.17.0.1'
+    
   db:
     image: mysql
     restart: always
     ports:
-      - 3306:3306
+      - 3307:3306
+    expose:
+      - "3307"
     environment:
-      - MYSQL_DATABASE=lddb
-      - MYSQL_ROOT_PASSWORD=test
-    command: mysqld --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+      MYSQL_DATABASE: lddb
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_USER: root
+      MYSQL_HOST: localhost
+    command: --default-authentication-plugin=mysql_native_password  --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     cap_add:
       - SYS_NICE
     volumes:
       - ./database/lddb:/var/lib/mysql
-    networks:
-      - app-tier
+
   adminer:
     image: adminer
     restart: always
     ports:
       - 8080:8080
 
-networks:
-  app-tier:
-    driver: bridge
