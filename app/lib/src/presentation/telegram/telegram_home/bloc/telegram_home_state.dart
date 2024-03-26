@@ -1,13 +1,19 @@
 part of 'telegram_home_bloc.dart';
 
-enum ChatListTypeEnum { all, contactOnly, betting }
+enum ChatListFilter { all, contactOnly, betting }
+
+enum TelegramHomeStatus { initial, loading, success, failure }
 
 @freezed
 class TelegramHomeState with _$TelegramHomeState {
-  const factory TelegramHomeState.initial() = _Initial;
+  factory TelegramHomeState.initial() => const TelegramHomeState(
+      chats: [],
+      filter: ChatListFilter.all,
+      status: TelegramHomeStatus.initial);
   const factory TelegramHomeState({
+    required TelegramHomeStatus status,
     String? query,
     required List<Chat> chats,
-    required ChatListTypeEnum filter,
+    required ChatListFilter filter,
   }) = _TelegramHomeState;
 }
