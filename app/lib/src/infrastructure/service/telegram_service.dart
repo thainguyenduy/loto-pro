@@ -6,6 +6,7 @@ import 'package:ld_app/src/domain/chat.dart';
 import 'package:ld_app/src/domain/message.dart';
 import 'package:ld_app/src/presentation/telegram/widgets/utils.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:tdlib/td_api.dart' as td;
 import 'package:tdlib/td_client.dart';
 
@@ -23,6 +24,30 @@ class TelegramService {
   }
 
   Stream<td.TdObject> get updates => _client.updates;
+
+  Stream<List<Chat>> get streamChatList {
+    final behaviorSubject = BehaviorSubject<List<Chat>>();
+    getChats().then((List<Chat> chats) {
+      behaviorSubject.add(chats);
+      updates.where((event) => event is td.UpdateNewMessage).listen((event) {
+        Chat? chat;
+        int index = -1;
+        if (chats.isNotEmpty) {
+          index = chats.indexWhere((chat) =>
+              chat.id == (event as td.UpdateNewMessage).message.chatId);
+        }
+        if (index >= 0) {
+          chat = chats[index];
+          chat.messages.add(TextMessage.fromTdlib(
+              (event as td.UpdateNewMessage).message, me!));
+          chats.removeAt(index);
+          chats.insert(0, chat);
+        }
+        behaviorSubject.add(chats);
+      });
+    });
+    return behaviorSubject;
+  }
 
   Future<td.TdObject> setTdlibParameters() async {
     return await _client.send(

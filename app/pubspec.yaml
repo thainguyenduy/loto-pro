@@ -40,6 +40,8 @@ dependencies:
   android_id: ^0.3.6
   awesome_notifications: ^0.8.2
   awesome_notifications_core: ^0.8.1
+  bloc: ^8.1.4
+  bloc_concurrency: ^0.2.5 
   cupertino_icons: ^1.0.2
   cloud_firestore:
   dart_jsonwebtoken: ^2.12.1
@@ -73,6 +75,7 @@ dependencies:
   page_transition:
   path: ^1.8.3
   path_provider: ^2.1.1
+  rxdart: ^0.27.7
   shared_preferences: ^2.2.2
   sqfentity: ^2.4.0
   sqfentity_gen: ^2.4.0

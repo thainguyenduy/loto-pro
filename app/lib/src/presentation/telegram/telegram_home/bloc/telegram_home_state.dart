@@ -1,6 +1,6 @@
 part of 'telegram_home_bloc.dart';
 
-enum ChatListFilter { all, contactOnly, betting }
+enum ChatListFilter { all, allContact, bettingOnly }
 
 enum TelegramHomeStatus { initial, loading, success, failure }
 
