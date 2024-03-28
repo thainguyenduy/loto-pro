@@ -1,9 +1,11 @@
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ld_app/src/infrastructure/injector.dart';
 import 'package:ld_app/src/infrastructure/service/telegram_service.dart';
 import 'package:ld_app/src/infrastructure/utils/debounce.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../../../../domain/chat.dart';
 
@@ -19,10 +21,19 @@ class TelegramHomeBloc extends Bloc<TelegramHomeEvent, TelegramHomeState> {
     on<TelegramHomeSubscriptionRequested>(_onSubscriptionRequested);
     on<TelegramHomeSearchTyped>(
       _onTelegramHomeSearchTyped,
-      transformer: debounce(duration: const Duration(milliseconds: 300)),
+      transformer: debounceRestartable(const Duration(milliseconds: 300)),
     );
     on<TelegramHomeFilterChanged>(_onTelegramHomeFilterChanged);
   }
+  EventTransformer<RegistrationEvent> debounceRestartable<RegistrationEvent>(
+    Duration duration,
+  ) {
+    // This feeds the debounced event stream to restartable() and returns that
+    // as a transformer.
+    return (events, mapper) => restartable<RegistrationEvent>()
+        .call(events.debounceTime(duration), mapper);
+  }
+
   Future<void> _onSubscriptionRequested(
     TelegramHomeSubscriptionRequested event,
     Emitter<TelegramHomeState> emit,
